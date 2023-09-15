@@ -167,4 +167,5 @@ docs/
 
 .nimcache/
 setenv.common.bat
+.hg/
 # End of https://www.gitignore.io/api/c,osx,nim,c++,linux,macos,windows,visualstudiocode

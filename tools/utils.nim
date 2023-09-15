@@ -64,6 +64,11 @@ proc currentSourceDir(): string {.compileTime.} =
 {.passC:"-I" & currentSourceDir() & "/implot/private/cimplot".}
 {.passC:"-I" & currentSourceDir() & "/implot/private/cimplot/implot".}
 {.pragma: implot_header, header: currentSourceDir() & "/implot/private/ncimplot.h".}
+
+when defined(windows):
+  {.passC:"-static".}
+  {.passL:"-static".}
+
 """
 const notDefinedStructs* = """
   ImVector*[T] = object # Should I importc a generic?
