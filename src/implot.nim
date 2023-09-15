@@ -62,6 +62,11 @@ proc currentSourceDir(): string {.compileTime.} =
 {.passC:"-I" & currentSourceDir() & "/implot/private/cimplot/implot".}
 {.pragma: implot_header, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 
+when defined(windows):
+  {.passC:"-static".}
+  {.passL:"-static".}
+
+
 # Enums
 type
   ImAxis* {.pure, size: int32.sizeof.} = enum
