@@ -20,5 +20,4 @@ task gen, "Generate bindings from source":
 
 let opt = "-d:strip"
 task test, "Create window with implot demo":
-  exec("nim cpp -r $# tests/imPlotTest.nim" % [opt])
-
+  exec("nim cpp -r $# examples/imPlotDemo.nim" % [opt])
