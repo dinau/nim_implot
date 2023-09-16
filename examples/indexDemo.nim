@@ -3,6 +3,7 @@ import imgui
 import SimplePlot
 import LinePlots
 import Histogram
+import DigitalPlots
 #
 import SimpleImGui
 
@@ -26,6 +27,7 @@ proc imPlotDemoTabs*() =
       demoHeader("Line Plots", demo_LinePlots)
       demoHeader("Histogram", demo_Histogram)
       demoHeader("Histogram2D", demo_Histogram2D)
+      demoHeader("Digital Plots", demo_DigitalPlots)
     if (igBeginTabItem("ImGui")):
       defer: igEndTabItem()
       demoHeader("Simple demo", demo_SimpleImGui)
