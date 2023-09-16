@@ -652,9 +652,9 @@ type
 # Procs
 {.push warning[HoleEnumConv]: off.}
 when not defined(cpp) or defined(cimguiDLL):
-  {.push dynlib: imgui_dll, cdecl, discardable.}
+  {.push dynlib: imgui_dll, cdecl, discardabl, header: currentSourceDir() & "/implot/private/ncimplot.h"e.}
 else:
-  {.push nodecl, discardable.}
+  {.push nodecl, discardable, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 
 proc begin*(self: ptr ImPlotAlignmentData): void {.importc: "ImPlotAlignmentData_Begin".}
 proc `end`*(self: ptr ImPlotAlignmentData): void {.importc: "ImPlotAlignmentData_End".}

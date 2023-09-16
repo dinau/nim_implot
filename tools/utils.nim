@@ -124,9 +124,9 @@ const preProcs* = """
 # Procs
 {.push warning[HoleEnumConv]: off.}
 when not defined(cpp) or defined(cimguiDLL):
-  {.push dynlib: imgui_dll, cdecl, discardable.}
+  {.push dynlib: imgui_dll, cdecl, discardabl, header: currentSourceDir() & "/implot/private/ncimplot.h"e.}
 else:
-  {.push nodecl, discardable.}
+  {.push nodecl, discardable, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 """
 
 const postProcs* = """
