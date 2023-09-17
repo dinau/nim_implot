@@ -1,6 +1,6 @@
 import std/[math, random, sugar]
-import implot
 import imgui
+import implot
 
 #------------------
 # demo_Histogram()

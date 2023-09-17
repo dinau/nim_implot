@@ -14,7 +14,7 @@ type
     Data: seq[ImVec2]
 
 proc newScrollingBuffer(max_size: int32 = 2000): ScrollingBuffer =
-  result = ScrollingBuffer(MaxSize: max_size
+  result =  ScrollingBuffer(MaxSize: max_size
     , Offset: 0
     , Data: newSeqOfCap[ImVec2](max_size))
 
@@ -31,6 +31,9 @@ proc Erase(self:var ScrollingBuffer) =
     self.Offset = 0
 ]#
 
+#---------------------
+# demo_DigitalPlots*()
+#---------------------
 proc demo_DigitalPlots*() =
   var
     paused{.global.} = false
