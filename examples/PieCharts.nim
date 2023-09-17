@@ -1,9 +1,6 @@
 import imgui
 import implot
-
-# define CHECKBOX_FLAG(flags, flag) ImGui::CheckboxFlags(#flag, (unsigned int*)&flags, flag)
-template CHECKBOX_FLAG(flags, flag: untyped) =
-  igCheckboxFlags($flag, cast[ptr int32](addr flags), flag.int32)
+import utils
 
 #-----------------
 # demo_PieCharts()
