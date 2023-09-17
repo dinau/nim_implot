@@ -45,6 +45,7 @@ type
   Ims32* = cint
 const
   nullptr* = nil
+  IMPLOT_AUTO* = -1 # from <implot.h>
 
 ## Tentative workaround [end]
 
