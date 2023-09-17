@@ -8,6 +8,7 @@
 - [Generating ImPlot binding](#generating-implot-binding)
 - [Development](#development)
 - [Tools info](#tools-info)
+- [Example gallary written in Nim language](#example-gallary-written-in-nim-language)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -98,3 +99,27 @@ It is currently being developed and tested on
    - gcc (Debian 12.2.0-14) 12.2.0
    - git version 2.39.2
 
+### Example gallery written in Nim language
+
+---
+
+- [DigitalPlots.nim](examples/DigitalPlots.nim)  
+ ![DigitalPlots.png](img/DigitalPlots.png)  
+- [HeatMaps.nim](examples/HeatMaps.nim)  
+ ![HeatMaps.png](img/HeatMaps.png)  
+- [HistoGram.nim](examples/HistoGram.nim)  
+ ![HistoGram.png](img/HistoGram.png)  
+- [ImPlotDemo.nim](examples/ImPlotDemo.nim)  
+ ![ImPlotDemo.png](img/ImPlotDemo.png)  
+- [LinePlots.nim](examples/LinePlots.nim)  
+ ![LinePlots.png](img/LinePlots.png)  
+- [PieCharts.nim](examples/PieCharts.nim)  
+ ![PieCharts.png](img/PieCharts.png)  
+- [SimpleImGui.nim](examples/SimpleImGui.nim)  
+ ![SimpleImGui.png](img/SimpleImGui.png)  
+- [SimplePlots.nim](examples/SimplePlots.nim)  
+ ![SimplePlots.png](img/SimplePlots.png)  
+- [StairstepPlots.nim](examples/StairstepPlots.nim)  
+ ![StairstepPlots.png](img/StairstepPlots.png)  
+- [StemPlots.nim](examples/StemPlots.nim)  
+ ![StemPlots.png](img/StemPlots.png)  

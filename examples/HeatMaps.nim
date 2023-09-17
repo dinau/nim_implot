@@ -1,11 +1,8 @@
 import std/[random]
 import imgui
 import implot
+import utils
 
-template RandomRange[T](vmin, vmax: T): T =
-  const RAND_MAX = 0xFFFF.int
-  let scale: T = T(rand(RAND_MAX)) / T(RAND_MAX)
-  vmin + scale * (vmax - vmin)
 
 #-----------------
 # demo_Heatmaps()

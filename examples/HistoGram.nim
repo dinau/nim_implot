@@ -1,6 +1,7 @@
 import std/[math, random, sugar]
 import imgui
 import implot
+import utils
 
 #------------------
 # demo_Histogram()
@@ -70,7 +71,6 @@ proc demo_Histogram*() =
   if ipBeginPlot("##Histograms"):
     defer: ipEndPlot()
     ipSetupAxes(nil, nil, AutoFit, AutoFit)
-    const IMPLOT_AUTO_COL =  ImVec4(x: 0,y: 0,z: 0,w: -1)
     ipSetNextFillStyle(IMPLOT_AUTO_COL,0.5f)
     #ipSetNextFillStyle(ImVec4(x: 0, y: 0, z: 0, w: -1), 0.5f)
     ipPlotHistogram("Empirical", addr dist[0], 10000.int, bins.int,
