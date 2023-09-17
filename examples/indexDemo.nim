@@ -9,6 +9,7 @@ import PieCharts
 import HeatMaps
 import StairstepPlots
 import ScatterPlots
+import FilledLinePlots
 #
 import SimpleImGui
 
@@ -30,6 +31,7 @@ proc imPlotDemoTabs*() =
       defer: igEndTabItem()
       demoHeader("Simple Plots", demo_SimplePlot)
       demoHeader("Line Plots", demo_LinePlots)
+      demoHeader("Filled Line Plots", demo_FilledLinePlots)
       demoHeader("Stairstep Plots",demo_StairstepPlots)
       demoHeader("Stem Plots##", demo_StemPlots)
       demoHeader("Pie Charts", demo_PieCharts)
