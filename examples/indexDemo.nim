@@ -13,6 +13,8 @@ import FilledLinePlots
 import ShadedPlots
 import RealtimePlots
 import BarStacks
+import BarPlots
+import BarGroups
 #
 import SimpleImGui
 
@@ -36,6 +38,8 @@ proc imPlotDemoTabs*() =
       demoHeader("Filled Line Plots", demo_FilledLinePlots)
       demoHeader("Shaded Plots", demo_ShadedPlots)
       demoHeader("Stairstep Plots",demo_StairstepPlots)
+      demoHeader("Bar Plots", demo_BarPlots)
+      demoHeader("Bar Groups", demo_BarGroups)
       demoHeader("Bar Stacks",demo_BarStacks)
       demoHeader("Stem Plots##", demo_StemPlots)
       demoHeader("Pie Charts", demo_PieCharts)
