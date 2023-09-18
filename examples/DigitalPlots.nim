@@ -1,35 +1,7 @@
+import std/[strutils, math]
 import imgui
 import implot
-import std/[strutils, math]
-
-# utility structure for realtime plot
-
-#-----------------
-# ScrollingBuffer
-#-----------------
-type
-  ScrollingBuffer = object
-    MaxSize: int32
-    Offset: int32
-    Data: seq[ImVec2]
-
-proc newScrollingBuffer(max_size: int32 = 2000): ScrollingBuffer =
-  result =  ScrollingBuffer(MaxSize: max_size
-    , Offset: 0
-    , Data: newSeqOfCap[ImVec2](max_size))
-
-proc AddPoint(self: var ScrollingBuffer, x, y: float32) =
-  if self.Data.len < self.MaxSize:
-    self.Data.add(ImVec2(x: x, y: y))
-  else:
-    self.Data[self.Offset] = ImVec2(x: x, y: y)
-    self.Offset = (self.Offset + 1) mod self.MaxSize
-#[
-proc Erase(self:var ScrollingBuffer) =
-  if self.Data.len > 0:
-#   self.Data.shrink(0)
-    self.Offset = 0
-]#
+import utils
 
 #---------------------
 # demo_DigitalPlots*()

@@ -168,4 +168,13 @@ docs/
 .nimcache/
 setenv.common.bat
 .hg/
+img/org-image
+org.html
+GPATH
+GRTAGS
+GTAGS
+.hgignore
+README.html
+examples/*.cpp
+examples/*.c
 # End of https://www.gitignore.io/api/c,osx,nim,c++,linux,macos,windows,visualstudiocode

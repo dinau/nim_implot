@@ -1,17 +1,17 @@
 # Package
 
-version     = "0.16.2"
+version     = "0.16.3"
 author      = "dinau"
 description = "ImPlot bindings for Nim"
 license     = "MIT"
 srcDir      = "src"
-skipDirs    = @["tests"]
+skipDirs    = @["tests","examples","img"]
 
 # Dependencies
 
 requires "nim >= 1.6.0" # Depends on [HoleEnumConv] warning
 requires "nimgl >= 1.3.2"
-requires "https://github.com/dinau/nimgl-imgui >= 1.89.9.1"
+requires "https://github.com/dinau/nimgl-imgui >= 1.89.9.2"
 
 
 import std/[strutils]
