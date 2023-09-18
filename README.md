@@ -5,10 +5,10 @@
 - [Direct install from Web](#direct-install-from-web)
 - [Runing test application](#runing-test-application)
 - [Compiling application](#compiling-application)
-- [Generating ImPlot binding](#generating-implot-binding)
+- [Generating ImPlot binding for development](#generating-implot-binding-for-development)
 - [Development](#development)
 - [Tools info](#tools-info)
-- [Example gallary written in Nim language](#example-gallary-written-in-nim-language)
+- [Example gallery written in Nim language](#example-gallery-written-in-nim-language)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -17,7 +17,7 @@
 
 ---
 
-Notice: This project is highly under constructions at this moment.
+Note: This project is highly under constructions at this moment.
 
 1. This project uses the modified generator that derived from the achievement of [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
 1. This project also uses [nim-imgui (ImGui v1.89.9)](https://github.com/dinau/nimgl-imgui) derived from [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
@@ -35,15 +35,12 @@ nimble install https://github.com/dinau/nim_implot
 ---
 
 ```bash
-pwd 
-nim_implot
+git clone --recursive https://github.com/dinau/nim_implot
+cd nim_implot
 nimble test
 ```
 
-Test source: [tests/imPlotTest.nim](tests/imPlotTest.nim)
-
-![alt](img/nim_implot-demo.png)
-
+Test source: [examples/ImPlotDemo.nim](examples/ImPlotDemo.nim)
 
 ### Compiling application
 
@@ -54,19 +51,19 @@ It must be used **cpp** backend at compilation for example,
 ```sh
 pwd
 nim_implot
-cd tests
-nim cpp -r imPlotTest.nim 
+cd examples
+nim cpp -r ImPlotDemo.nim 
 ```
 
-**C** backend is no supported.
+**Note**: **C** backend is not supported.
 
-### Generating ImPlot binding  
+### Generating ImPlot binding for development
 
 ---
 
 ```bash
-git clone --recursive https://github.com/dinau/nim_implot.git
-cd nim_implot
+pwd
+nim_implot
 nimble gen
 ```
 
@@ -80,7 +77,7 @@ Genarated file: [src/implot.nim](src/implot.nim)
 It is currently being developed and tested on
 
 * Windows 10
-* Debian 12 Bookworm  
+* (Debian 12 Bookworm)  
 
    ```sh
    $ sudo apt install xorg-dev libopengl-dev libgl1-mesa-dev
@@ -103,23 +100,46 @@ It is currently being developed and tested on
 
 ---
 
-- [DigitalPlots.nim](examples/DigitalPlots.nim)  
- ![DigitalPlots.png](img/DigitalPlots.png)  
-- [HeatMaps.nim](examples/HeatMaps.nim)  
- ![HeatMaps.png](img/HeatMaps.png)  
-- [HistoGram.nim](examples/HistoGram.nim)  
- ![HistoGram.png](img/HistoGram.png)  
-- [ImPlotDemo.nim](examples/ImPlotDemo.nim)  
- ![ImPlotDemo.png](img/ImPlotDemo.png)  
 - [LinePlots.nim](examples/LinePlots.nim)  
- ![LinePlots.png](img/LinePlots.png)  
-- [PieCharts.nim](examples/PieCharts.nim)  
- ![PieCharts.png](img/PieCharts.png)  
-- [SimpleImGui.nim](examples/SimpleImGui.nim)  
- ![SimpleImGui.png](img/SimpleImGui.png)  
-- [SimplePlots.nim](examples/SimplePlots.nim)  
- ![SimplePlots.png](img/SimplePlots.png)  
+![LinePlots.png](img/LinePlots.png)  
+
+- [FilledLinePlots.nim](examples/FilledLinePlots.nim)  
+![FilledLinePlots.png](img/FilledLinePlots.png)  
+
+- [ShadedPlots.nim](examples/ShadedPlots.nim)  
+![ShadedPlots.png](img/ShadedPlots.png)  
+
+- [ScatterPlots.nim](examples/ScatterPlots.nim)  
+![ScatterPlots.png](img/ScatterPlots.png)  
+
+- [RealtimePlots.nim](examples/RealtimePlots.nim)  
+![RealtimePlots.png](img/RealtimePlots.png)  
+
 - [StairstepPlots.nim](examples/StairstepPlots.nim)  
- ![StairstepPlots.png](img/StairstepPlots.png)  
+![StairstepPlots.png](img/StairstepPlots.png)  
+
+- [BarStacks.nim](examples/BarStacks.nim)  
+![BarStacks.png](img/BarStacks.png)  
+
 - [StemPlots.nim](examples/StemPlots.nim)  
- ![StemPlots.png](img/StemPlots.png)  
+![StemPlots.png](img/StemPlots.png)  
+
+- [PieCharts.nim](examples/PieCharts.nim)  
+![PieCharts.png](img/PieCharts.png)  
+
+- [HeatMaps.nim](examples/HeatMaps.nim)  
+![HeatMaps.png](img/HeatMaps.png)  
+
+- [Histogram.nim](examples/Histogram.nim)  
+![Histogram.png](img/Histogram.png)  
+
+- [DigitalPlots.nim](examples/DigitalPlots.nim)  
+![DigitalPlots.png](img/DigitalPlots.png)  
+
+- [SimplePlots.nim](examples/SimplePlots.nim)  
+![SimplePlots.png](img/SimplePlots.png)  
+
+
+
+
+
