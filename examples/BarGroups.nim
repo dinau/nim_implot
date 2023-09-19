@@ -31,7 +31,7 @@ proc demo_BarGroups*() =
       ipSetupAxes("Score","Student",ImPlotAxisFlags.AutoFit,ImPlotAxisFlags.AutoFit)
       ipSetupAxisTicks(ImAxis.Y1,addr positions[0], groups, addr glabels[0])
       ipPlotBarGroups(addr ilabels[0],addr data[0],Items,groups,size,0
-                   ,(flags or ImPlotBarGroupsFlags.Horizontal.int32).ImPlotBarGroupsFlags)
+                   ,flags or ImPlotBarGroupsFlags.Horizontal)
     else:
       ipSetupAxes("Student","Score",ImPlotAxisFlags.AutoFit,ImPlotAxisFlags.AutoFit)
       ipSetupAxisTicks(ImAxis.X1,addr positions[0], groups, addr glabels[0])

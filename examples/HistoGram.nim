@@ -104,7 +104,7 @@ proc demo_Histogram2D*() =
   #static NormalDistribution<100000> dist1(1, 2)
   #static NormalDistribution<100000> dist2(1, 1)
   var max_count = 0.cfloat64
-  var flags = AutoFit.int32 or ImPlotAxisFlags.Foreground.int32
+  var flags = AutoFit or ImPlotAxisFlags.Foreground
   ipPushColormap("Hot")
   var regn = ImVec2()
   igGetContentRegionAvailNonUDT(addr regn)

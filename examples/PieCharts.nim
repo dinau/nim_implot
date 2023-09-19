@@ -17,8 +17,7 @@ proc demo_PieCharts*() =
     igSameLine()
     CHECKBOX_FLAG(flags, ImPlotPieChartFlags.Normalize)
 
-  if ipBeginPlot("##Pie1", ImVec2(x: 250, y: 250)
-    , (ImPlotFlags.Equal.int32 or ImPlotFlags.NoMouseText.int32).ImPlotFlags):
+  if ipBeginPlot("##Pie1", ImVec2(x: 250, y: 250) , ImPlotFlags.Equal or ImPlotFlags.NoMouseText):
     ipSetupAxes(nullptr, nullptr, ImPlotAxisFlags.NoDecorations, ImPlotAxisFlags.NoDecorations)
     ipSetupAxesLimits(0, 1, 0, 1)
     ipPlotPieChart(addr labels1[0]
@@ -36,8 +35,7 @@ proc demo_PieCharts*() =
   var data2{.global.} = [1.int32, 1, 2, 3, 5]
 
   ipPushColormap(ImPlotColormap.Pastel)
-  if ipBeginPlot("##Pie2", ImVec2(x: 250, y: 250)
-    , (ImPlotFlags.Equal.int32 or ImPlotFlags.NoMouseText.int32).ImPlotFlags):
+  if ipBeginPlot("##Pie2", ImVec2(x: 250, y: 250) , ImPlotFlags.Equal or ImPlotFlags.NoMouseText):
     ipSetupAxes(nullptr, nullptr, ImPlotAxisFlags.NoDecorations, ImPlotAxisFlags.NoDecorations)
     ipSetupAxesLimits(0, 1, 0, 1)
     ipPlotPieChart(addr labels2[0], addr data2[0], 5, 0.5, 0.5, 0.4, "%.0f", 180, flags)

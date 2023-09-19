@@ -36,10 +36,10 @@ proc demo_BarStacks*() =
   #ipPushColormap(Liars.ImPlotColormap) # Error: "PushID/PopID or TreeNode/TreePop Mismatch!",
   ipPushColormap("LiarsNim")
   if ipBeginPlot("PolitiFact: Who Lies More?",ImVec2(x: -1,y: 400),ImPlotFlags.NoMouseText):
-      ipSetupLegend(ImPlotLocation.South, (ImPlotLegendFlags.Outside.int32 or ImPlotLegendFlags.Horizontal.int32).ImPlotLegendFlags)
+      ipSetupLegend(ImPlotLocation.South, ImPlotLegendFlags.Outside or ImPlotLegendFlags.Horizontal)
       ipSetupAxes(nullptr,nullptr
-                ,(ImPlotAxisFlags.AutoFit.int32 or ImPlotAxisFlags.NoDecorations.int32).ImPlotAxisFlags
-                ,(ImPlotAxisFlags.AutoFit.int32 or ImPlotAxisFlags.Invert.int32).ImPlotAxisFlags)
+                ,ImPlotAxisFlags.AutoFit or ImPlotAxisFlags.NoDecorations
+                ,ImPlotAxisFlags.AutoFit or ImPlotAxisFlags.Invert)
       ipSetupAxisTicks(ImAxis.Y1,0,19,20,addr politicians[0],false)
       if diverging:
           ipPlotBarGroups(addr labels_div[0],addr data_div[0]
@@ -47,13 +47,13 @@ proc demo_BarStacks*() =
                       ,20     # group_count: int
                       ,0.75   # group_size:  cfloat64
                       ,0      # shift:       cfloat64
-                      ,cast[ImPlotBarGroupsFlags](ImPlotBarGroupsFlags.Stacked.int32 or ImPlotBarGroupsFlags.Horizontal.int32))
+                      ,ImPlotBarGroupsFlags.Stacked or ImPlotBarGroupsFlags.Horizontal)
       else:
           ipPlotBarGroups(addr labels_reg[0],addr data_reg[0]
                       ,6
                       ,20
                       ,0.75
                       ,0
-                      ,cast[ImPlotBarGroupsFlags](ImPlotBarGroupsFlags.Stacked.int32 or ImPlotBarGroupsFlags.Horizontal.int32))
+                      ,ImPlotBarGroupsFlags.Stacked or ImPlotBarGroupsFlags.Horizontal)
       ipEndPlot()
   ipPopColormap()
