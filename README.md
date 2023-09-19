@@ -130,6 +130,8 @@ It is currently being developed and tested on
        ipEndPlot()
    ```
 
+- [BarGroups.nim](examples/BarGroups.nim)  
+![BarGroups.png](img/BarGroups.png)  
 
 
 - [BarStacks.nim](examples/BarStacks.nim)  
