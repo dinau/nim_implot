@@ -30,7 +30,7 @@ proc demo_StairstepPlots*() =
     ipPlotStairs("Post Step (default)", addr ys1[0], 21, 0.05f, 0, flags)
     ipSetNextMarkerStyle(ImPlotMarker.Circle)
     ipSetNextFillStyle(IMPLOT_AUTO_COL, 0.25f)
-    ipPlotStairs("Pre Step", addr ys2[0], 21, 0.05f, 0, (flags.int32 or ImPlotStairsFlags.PreStep.int32).ImPlotStairsFlags)
+    ipPlotStairs("Pre Step", addr ys2[0], 21, 0.05f, 0, flags or ImPlotStairsFlags.PreStep)
 
     ipEndPlot()
 

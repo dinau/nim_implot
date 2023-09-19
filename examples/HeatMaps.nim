@@ -46,8 +46,7 @@ proc demo_Heatmaps*() =
 
   ipPushColormap(map)
 
-  if ipBeginPlot("##Heatmap1", ImVec2(x: 225, y: 225)
-    , (ImPlotFlags.NoLegend.int32 or ImPlotFlags.NoMouseText.int32).ImPlotFlags):
+  if ipBeginPlot("##Heatmap1", ImVec2(x: 225, y: 225) , ImPlotFlags.NoLegend or ImPlotFlags.NoMouseText):
     ipSetupAxes(nullptr, nullptr, axes_flags, axes_flags)
     ipSetupAxisTicks(ImAxis.X1, 0 + 1.0/14.0, 1 - 1.0/14.0, 7, addr xlabels[0])
     ipSetupAxisTicks(ImAxis.Y1, 1 - 1.0/14.0, 0 + 1.0/14.0, 7, addr ylabels[0])

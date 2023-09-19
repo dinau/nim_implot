@@ -50,6 +50,34 @@ const
   nullptr* = nil
   IMPLOT_AUTO* = -1 # from <implot.h>
 
+#--------------------------------
+# Enum: logical calculation definitions
+#--------------------------------
+# Assumed enum size is 32bit.
+# or
+template `or`*[E:enum](a,b:E):E =
+  cast[E](a.uint32 or b.uint32)
+template `or`*[E:enum,I:SomeInteger](a:E,b:I):E =
+  cast[E](a.uint32 or b.uint32)
+template `or`*[E:enum,I:SomeInteger](a:I,b:E):E =
+  cast[E](a.uint32 or b.uint32 )
+
+# xor
+template `xor`*[E:enum](a,b:E):E =
+  cast[E](a.uint32 xor b.uint32)
+template `xor`*[E:enum,I:SomeInteger](a:E,b:I):E =
+  cast[E](a.uint32 xor b)
+template `xor`*[E:enum,I:SomeInteger](a:I,b:E):E =
+  cast[E](a.uint32 xor b.uint32 )
+
+# and
+template `and`*[E:enum](a,b:E):E =
+  cast[E](a.uint32 and b.uint32)
+template `and`*[E:enum,I:SomeInteger](a:E,b:I):E =
+  cast[E](a.uint32 and b.uint32 )
+template `and`*[E:enum,I:SomeInteger](a:I,b:E):E =
+  cast[E](cast[uint32](a) and cast[uint32](b) )
+
 ## Tentative workaround [end]
 
 proc currentSourceDir(): string {.compileTime.} =

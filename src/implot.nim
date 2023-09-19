@@ -47,6 +47,34 @@ const
   nullptr* = nil
   IMPLOT_AUTO* = -1 # from <implot.h>
 
+#--------------------------------
+# Enum: logical calculation definitions
+#--------------------------------
+# Assumed enum size is 32bit.
+# or
+template `or`*[E:enum](a,b:E):E =
+  cast[E](a.uint32 or b.uint32)
+template `or`*[E:enum,I:SomeInteger](a:E,b:I):E =
+  cast[E](a.uint32 or b.uint32)
+template `or`*[E:enum,I:SomeInteger](a:I,b:E):E =
+  cast[E](a.uint32 or b.uint32 )
+
+# xor
+template `xor`*[E:enum](a,b:E):E =
+  cast[E](a.uint32 xor b.uint32)
+template `xor`*[E:enum,I:SomeInteger](a:E,b:I):E =
+  cast[E](a.uint32 xor b)
+template `xor`*[E:enum,I:SomeInteger](a:I,b:E):E =
+  cast[E](a.uint32 xor b.uint32 )
+
+# and
+template `and`*[E:enum](a,b:E):E =
+  cast[E](a.uint32 and b.uint32)
+template `and`*[E:enum,I:SomeInteger](a:E,b:I):E =
+  cast[E](a.uint32 and b.uint32 )
+template `and`*[E:enum,I:SomeInteger](a:I,b:E):E =
+  cast[E](cast[uint32](a) and cast[uint32](b) )
+
 ## Tentative workaround [end]
 
 proc currentSourceDir(): string {.compileTime.} =
@@ -77,6 +105,7 @@ type
     Y1 = 3
     Y2 = 4
     Y3 = 5
+    COUNT = 6
   ImPlotAxisFlags* {.pure, size: int32.sizeof.} = enum
     None = 0
     NoLabel = 1
@@ -132,6 +161,7 @@ type
     AxisBgActive = 18
     Selection = 19
     Crosshairs = 20
+    COUNT = 21
   ImPlotColormapScaleFlags* {.pure, size: int32.sizeof.} = enum
     None = 0
     NoLabel = 1
@@ -248,6 +278,7 @@ type
     Cross = 7
     Plus = 8
     Asterisk = 9
+    COUNT = 10
   ImPlotMouseTextFlags* {.pure, size: int32.sizeof.} = enum
     None = 0
     NoAuxAxes = 1
@@ -301,6 +332,7 @@ type
     FitPadding = 24
     PlotDefaultSize = 25
     PlotMinSize = 26
+    COUNT = 27
   ImPlotSubplotFlags* {.pure, size: int32.sizeof.} = enum
     None = 0
     NoTitle = 1
@@ -337,6 +369,7 @@ type
     Day = 5
     Mo = 6
     Yr = 7
+    COUNT = 8
 
 # TypeDefs
 type

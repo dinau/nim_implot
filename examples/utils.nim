@@ -1,10 +1,6 @@
 import std/[math]
 import imgui
 
-type
-  ImU32* = cuint
-
-
 const IMPLOT_AUTO_COL* =  ImVec4(x: 0,y: 0,z: 0,w: -1)
 
 # define CHECKBOX_FLAG(flags, flag) ImGui::CheckboxFlags(#flag, (unsigned int*)&flags, flag)
@@ -64,4 +60,18 @@ proc AddPoint*(self: var RollingBuffer, x, y:cfloat) =
      self.Data = @[] #self.Data.shrink(0); TODO
   self.Data.add ImVec2(x: xmod, y: y)
 
+#-----------
+# sparkline
+#-----------
+proc sparkline( id:cstring,  values: ptr float32 , count:int32, min_v:float32, max_v:float32, offset:int32, col: ImVec4, size: ImVec2) =
+  ipPushStyleVar(ImPlotStyleVar.PlotPadding, ImVec2(x: 0,y: 0))
+  if ipBeginPlot(id,size,ImPlotFlags.CanvasOnly or ImPlotFlags.NoChild):
+    ipSetupAxes(nullptr,nullptr,ImPlotAxisFlags.NoDecorations,ImPlotAxisFlags.NoDecorations)
+    ipSetupAxesLimits(0, (count - 1).cfloat64, min_v, max_v, ImPlotCond.Always)
+    ipSetNextLineStyle(col)
+    ipSetNextFillStyle(col, 0.25)
+    ipPlotLine(id, values, count, 1, 0, ImPlotLineFlags.Shaded, offset)
+    ipEndPlot()
+
+  ipPopStyleVar()
 

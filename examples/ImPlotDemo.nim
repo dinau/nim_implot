@@ -72,10 +72,9 @@ proc main() =
     #-------------
     # Demo Window
     #-------------
-    block:
-      igSetNextWindowPos(ImVec2(x: 25, y: 25), FirstUseEver)
-      igSetNextWindowSize(ImVec2(x: 400, y: 400), FirstUseEver)
-      igBegin("This Demos have been written in Nim language.")
+    igSetNextWindowPos(ImVec2(x: 25, y: 25), FirstUseEver)
+    igSetNextWindowSize(ImVec2(x: 400, y: 400), FirstUseEver)
+    if igBegin("This Demos have been written in Nim language."):
       defer: igEnd()
       igText("Application average %.3f ms/frame (%.1f FPS)",
                  1000.0f / igGetIO().framerate, igGetIO().framerate)

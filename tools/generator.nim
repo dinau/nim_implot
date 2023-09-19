@@ -164,13 +164,15 @@ proc genEnums(output: var string) =
       let dataValue = data["calc_value"].getInt()   # 値は0
       dataName = dataName.replace("__", "_")
       dataName = dataName.split("_", 1)[1]          # dataName = X1 とする
-      if dataName.endsWith("_"):                    # X1にアンダースコアがあれば排除
+      if dataName.endsWith("_"):                    # X1の末尾にアンダースコアがあれば排除
         dataName = dataName[0 ..< dataName.len - 1]
-      if dataName.match(re"^[0-9]"):                # X1の先頭文字が非数字なら
+      if dataName.match(re"^[0-9]"):                # X1の先頭文字が 非数字 なら
         dataName = "`\"" & dataName & "\"`"         # `"X1"` とする
-      if dataName.match(re".*COUNT$"):              #  COUNTSを含むなら
+      if dataName.match(re".*COUNT$"):              #  "COUNT"を含むなら
+        # enumsCount[ "ImPlotXXX_COUNT" ] = enumの値 とする
         enumsCount[data["name"].getStr()] = data["calc_value"].getInt()
-        continue
+        #echo data
+        #continue
       if table.hasKey(dataValue):                   # enum値(=0)が既に存在するなら
         echo "Notice: Enum {enumName}.{dataName} already exists as {enumName}.{table[dataValue]} with value {dataValue}, use constant {enumName}_{dataName} to access it".fmt
         tableNamedKeys[enumName & "_" & dataName] = dataValue

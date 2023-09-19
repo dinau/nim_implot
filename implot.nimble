@@ -1,6 +1,6 @@
 # Package
 
-version     = "0.16.3"
+version     = "0.16.4"
 author      = "dinau"
 description = "ImPlot bindings for Nim"
 license     = "MIT"
