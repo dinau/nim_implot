@@ -1,5 +1,6 @@
 import std/[math]
 import imgui
+import implot
 
 const IMPLOT_AUTO_COL* =  ImVec4(x: 0,y: 0,z: 0,w: -1)
 
@@ -63,7 +64,7 @@ proc AddPoint*(self: var RollingBuffer, x, y:cfloat) =
 #-----------
 # sparkline
 #-----------
-proc sparkline( id:cstring,  values: ptr float32 , count:int32, min_v:float32, max_v:float32, offset:int32, col: ImVec4, size: ImVec2) =
+proc sparkline*( id:cstring,  values: ptr float32 , count:int32, min_v:float32, max_v:float32, offset:int32, col: ImVec4, size: ImVec2) =
   ipPushStyleVar(ImPlotStyleVar.PlotPadding, ImVec2(x: 0,y: 0))
   if ipBeginPlot(id,size,ImPlotFlags.CanvasOnly or ImPlotFlags.NoChild):
     ipSetupAxes(nullptr,nullptr,ImPlotAxisFlags.NoDecorations,ImPlotAxisFlags.NoDecorations)

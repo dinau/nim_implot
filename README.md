@@ -9,6 +9,9 @@
 - [Development](#development)
 - [Tools info](#tools-info)
 - [Example gallery written in Nim language](#example-gallery-written-in-nim-language)
+  - [Plots](#plots)
+  - [Subplots](#subplots)
+  - [Axes](#axes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -98,64 +101,77 @@ It is currently being developed and tested on
 
 ### Example gallery written in Nim language
 
+#### Plots
+
 ---
 
-- [LinePlots.nim](examples/LinePlots.nim)  
-![LinePlots.png](img/LinePlots.png)  
+   - [examples/LinePlots.nim](examples/LinePlots.nim)  
+   ![alt](img/LinePlots.png)  
 
-- [FilledLinePlots.nim](examples/FilledLinePlots.nim)  
-![FilledLinePlots.png](img/FilledLinePlots.png)  
+   - [examples/FilledLinePlots.nim](examples/FilledLinePlots.nim)  
+   ![alt](img/FilledLinePlots.png)  
 
-- [ShadedPlots.nim](examples/ShadedPlots.nim)  
-![ShadedPlots.png](img/ShadedPlots.png)  
+   - [examples/ShadedPlots.nim](examples/ShadedPlots.nim)  
+   ![alt](img/ShadedPlots.png)  
 
-- [ScatterPlots.nim](examples/ScatterPlots.nim)  
-![ScatterPlots.png](img/ScatterPlots.png)  
+   - [examples/ScatterPlots.nim](examples/ScatterPlots.nim)  
+   ![alt](img/ScatterPlots.png)  
 
-- [RealtimePlots.nim](examples/RealtimePlots.nim)  
-![RealtimePlots.png](img/RealtimePlots.png)  
+   - [examples/RealtimePlots.nim](examples/RealtimePlots.nim)  ( It. dosn't work well.)  
+   ![alt](img/RealtimePlots.png)  
 
-- [StairstepPlots.nim](examples/StairstepPlots.nim)  
-![StairstepPlots.png](img/StairstepPlots.png)  
+   - [examples/StairstepPlots.nim](examples/StairstepPlots.nim)  
+   ![alt](img/StairstepPlots.png)  
 
-- [BarPlots.nim](examples/BarPlots.nim)  
-![BarPlots.png](img/BarPlots.png)  
+   - [examples/BarGroups.nim](examples/BarGroups.nim)  
+   ![alt](img/BarGroups.png)  
 
-   ```nim
-   proc demo_BarPlots*() =
-     var data{.global.} = [1'i8,2,3,4,5,6,7,8,9,10]
-     if ipBeginPlot("Bar Plot"):
-       ipPlotBars("Vertical",addr data[0],10,0.7,1)
-       ipPlotBars("Horizontal",addr data[0],10,0.4,1,ImPlotBarsFlags.Horizontal)
-       ipEndPlot()
-   ```
+   - [examples/BarPlots.nim](examples/BarPlots.nim)  
+   ![alt](img/BarPlots.png)  
 
-- [BarGroups.nim](examples/BarGroups.nim)  
-![BarGroups.png](img/BarGroups.png)  
+   - [examples/BarStacks.nim](examples/BarStacks.nim)  
+   ![alt](img/BarStacks.png)  
 
+   - [examples/ErrorBars.nim](examples/ErrorBars.nim)  
+   ![alt](img/ErrorBars.png)  
 
-- [BarStacks.nim](examples/BarStacks.nim)  
-![BarStacks.png](img/BarStacks.png)  
+   - [examples/StemPlots.nim](examples/StemPlots.nim)  
+   ![alt](img/StemPlots.png)  
 
-- [StemPlots.nim](examples/StemPlots.nim)  
-![StemPlots.png](img/StemPlots.png)  
+   - [examples/InfiniteLines.nim](examples/InfiniteLines.nim)  
+   ![alt](img/InfiniteLines.png)  
 
-- [PieCharts.nim](examples/PieCharts.nim)  
-![PieCharts.png](img/PieCharts.png)  
+   - [examples/PieCharts.nim](examples/PieCharts.nim)  
+   ![alt](img/PieCharts.png)  
 
-- [HeatMaps.nim](examples/HeatMaps.nim)  
-![HeatMaps.png](img/HeatMaps.png)  
+   - [examples/HeatMaps.nim](examples/HeatMaps.nim)  
+   ![alt](img/HeatMaps.png)  
 
-- [Histogram.nim](examples/Histogram.nim)  
-![Histogram.png](img/Histogram.png)  
+   - [examples/HistoGram.nim](examples/HistoGram.nim)  
+   ![alt](img/HistoGram.png)  
 
-- [DigitalPlots.nim](examples/DigitalPlots.nim)  
-![DigitalPlots.png](img/DigitalPlots.png)  
+   - [examples/DigitalPlots.nim](examples/DigitalPlots.nim)  
+   ![alt](img/DigitalPlots.png)  
 
-- [SimplePlots.nim](examples/SimplePlots.nim)  
-![SimplePlots.png](img/SimplePlots.png)  
+   - [examples/Images.nim](examples/Images.nim)  
+   ![alt](img/Images.png)  
 
+   - [examples/MarkersAndText.nim](examples/MarkersAndText.nim)  ( It. dosn't work well.)  
+   ![alt](img/MarkersAndText.png)  
 
+   - [examples/NaNValues.nim](examples/NaNValues.nim)  
+   ![alt](img/NaNValues.png)  
 
+#### Subplots
 
+---
 
+   - [examples/Tables.nim](examples/Tables.nim)  
+   ![alt](img/Tables.png)  
+
+#### Axes
+
+---
+
+   - [examples/LogScale.nim](examples/LogScale.nim)  
+   ![alt](img/LogScale.png)  
