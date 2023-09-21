@@ -1,6 +1,7 @@
 # Written by Leonardo Mariscal <leo@ldmd.mx>, 2019
 
 const srcHeader* = """
+# Modified for ImPlot by dinau,2023
 # Written by Leonardo Mariscal <leo@ldmd.mx>, 2019
 
 ## ImGUI Bindings
@@ -99,61 +100,12 @@ when defined(windows):
   {.passL:"-static".}
 
 """
-const notDefinedStructs* = """
-  ImVector*[T] = object # Should I importc a generic?
-    size* {.importc: "Size".}: int32
-    capacity* {.importc: "Capacity".}: int32
-    data* {.importc: "Data".}: ptr UncheckedArray[T]
-  ImGuiStyleModBackup* {.union.} = object
-    backup_int* {.importc: "BackupInt".}: int32 # Breaking naming convetion to denote "low level"
-    backup_float* {.importc: "BackupFloat".}: float32
-  #ImGuiStyleMod* {.importc: "ImGuiStyleMod", implot_header.} = object
-    varIdx* {.importc: "VarIdx".}: ImGuiStyleVar
-    backup*: ImGuiStyleModBackup
-  ImGuiStoragePairData* {.union.} = object
-    val_i* {.importc: "val_i".}: int32 # Breaking naming convetion to denote "low level"
-    val_f* {.importc: "val_f".}: float32
-    val_p* {.importc: "val_p".}: pointer
-  #ImGuiStoragePair* {.importc: "ImGuiStoragePair", implot_header.} = object
-    key* {.importc: "key".}: ImGuiID
-    data*: ImGuiStoragePairData
-  ImPairData* {.union.} = object
-    val_i* {.importc: "val_i".}: int32 # Breaking naming convetion to denote "low level"
-    val_f* {.importc: "val_f".}: float32
-    val_p* {.importc: "val_p".}: pointer
-  #ImPair* {.importc: "Pair", implot_header.} = object
-    key* {.importc: "key".}: ImGuiID
-    data*: ImPairData
-  ImGuiInputEventData* {.union.} = object
-    mousePos*: ImGuiInputEventMousePos
-    mouseWheel*: ImGuiInputEventMouseWheel
-    mouseButton*: ImGuiInputEventMouseButton
-    key*: ImGuiInputEventKey
-    text*: ImGuiInputEventText
-    appFocused*: ImGuiInputEventAppFocused
-  #ImGuiInputEvent* {.importc: "ImGuiInputEvent", implot_header.} = object
-    `type`* {.importc: "`type`".}: ImGuiInputEventType
-    source* {.importc: "Source".}: ImGuiInputSource
-    data*: ImGuiInputEventData
-    addedByTestEngine* {.importc: "AddedByTestEngine".}: bool
-
-  # Undefined data types in cimgui
-
-  ImDrawListPtr* = object
-  ImChunkStream* = ptr object
-  ImPool* = object
-  ImSpanAllocator* = object # A little lost here. It is referenced in imgui_internal.h
-  ImSpan* = object # ^^
-  ImVectorImGuiColumns* {.importc: "ImVector_ImGuiColumns".} = object
-
-  #
-"""
 
 const preProcs* = """
 # Procs
 {.push warning[HoleEnumConv]: off.}
 when not defined(cpp) or defined(cimguiDLL):
-  {.push dynlib: imgui_dll, cdecl, discardabl, header: currentSourceDir() & "/implot/private/ncimplot.h"e.}
+  {.push dynlib: imgui_dll, cdecl, discardable, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 else:
   {.push nodecl, discardable, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 """

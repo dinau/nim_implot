@@ -34,7 +34,7 @@ proc main() =
 
   doAssert glInit()
 
-  let context = igCreateContext()
+  var context = igCreateContext()
   defer: context.igDestroyContext()
 
   # setup ImPlot
