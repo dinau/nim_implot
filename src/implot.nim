@@ -1,3 +1,4 @@
+# Modified for ImPlot by dinau,2023
 # Written by Leonardo Mariscal <leo@ldmd.mx>, 2019
 
 ## ImGUI Bindings
@@ -686,7 +687,7 @@ type
 # Procs
 {.push warning[HoleEnumConv]: off.}
 when not defined(cpp) or defined(cimguiDLL):
-  {.push dynlib: imgui_dll, cdecl, discardabl, header: currentSourceDir() & "/implot/private/ncimplot.h"e.}
+  {.push dynlib: imgui_dll, cdecl, discardable, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 else:
   {.push nodecl, discardable, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 
