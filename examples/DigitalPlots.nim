@@ -9,15 +9,18 @@ import utils
 proc demo_DigitalPlots*() =
   var
     paused{.global.} = false
-    dataDigital{.global.} = [newScrollingBuffer(), newScrollingBuffer()]
-    dataAnalog{.global.} = [newScrollingBuffer(), newScrollingBuffer()]
+    dataDigital{.global.} : array[2,ScrollingBuffer]
+    dataAnalog {.global.} : array[2,ScrollingBuffer]
     showDigital{.global.} = [true, false]
-    showAnalog{.global.} = [true, false]
+    showAnalog{.global.} =  [true, false]
+  once:
+    dataDigital = [newScrollingBuffer(), newScrollingBuffer()]
+    dataAnalog =  [newScrollingBuffer(), newScrollingBuffer()]
 
-  igBulletText("Digital plots do not respond to Y drag and zoom, so that");
-  igIndent();
-  igText("you can drag analog plots over the rising/falling digital edge.");
-  igUnindent();
+  igBulletText("Digital plots do not respond to Y drag and zoom, so that")
+  igIndent()
+  igText("you can drag analog plots over the rising/falling digital edge.")
+  igUnindent()
 
   var label: string # char[32]
   igCheckbox("digital_0", addr showDigital[0])

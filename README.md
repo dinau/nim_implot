@@ -156,7 +156,7 @@ It is currently being developed and tested on
    - [examples/Images.nim](examples/Images.nim)  
    ![alt](img/Images.png)  
 
-   - [examples/MarkersAndText.nim](examples/MarkersAndText.nim)  ( It. dosn't work well.)  
+   - [examples/MarkersAndText.nim](examples/MarkersAndText.nim)  
    ![alt](img/MarkersAndText.png)  
 
    - [examples/NaNValues.nim](examples/NaNValues.nim)  

@@ -69,23 +69,23 @@ proc imPlotDemoTabs*() =
 
     if igBeginTabItem("Subplots"):
       defer: igEndTabItem()
-      #demoHeader("Sizing", Demo_SubplotsSizing)
-      #demoHeader("Item Sharing", Demo_SubplotItemSharing)
-      #demoHeader("Axis Linking", Demo_SubplotAxisLinking)
+      #demoHeader("Sizing", demo_SubplotsSizing)
+      #demoHeader("Item Sharing", demo_SubplotItemSharing)
+      #demoHeader("Axis Linking", demo_SubplotAxisLinking)
       demoHeader("Tables", demo_Tables)
 
     if igBeginTabItem("Axes"):
       defer: igEndTabItem()
       demoHeader("Log Scale", demo_LogScale)
-      #demoHeader("Symmetric Log Scale", Demo_SymmetricLogScale);
-      #demoHeader("Time Scale", Demo_TimeScale);
-      #demoHeader("Custom Scale", Demo_CustomScale);
-      #demoHeader("Multiple Axes", Demo_MultipleAxes);
-      #demoHeader("Tick Labels", Demo_TickLabels);
-      #demoHeader("Linked Axes", Demo_LinkedAxes);
-      #demoHeader("Axis Constraints", Demo_AxisConstraints);
-      #demoHeader("Equal Axes", Demo_EqualAxes);
-      #demoHeader("Auto-Fitting Data", Demo_AutoFittingData);
+      #demoHeader("Symmetric Log Scale", demo_SymmetricLogScale)
+      #demoHeader("Time Scale", demo_TimeScale)
+      #demoHeader("Custom Scale", demo_CustomScale)
+      #demoHeader("Multiple Axes", demo_MultipleAxes)
+      #demoHeader("Tick Labels", demo_TickLabels)
+      #demoHeader("Linked Axes", demo_LinkedAxes)
+      #demoHeader("Axis Constraints", demo_AxisConstraints)
+      #demoHeader("Equal Axes", demo_EqualAxes)
+      #demoHeader("Auto-Fitting Data", demo_AutoFittingData)
 
     if igBeginTabItem("ImGui"):
       defer: igEndTabItem()
