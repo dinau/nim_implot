@@ -11,12 +11,18 @@ proc demo_RealtimePlots*() =
   igBulletText("Move your mouse to change the data!")
   igBulletText("This example assumes 60 FPS. Higher FPS requires larger buffer size.")
   var
-    sdata1{.global.} = newScrollingBuffer()
-    sdata2{.global.} = newScrollingBuffer()
-    rdata1{.global.} = newRollingBuffer()
-    rdata2{.global.} = newRollingBuffer()
+    sdata1{.global.} : ScrollingBuffer
+    sdata2{.global.} : ScrollingBuffer
+    rdata1{.global.} : RollingBuffer
+    rdata2{.global.} : RollingBuffer
     mouse:ImVec2
     t{.global.} = 0f
+  once:
+    sdata1 = newScrollingBuffer()
+    sdata2 = newScrollingBuffer()
+    rdata1 = newRollingBuffer()
+    rdata2 = newRollingBuffer()
+
 
   igGetMousePosNonUDT(addr mouse)
   t += igGetIO().deltaTime
