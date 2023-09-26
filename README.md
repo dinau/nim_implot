@@ -5,7 +5,7 @@
 - [Direct install from Web](#direct-install-from-web)
 - [Runing test application](#runing-test-application)
 - [Compiling application](#compiling-application)
-- [Generating ImPlot binding for development](#generating-implot-binding-for-development)
+- [Generating ImPlot bindings for development](#generating-implot-bindings-for-development)
 - [Development](#development)
 - [Tools info](#tools-info)
 - [Example gallery written in Nim language](#example-gallery-written-in-nim-language)
@@ -20,10 +20,10 @@
 
 ---
 
-Note: This project is highly under constructions at this moment.
+[ImPlot ](https://github.com/epezent/implot) is an immediate mode, GPU accelerated plotting library for [Dear ImGui](https://github.com/ocornut/imgui).
 
 1. This project uses the modified generator that derived from the achievement of [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
-1. This project also uses [nim-imgui (ImGui v1.89.9)](https://github.com/dinau/nimgl-imgui) derived from [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
+1. This project also uses ImGui library ([nim-imgui (ImGui v1.89.9 latest)](https://github.com/dinau/nimgl-imgui)) derived from [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
 
 ### Direct install from Web
 
@@ -49,7 +49,7 @@ Test source: [examples/ImPlotDemo.nim](examples/ImPlotDemo.nim)
 
 ---
 
-It must be used **cpp** backend at compilation for example,
+It has to be used **cpp** backend at compilation for example,
 
 ```sh
 pwd
@@ -60,7 +60,7 @@ nim cpp -r ImPlotDemo.nim
 
 **Note**: **C** backend is not supported.
 
-### Generating ImPlot binding for development
+### Generating ImPlot bindings for development
 
 ---
 
@@ -117,7 +117,7 @@ It is currently being developed and tested on
    - [examples/ScatterPlots.nim](examples/ScatterPlots.nim)  
    ![alt](img/ScatterPlots.png)  
 
-   - [examples/RealtimePlots.nim](examples/RealtimePlots.nim)  ( It. dosn't work well.)  
+   - [examples/RealtimePlots.nim](examples/RealtimePlots.nim)  ( It dosn't work well.)  
    ![alt](img/RealtimePlots.png)  
 
    - [examples/StairstepPlots.nim](examples/StairstepPlots.nim)  
@@ -147,8 +147,8 @@ It is currently being developed and tested on
    - [examples/HeatMaps.nim](examples/HeatMaps.nim)  
    ![alt](img/HeatMaps.png)  
 
-   - [examples/HistoGram.nim](examples/HistoGram.nim)  
-   ![alt](img/HistoGram.png)  
+   - [examples/Histogram.nim](examples/Histogram.nim)  
+   ![alt](img/Histogram.png)  
 
    - [examples/DigitalPlots.nim](examples/DigitalPlots.nim)  
    ![alt](img/DigitalPlots.png)  
