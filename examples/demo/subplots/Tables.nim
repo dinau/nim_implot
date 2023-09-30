@@ -3,11 +3,10 @@ import imgui
 import implot
 import utils
 
-
-#-----------------
-# demo_Tables()
-#-----------------
-proc demo_Tables*() =
+#-----------------------
+# demo_Subplots_Tables()
+#-----------------------
+proc demo_Subplots_Tables*() =
   var
     flags{.global.} = ImGuiTableFlags.BordersOuter or ImGuiTableFlags.BordersV or
                       ImGuiTableFlags.RowBg or ImGuiTableFlags.Resizable or
@@ -39,7 +38,7 @@ proc demo_Tables*() =
       igPushID(row)
       var map:ImVec4
       ipGetColormapColorNonUDT(addr map,row)
-      sparkline("##spark",addr data[0],100,0,11.0f,offset.int32,map,ImVec2(x: -1, y: 35))
+      sparkline("##spark",data.ptz,100,0,11.0f,offset.int32,map,ImVec2(x: -1, y: 35))
       igPopID()
 
     igEndTable()

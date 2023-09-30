@@ -29,10 +29,10 @@ proc demo_ShadedPlots*() =
 
   if ipBeginPlot("Shaded Plots"):
     ipPushStyleVar(ImPlotStyleVar.FillAlpha, alpha)
-    ipPlotShaded("Uncertain Data",addr xs[0],addr ys1[0],addr ys2[0],1001)
-    ipPlotLine("Uncertain Data"  ,addr xs[0],addr ys[0], 1001)
-    ipPlotShaded("Overlapping"   ,addr xs[0],addr ys3[0],addr ys4[0],1001)
-    ipPlotLine("Overlapping"     ,addr xs[0],addr ys3[0],1001)
-    ipPlotLine("Overlapping"     ,addr xs[0],addr ys4[0],1001)
+    ipPlotShaded("Uncertain Data",xs.ptz, ys1.ptz, ys2.ptz,1001)
+    ipPlotLine("Uncertain Data"  ,xs.ptz, ys.ptz, 1001)
+    ipPlotShaded("Overlapping"   ,xs.ptz, ys3.ptz,ys4.ptz,1001)
+    ipPlotLine("Overlapping"     ,xs.ptz, ys3.ptz,1001)
+    ipPlotLine("Overlapping"     ,xs.ptz, ys4.ptz,1001)
     ipPopStyleVar()
     ipEndPlot()

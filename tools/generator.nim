@@ -89,14 +89,14 @@ proc translateType(name: string): string =
   result = result.replace("&", "")
 
   result = result.replace("time_t", "int32")
-  result = result.replace("double", "cdouble")
+  result = result.replace("double", "cdouble") # TODO
   result = result.replace("structtm", "tm")
-  #result = result.replace("cfloat64", "cdouble")
+  #result = result.replace("cfloat64", "cdouble") # TODO
   result = result.replace(" int", " int32")
   result = result.replace("size_t", "uint") # uint matches pointer size just like size_t
   result = result.replace("int3264_t", "int64")
   result = result.replace("float", "float32")
-  result = result.replace("double", "float64")
+  result = result.replace("double", "float64") # TODO
   result = result.replace("short", "int16")
   result = result.replace("_Simple", "")
   if result.contains("char") and not result.contains("Wchar"):
@@ -321,6 +321,10 @@ proc genProcs(output: var string) =
       for arg in variation["argsT"]:
         var argName = arg["name"].getStr()
         var argType = arg["type"].getStr().translateType()
+        if arg.contains("custom_type"):
+          let ctype = arg["custom_type"].getStr().split('_') # custom_type = "ImPlotPoint_getter"
+          argType = ctype[0] & ctype[1][0].toUpperAscii() & ctype[1][1 ..< ctype[1].len]
+          # argType == "ImPlotPointGetter"
 
         var argDefault = ""
         if variation.contains("defaults") and variation["defaults"].kind == JObject and
@@ -336,10 +340,6 @@ proc genProcs(output: var string) =
           argDefault = argDefault.replace("-FLT_MIN", "0")
           argDefault = argDefault.replace("~0", "-1")
           argDefault = argDefault.replace("sizeof(float)", "sizeof(float32).int32")
-          argDefault = argDefault.replace("ImDrawCornerFlags_All", "ImDrawCornerFlags.All")
-          argDefault = argDefault.replace("ImGuiPopupPositionPolicy_Default", "ImGuiPopupPositionPolicy.Default")
-          argDefault = argDefault.replace("ImGuiPopupFlags_None", "ImGuiPopupFlags.None")
-          argDefault = argDefault.replace("ImGuiNavHighlightFlags_TypeDefault", "ImGuiNavHighlightFlags.TypeDefault")
 
           argDefault = argDefault.replace("ImS8)" ,   "int8).int32") # Doing it a little verbose to avoid issues in the future.
           argDefault = argDefault.replace("ImS16)",  "int16).int32")
@@ -358,7 +358,7 @@ proc genProcs(output: var string) =
               argDefault.add("{letters[p]}: {argPices[p]}, ".fmt)
             argDefault = argDefault[0 ..< argDefault.len - 2] & ")"
 
-          if (argType.startsWith("ImGui") or argType.startsWith("Im")) and not argType.contains("Callback") and not argType.contains("ImVec"): # Ugly hack, should fix later
+          if (argType.startsWith("ImPlot") or argType.startsWith("Im")) and not argType.contains("Callback") and not argType.contains("ImVec"): # Ugly hack, should fix later
             argDefault.add(".{argType}".fmt)
 
         if argName.startsWith("_"):
@@ -458,7 +458,7 @@ proc igGenerate*() =
   output.genTypeDefs()
   output.genTypes()
   output.genProcs()
-  output.add("\n" & cherryTheme)
+  #output.add("\n" & cherryTheme)
 
   writeFile("src/implot.nim", output)
   fixAfter("src/implot.nim")

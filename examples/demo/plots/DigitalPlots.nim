@@ -23,14 +23,13 @@ proc demo_DigitalPlots*() =
   igUnindent()
 
   var label: string # char[32]
-  igCheckbox("digital_0", addr showDigital[0])
+  igCheckbox("digital_0", showDigital[0].addr)
   igSameLine()
-  igCheckbox("digital_1", addr showDigital[1])
+  igCheckbox("digital_1", showDigital[1].addr)
   igSameLine()
-  igCheckbox("analog_0", addr showAnalog[0])
+  igCheckbox("analog_0",   showAnalog[0].addr)
   igSameLine()
-  igCheckbox("analog_1", addr showAnalog[1])
-
+  igCheckbox("analog_1",   showAnalog[1].addr)
   var t{.global.} = 0.float32
   if not paused:
     t += igGetIO().deltaTime

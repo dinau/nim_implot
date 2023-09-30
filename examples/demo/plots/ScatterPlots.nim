@@ -23,7 +23,7 @@ proc demo_ScatterPlots*() =
     ys2[i] = 0.75f + 0.2f * (rand(RAND_MAX).cfloat / RAND_MAX.cfloat)
 
   if ipBeginPlot("Scatter Plot"):
-    ipPlotScatter("Data 1", addr xs1[0], addr ys1[0], 100)
+    ipPlotScatter("Data 1", xs1.ptz, ys1.ptz, 100)
     ipPushStyleVar(ImPlotStyleVar.FillAlpha, 0.25f)
     var fill = ImVec4()
     ipGetColormapColorNonUDT(addr fill,1)
@@ -34,7 +34,6 @@ proc demo_ScatterPlots*() =
                        , fill                   # fill: ImVec4
                        , IMPLOT_AUTO            # weight: float32
                        , weight)                # outline: ImVec4
-    ipPlotScatter("Data 2", addr xs2[0], addr ys2[0], 50)
+    ipPlotScatter("Data 2", xs2.ptz, ys2.ptz, 50)
     ipPopStyleVar()
     ipEndPlot()
-

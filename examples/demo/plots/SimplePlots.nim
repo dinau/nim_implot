@@ -17,5 +17,5 @@ proc demo_SimplePlot*() =
 
   if ipBeginPlot("My Plot"):
     defer: ipEndPlot()
-    ipPlotBars("My Bar Plot", addr bar_data[0], bar_data.len)
-    ipPlotLine("My Line Plot", addr x_data[0], addr y_data[0], xdata.len)
+    ipPlotBars("My Bar Plot", bar_data.ptz, bar_data.len)
+    ipPlotLine("My Line Plot", x_data.ptz, y_data.ptz, xdata.len)

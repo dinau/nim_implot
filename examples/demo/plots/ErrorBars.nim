@@ -17,21 +17,20 @@ proc demo_ErrorBars*() =
 
   if ipBeginPlot("##ErrorBars"):
     ipSetupAxesLimits(0, 6, 0, 10)
-    ipPlotBars("Bar", addr xs[0], addr bar[0], 5, 0.5f)
-    ipPlotErrorBars("Bar", addr xs[0], addr bar[0], addr err1[0], 5)
+    ipPlotBars("Bar",       xs.ptz, bar.ptz, 5, 0.5f)
+    ipPlotErrorBars("Bar",  xs.ptz, bar.ptz, err1.ptz, 5)
     var vec4:ImVec4
     ipGetColormapColorNonUDT(addr vec4,1)
     ipSetNextErrorBarStyle(vec4, 0)
-    ipPlotErrorBars("Line", addr xs[0], addr lin1[0], addr err1[0], addr err2[0], 5)
+    ipPlotErrorBars("Line", xs.ptz, lin1.ptz, err1.ptz,  err2.ptz, 5)
     ipSetNextMarkerStyle(ImPlotMarker.Square)
-    ipPlotLine("Line", addr xs[0], addr lin1[0], 5)
+    ipPlotLine("Line",  xs.ptz,  lin1.ptz, 5)
 
-    ipGetColormapColorNonUDT(addr vec4,2)
+    ipGetColormapColorNonUDT( addr vec4,2)
     ipPushStyleColor(ImPlotCol.ErrorBar, vec4)
-    ipPlotErrorBars("Scatter", addr xs[0], addr lin2[0], addr err2[0], 5)
-    ipPlotErrorBars("Scatter", addr xs[0], addr lin2[0], addr err3[0], addr err4[0], 5, ImPlotErrorBarsFlags.Horizontal)
+    ipPlotErrorBars("Scatter",  xs.ptz,  lin2.ptz,  err2.ptz, 5)
+    ipPlotErrorBars("Scatter",  xs.ptz,  lin2.ptz,  err3.ptz,  err4.ptz, 5, ImPlotErrorBarsFlags.Horizontal)
     ipPopStyleColor()
-    ipPlotScatter("Scatter", addr xs[0], addr lin2[0], 5)
+    ipPlotScatter("Scatter",  xs.ptz,  lin2.ptz, 5)
 
     ipEndPlot()
-

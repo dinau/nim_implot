@@ -20,6 +20,6 @@ proc demo_NaNValues*() =
 
   if ipBeginPlot("##NaNValues"):
     ipSetNextMarkerStyle(ImPlotMarker.Square)
-    ipPlotLine("line", addr data1[0], addr data2[0], 5, flags)
-    ipPlotBars("bars", addr data1[0], 5)
+    ipPlotLine("line", data1.ptz, data2.ptz, 5, flags)
+    ipPlotBars("bars", data1.ptz, 5)
     ipEndPlot()

@@ -73,14 +73,14 @@ proc demo_Histogram*() =
     ipSetupAxes(nil, nil, AutoFit, AutoFit)
     ipSetNextFillStyle(IMPLOT_AUTO_COL,0.5f)
     #ipSetNextFillStyle(ImVec4(x: 0, y: 0, z: 0, w: -1), 0.5f)
-    ipPlotHistogram("Empirical", addr dist[0], 10000.int, bins.int,
+    ipPlotHistogram("Empirical", dist.ptz, 10000.int, bins.int,
                     1.0.cfloat64, (if frange: ImPlotRange(min: rmin, max: rmax) else: ImPlotRange()),
                     hist_flags.ImPlotHistogramFlags)
     if (0 != (hist_flags and Density.int32)) and not (0 != (hist_flags and NoOutliers.int32)):
       if 0 != (hist_flags and ImPlotHistogramFlags.Horizontal.int32):
-        ipPlotLine("Theoretical", addr y[0], addr x[0], 100)
+        ipPlotLine("Theoretical", y.ptz, x.ptz, 100)
       else:
-        ipPlotLine("Theoretical", addr x[0], addr y[0], 100)
+        ipPlotLine("Theoretical", x.ptz, y.ptz, 100)
 
 #------------------
 # demo_Histogram2D()
@@ -112,8 +112,8 @@ proc demo_Histogram2D*() =
     ipSetupAxes(nullptr, nullptr, flags.ImPlotAxisFlags , flags.ImPlotAxisFlags )
     ipSetupAxesLimits(-6,6,-6,6)
     max_count = ipPlotHistogram2D("Hist2D"
-                    ,addr dist1[0]
-                    ,addr dist2[0]
+                    ,dist1.ptz
+                    ,dist2.ptz
                     ,count.int
                     ,xybins[0].int
                     ,xybins[1].int

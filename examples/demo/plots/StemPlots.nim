@@ -16,7 +16,7 @@ proc demo_StemPlots*() =
   if ipBeginPlot("Stem Plots"):
       ipSetupAxisLimits(ImAxis.X1,0,1.0)
       ipSetupAxisLimits(ImAxis.Y1,0,1.6)
-      ipPlotStems("Stems 1",addr xs[0],addr ys1[0],51)
+      ipPlotStems("Stems 1", xs.ptz, ys1.ptz,51)
       ipSetNextMarkerStyle(ImPlotMarker.Circle)
-      ipPlotStems("Stems 2", addr xs[0], addr ys2[0],51)
+      ipPlotStems("Stems 2", xs.ptz, ys2.ptz,51)
       ipEndPlot()

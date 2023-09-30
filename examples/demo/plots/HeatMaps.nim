@@ -48,9 +48,9 @@ proc demo_Heatmaps*() =
 
   if ipBeginPlot("##Heatmap1", ImVec2(x: 225, y: 225) , ImPlotFlags.NoLegend or ImPlotFlags.NoMouseText):
     ipSetupAxes(nullptr, nullptr, axes_flags, axes_flags)
-    ipSetupAxisTicks(ImAxis.X1, 0 + 1.0/14.0, 1 - 1.0/14.0, 7, addr xlabels[0])
-    ipSetupAxisTicks(ImAxis.Y1, 1 - 1.0/14.0, 0 + 1.0/14.0, 7, addr ylabels[0])
-    ipPlotHeatmap("heat", addr values1[0][0], 7, 7, scale_min, scale_max
+    ipSetupAxisTicks(ImAxis.X1, 0 + 1.0/14.0, 1 - 1.0/14.0, 7,  xlabels.ptz)
+    ipSetupAxisTicks(ImAxis.Y1, 1 - 1.0/14.0, 0 + 1.0/14.0, 7,  ylabels.ptz)
+    ipPlotHeatmap("heat", values1[0].ptz, 7, 7, scale_min, scale_max
       , "%g", ImPlotPoint(x: 0, y: 0), ImPlotPoint(x: 1, y: 1), hm_flags.ImPlotHeatmapFlags)
     ipEndPlot()
 
@@ -67,11 +67,10 @@ proc demo_Heatmaps*() =
   if ipBeginPlot("##Heatmap2", ImVec2(x: 225, y: 225)):
     ipSetupAxes(nullptr, nullptr, ImPlotAxisFlags.NoDecorations, ImPlotAxisFlags.NoDecorations)
     ipSetupAxesLimits(-1, 1, -1, 1)
-    ipPlotHeatmap("heat1", addr values2[0], size, size, 0, 1, nullptr)
-    ipPlotHeatmap("heat2", addr values2[0], size, size, 0, 1, nullptr
+    ipPlotHeatmap("heat1", values2.ptz, size, size, 0, 1, nullptr)
+    ipPlotHeatmap("heat2", values2.ptz, size, size, 0, 1, nullptr
       , ImPlotPoint(x: -1, y: -1)
       , ImPlotPoint(x: 0, y: 0))
     ipEndPlot()
 
   ipPopColormap()
-

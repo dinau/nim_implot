@@ -2,6 +2,11 @@ import std/[math]
 import imgui
 import implot
 
+#---------
+# snprintf
+#---------
+proc snprintf*(s:cstring,n:cint,fmt:cstring,count:cint):cint {.importc,header:"<stdio.h>",varargs.}
+
 const IMPLOT_AUTO_COL* =  ImVec4(x: 0,y: 0,z: 0,w: -1)
 
 # define CHECKBOX_FLAG(flags, flag) ImGui::CheckboxFlags(#flag, (unsigned int*)&flags, flag)
@@ -76,3 +81,14 @@ proc sparkline*( id:cstring,  values: ptr float32 , count:int32, min_v:float32, 
 
   ipPopStyleVar()
 
+#[ from cimplot.h
+ //ImPlotPoint getters manually wrapped use this
+ typedef void *(*ImPlotPoint_getter)(void* data, int idx, ImPlotPoint *point);
+]#
+#---------------
+# SinewaveGetter
+#---------------
+proc SinewaveGetter*(data: pointer,i:cint, point: ptr ImPlotPoint): pointer {.cdecl.} =
+    let f = cast[ptr float32](data)[]
+    point.x =  i.float32
+    point.y = sin(f * i.float32)

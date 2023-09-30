@@ -1,5 +1,6 @@
 import imgui
-#
+
+# Plots
 import LinePlots
 import FilledLinePlots
 import ShadedPlots
@@ -20,12 +21,16 @@ import Images
 import MarkersAndText
 import NaNValues
 #
-import Tables
-#
-import LogScale
-#
 import SimplePlots
 import SimpleImGui
+
+# SubPlots
+import Tables
+import ItemSharing
+
+# Axes
+import LogScale
+#
 
 #---------------
 # demoHeaeder()
@@ -72,11 +77,12 @@ proc imPlotDemoTabs*() =
       #demoHeader("Sizing", demo_SubplotsSizing)
       #demoHeader("Item Sharing", demo_SubplotItemSharing)
       #demoHeader("Axis Linking", demo_SubplotAxisLinking)
-      demoHeader("Tables", demo_Tables)
+      demoHeader("Tables", demo_Subplots_Tables)
+      demoHeader("Item Sharing", demo_Subplots_ItemSharing)
 
     if igBeginTabItem("Axes"):
       defer: igEndTabItem()
-      demoHeader("Log Scale", demo_LogScale)
+      demoHeader("Log Scale", demo_Axes_LogScale)
       #demoHeader("Symmetric Log Scale", demo_SymmetricLogScale)
       #demoHeader("Time Scale", demo_TimeScale)
       #demoHeader("Custom Scale", demo_CustomScale)

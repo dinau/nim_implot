@@ -29,11 +29,11 @@ proc demo_BarGroups*() =
     ipSetupLegend(ImPlotLocation.East, ImPlotLegendFlags.Outside)
     if horz:
       ipSetupAxes("Score","Student",ImPlotAxisFlags.AutoFit,ImPlotAxisFlags.AutoFit)
-      ipSetupAxisTicks(ImAxis.Y1,addr positions[0], groups, addr glabels[0])
-      ipPlotBarGroups(addr ilabels[0],addr data[0],Items,groups,size,0
+      ipSetupAxisTicks(ImAxis.Y1,positions.ptz, groups,  glabels.ptz)
+      ipPlotBarGroups(ilabels.ptz, data.ptz, Items,groups,size,0
                    ,flags or ImPlotBarGroupsFlags.Horizontal)
     else:
       ipSetupAxes("Student","Score",ImPlotAxisFlags.AutoFit,ImPlotAxisFlags.AutoFit)
-      ipSetupAxisTicks(ImAxis.X1,addr positions[0], groups, addr glabels[0])
-      ipPlotBarGroups(addr ilabels[0],addr data[0],Items,groups,size,0,flags.ImPlotBarGroupsFlags)
+      ipSetupAxisTicks(ImAxis.X1,positions.ptz, groups, glabels.ptz)
+      ipPlotBarGroups(ilabels.ptz, data.ptz,Items,groups,size,0,flags.ImPlotBarGroupsFlags)
     ipEndPlot()

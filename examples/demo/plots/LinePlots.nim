@@ -21,7 +21,6 @@ proc demo_LinePlots*() =
   if ipBeginPlot("Line Plots"):
     defer: ipEndPlot()
     ipSetupAxes("x", "y")
-    ipPlotLine("f(x)", addr xs1[0], addr ys1[0], 1001)
+    ipPlotLine("f(x)",  xs1.ptz,  ys1.ptz, 1001)
     ipSetNextMarkerStyle(Circle)
-    ipPlotLine("g(x)", addr xs2[0], addr ys2[0], 20, Segments)
-
+    ipPlotLine("g(x)",  xs2.ptz,  ys2.ptz, 20, Segments)

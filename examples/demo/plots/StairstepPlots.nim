@@ -21,16 +21,15 @@ proc demo_StairstepPlots*() =
     ipSetupAxesLimits(0,1,0,1)
 
     ipPushStyleColor(ImPlotCol.Line, ImVec4(x:0.5f,y:0.5f,z:0.5f,w:1.0f))
-    ipPlotLine("##1",addr ys1[0],21,0.05f)
-    ipPlotLine("##2",addr ys2[0],21,0.05f)
+    ipPlotLine("##1", ys1.ptz ,21,0.05f)
+    ipPlotLine("##2", ys2.ptz ,21,0.05f)
     ipPopStyleColor()
 
     ipSetNextMarkerStyle(ImPlotMarker.Circle)
     ipSetNextFillStyle(IMPLOT_AUTO_COL, 0.25f)
-    ipPlotStairs("Post Step (default)", addr ys1[0], 21, 0.05f, 0, flags)
+    ipPlotStairs("Post Step (default)",  ys1.ptz, 21, 0.05f, 0, flags)
     ipSetNextMarkerStyle(ImPlotMarker.Circle)
     ipSetNextFillStyle(IMPLOT_AUTO_COL, 0.25f)
-    ipPlotStairs("Pre Step", addr ys2[0], 21, 0.05f, 0, flags or ImPlotStairsFlags.PreStep)
+    ipPlotStairs("Pre Step",  ys2.ptz, 21, 0.05f, 0, flags or ImPlotStairsFlags.PreStep)
 
     ipEndPlot()
-

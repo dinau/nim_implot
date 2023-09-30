@@ -46,19 +46,19 @@ proc demo_FilledLinePlots*() =
     ipSetupAxesLimits(0, 100, 0, 500)
     if show_fills:
       ipPushStyleVar(ImPlotStyleVar.FillAlpha, 0.25f)
-      ipPlotShaded("Stock 1", addr xs1[0], addr ys1[0], 101
+      ipPlotShaded("Stock 1", xs1.ptz, ys1.ptz, 101
         , if shade_mode == 0: -Inf
                  else:
                    if shade_mode == 1: Inf
                    else: fill_ref
                , flags)
-      ipPlotShaded("Stock 2", addr xs1[0], addr ys2[0], 101
+      ipPlotShaded("Stock 2", xs1.ptz, ys2.ptz, 101
         , if shade_mode == 0: -Inf
                  else:
                    if shade_mode == 1: Inf
                    else: fill_ref
                , flags)
-      ipPlotShaded("Stock 3", addr xs1[0], addr ys3[0], 101
+      ipPlotShaded("Stock 3", xs1.ptz, ys3.ptz, 101
         , if shade_mode == 0: -Inf
                  else:
                    if shade_mode == 1: Inf
@@ -67,8 +67,8 @@ proc demo_FilledLinePlots*() =
       ipPopStyleVar()
 
     if show_lines:
-      ipPlotLine("Stock 1", addr xs1[0], addr ys1[0], 101)
-      ipPlotLine("Stock 2", addr xs1[0], addr ys2[0], 101)
-      ipPlotLine("Stock 3", addr xs1[0], addr ys3[0], 101)
+      ipPlotLine("Stock 1", xs1.ptz, ys1.ptz, 101)
+      ipPlotLine("Stock 2", xs1.ptz, ys2.ptz, 101)
+      ipPlotLine("Stock 3", xs1.ptz, ys3.ptz, 101)
 
     ipEndPlot()

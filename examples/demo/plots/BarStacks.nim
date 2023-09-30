@@ -8,7 +8,7 @@ proc demo_BarStacks*() =
   var Liars{.global.} = -1
   if Liars == -1:
     var Liars_Data{.global.} = [ 4282515870'u32, 4282609140'u32, 4287357182'u32, 4294630301'u32, 4294945280'u32, 4294921472'u32 ]
-    Liars = ipAddColormap("LiarsNim", addr Liars_Data[0], 6).int32
+    Liars = ipAddColormap("LiarsNim", Liars_Data.ptz, 6).int32
 
   var diverging{.global.}  = true
   igCheckbox("Diverging", addr diverging)
@@ -40,16 +40,16 @@ proc demo_BarStacks*() =
       ipSetupAxes(nullptr,nullptr
                 ,ImPlotAxisFlags.AutoFit or ImPlotAxisFlags.NoDecorations
                 ,ImPlotAxisFlags.AutoFit or ImPlotAxisFlags.Invert)
-      ipSetupAxisTicks(ImAxis.Y1,0,19,20,addr politicians[0],false)
+      ipSetupAxisTicks(ImAxis.Y1,0,19,20, politicians.ptz,false)
       if diverging:
-          ipPlotBarGroups(addr labels_div[0],addr data_div[0]
+          ipPlotBarGroups(labels_div.ptz, data_div.ptz
                       ,9      # item_count : int
                       ,20     # group_count: int
                       ,0.75   # group_size:  cfloat64
                       ,0      # shift:       cfloat64
                       ,ImPlotBarGroupsFlags.Stacked or ImPlotBarGroupsFlags.Horizontal)
       else:
-          ipPlotBarGroups(addr labels_reg[0],addr data_reg[0]
+          ipPlotBarGroups(labels_reg.ptz, data_reg.ptz
                       ,6
                       ,20
                       ,0.75

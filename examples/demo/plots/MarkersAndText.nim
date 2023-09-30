@@ -27,7 +27,7 @@ proc demo_MarkersAndText*() =
    for m in 0..<ImPlotMarker.COUNT.int32:
      igPushID(m)
      ipSetNextMarkerStyle(m.ImPlotMarker, mk_size, IMPLOT_AUTO_COL, mk_weight)
-     ipPlotLine("##Filled", addr xs[0], addr ys[0], 2)
+     ipPlotLine("##Filled", xs.ptz, ys.ptz, 2)
      igPopID()
      dec ys[0]; dec ys[1]
    xs[0] = 6; xs[1] = 9; ys[0] = 10; ys[1] = 11
@@ -35,7 +35,7 @@ proc demo_MarkersAndText*() =
    for m in 0..<ImPlotMarker.COUNT.int32:
      igPushID(m)
      ipSetNextMarkerStyle(m.ImPlotMarker, mk_size, ImVec4(x: 0,y: 0,z: 0,w: 0), mk_weight)
-     ipPlotLine("##Open", addr xs[0], addr ys[0], 2)
+     ipPlotLine("##Open", xs.ptz, ys.ptz, 2)
      igPopID()
      dec ys[0]; dec ys[1]
 

@@ -8,6 +8,6 @@ proc demo_InfiniteLines*() =
     vals{.global.} = [0.25, 0.5, 0.75]
   if ipBeginPlot("##Infinite"):
     ipSetupAxes(nullptr,nullptr,ImPlotAxisFlags.NoInitialFit,ImPlotAxisFlags.NoInitialFit)
-    ipPlotInfLines("Vertical",addr vals[0],3)
-    ipPlotInfLines("Horizontal",addr vals[0],3,ImPlotInfLinesFlags.Horizontal)
+    ipPlotInfLines("Vertical",vals.ptz,3)
+    ipPlotInfLines("Horizontal",vals.ptz,3,ImPlotInfLinesFlags.Horizontal)
     ipEndPlot()
