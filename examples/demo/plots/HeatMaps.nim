@@ -60,7 +60,7 @@ proc demo_Heatmaps*() =
   igSameLine()
 
   const size = 80
-  var values2{.global.}: array[size*size, cfloat64]
+  var values2{.global.}: array[size*size, cdouble]
   randomize((igGetTime()*1000000).int64)
   for i in 0..<(size * size):
     values2[i] = RandomRange(0.0, 1.0)

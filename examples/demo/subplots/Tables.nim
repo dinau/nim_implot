@@ -41,4 +41,5 @@ proc demo_Subplots_Tables*() =
       sparkline("##spark",data.ptz,100,0,11.0f,offset.int32,map,ImVec2(x: -1, y: 35))
       igPopID()
 
+    ipPopColormap()
     igEndTable()

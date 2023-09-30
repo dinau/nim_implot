@@ -44,7 +44,7 @@ type
     tmwday*: cint
     tmyday*: cint
     tmisdst*: cint
-  cfloat64* = cdouble
+  cfloat64* = cdouble # NoReplace
   double* = cdouble
   Ims32* = cint
 const
@@ -84,8 +84,8 @@ template `and`*[E:enum,I:SomeInteger](a:I,b:E):E =
 #-----------
 template ptz*(val:untyped): untyped =
   val[0].addr
-template puint32*(v: untyped) : untyped = cast[ptr uint32](v.addr)
-template pint32*(v: untyped)  : untyped = cast[ptr int32](v.addr)
+template pu32*(v: untyped) : untyped = cast[ptr uint32](v.addr)
+template pi32*(v: untyped)  : untyped = cast[ptr int32](v.addr)
 template cstringCast*(v: untyped) : untyped = cast[cstring](v)
 
 ## Tentative workaround [end]

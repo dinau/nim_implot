@@ -11,7 +11,7 @@ proc demo_BarGroups*() =
                            80, 69, 52, 92, 72, 78, 75, 76, 89, 95]  #// course
     ilabels     = ["Midterm Exam".cstring,"Final Exam","Course Grade"]
     glabels     = ["S1".cstring,"S2","S3","S4","S5","S6","S7","S8","S9","S10"]
-    positions   = [0.cfloat64,1,2,3,4,5,6,7,8,9]
+    positions   = [0.cdouble,1,2,3,4,5,6,7,8,9]
     Items{.global.}  = 3.int32
     groups{.global.} = 10
     size{.global.} = 0.67f

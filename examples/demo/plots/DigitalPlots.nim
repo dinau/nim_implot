@@ -46,9 +46,9 @@ proc demo_DigitalPlots*() =
 
   if ipBeginPlot("##Digital"):
     defer: ipEndPlot()
-    ipSetupAxisLimits(ImAxis.X1, (t - 10.0).cfloat64, t.cfloat64
+    ipSetupAxisLimits(ImAxis.X1, (t - 10.0).cdouble, t.cdouble
       , (if paused: ImPlotCond.Once else: ImPlotCond.Always))
-    ipSetupAxisLimits(ImAxis.Y1, -1.cfloat64, 1.cfloat64)
+    ipSetupAxisLimits(ImAxis.Y1, -1.cdouble, 1.cdouble)
     for i in 0..<2:
       if showDigital[i] and (dataDigital[i].Data.len() > 0):
         label = "digital_$#" % [$i]

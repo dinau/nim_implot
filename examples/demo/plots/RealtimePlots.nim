@@ -2,8 +2,6 @@ import imgui
 import implot
 import utils
 
-# Notice: This demo dos'nt works well at this moment. TODO
-
 #----------------------
 # demo_RealtimePlots()
 #----------------------
@@ -47,12 +45,12 @@ proc demo_RealtimePlots*() =
                           , -Inf
                           , 0.ImPlotShadedFlags
                           , sdata1.Offset
-                          , 2 * sizeof(float))
+                          , 2 * sizeof(cfloat)) # Being sizeof(cfloat) is very important
     ipPlotLine("Mouse Y",   addr sdata2.Data[0].x, addr sdata2.Data[0].y
                           , sdata2.Data.len
                           , 0.ImPlotLineFlags
                           , sdata2.Offset
-                          , 2*sizeof(float))
+                          , 2*sizeof(cfloat))
 
     ipEndPlot()
 
@@ -64,10 +62,10 @@ proc demo_RealtimePlots*() =
                         , rdata1.Data.len
                         , 0.ImPlotLineFlags
                         , 0
-                        , 2 * sizeof(float))
+                        , 2 * sizeof(cfloat))
     ipPlotLine("Mouse Y", addr rdata2.Data[0].x , addr rdata2.Data[0].y
                         , rdata2.Data.len
                         , 0.ImPlotLineFlags
                         , 0
-                        , 2 * sizeof(float))
+                        , 2 * sizeof(cfloat))
     ipEndPlot()

@@ -45,8 +45,8 @@ proc demo_BarStacks*() =
           ipPlotBarGroups(labels_div.ptz, data_div.ptz
                       ,9      # item_count : int
                       ,20     # group_count: int
-                      ,0.75   # group_size:  cfloat64
-                      ,0      # shift:       cfloat64
+                      ,0.75   # group_size:  cdouble
+                      ,0      # shift:       cdouble
                       ,ImPlotBarGroupsFlags.Stacked or ImPlotBarGroupsFlags.Horizontal)
       else:
           ipPlotBarGroups(labels_reg.ptz, data_reg.ptz

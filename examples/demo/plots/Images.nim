@@ -22,7 +22,7 @@ proc demo_Images*() =
   igColorEdit4("Tint",tint)
 
   if ipBeginPlot("##image"):
-    var # TODO
+    var
       bminPoint = ImPlotPoint(x: bmin[0], y: bmin[1])
       bmaxPoint = ImPlotPoint(x: bmax[0], y: bmax[1])
       uv0Vec2   = ImVec2(x: uv0[0], y: uv0[1])
