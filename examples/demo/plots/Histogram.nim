@@ -11,12 +11,12 @@ proc demo_Histogram*() =
     mu: double = 5
     sigma: double = 2
   var
-    dist      {.global.}: seq[cfloat64]
+    dist      {.global.}: seq[cdouble]
     hist_flags{.global.} = Density.int32
     bins      {.global.}: ImPlotBin = cast[ImPlotBin](50)
   once:
     discard initRand()
-    dist = collect(for i in 0..<10000: gauss(mu, sigma).cfloat64)
+    dist = collect(for i in 0..<10000: gauss(mu, sigma).cdouble)
 
   igSetNextItemWidth(200)
   if igRadioButton("Sqrt", bins == Sqrt): bins = Sqrt
@@ -74,7 +74,7 @@ proc demo_Histogram*() =
     ipSetNextFillStyle(IMPLOT_AUTO_COL,0.5f)
     #ipSetNextFillStyle(ImVec4(x: 0, y: 0, z: 0, w: -1), 0.5f)
     ipPlotHistogram("Empirical", dist.ptz, 10000.int, bins.int,
-                    1.0.cfloat64, (if frange: ImPlotRange(min: rmin, max: rmax) else: ImPlotRange()),
+                    1.0.cdouble, (if frange: ImPlotRange(min: rmin, max: rmax) else: ImPlotRange()),
                     hist_flags.ImPlotHistogramFlags)
     if (0 != (hist_flags and Density.int32)) and not (0 != (hist_flags and NoOutliers.int32)):
       if 0 != (hist_flags and ImPlotHistogramFlags.Horizontal.int32):
@@ -90,12 +90,12 @@ proc demo_Histogram2D*() =
     count{.global.}     = 50000.int32
     xybins{.global.} = [100.int32,100]
     hist_flags{.global.} = 0.int32
-    dist1      {.global.}: seq[cfloat64]
-    dist2      {.global.}: seq[cfloat64]
+    dist1      {.global.}: seq[cdouble]
+    dist2      {.global.}: seq[cdouble]
   once:
     discard initRand()
-    dist1 = collect(for i in 0..<100000: gauss(1, 2).cfloat64)
-    dist2 = collect(for i in 0..<100000: gauss(1, 1).cfloat64)
+    dist1 = collect(for i in 0..<100000: gauss(1, 2).cdouble)
+    dist2 = collect(for i in 0..<100000: gauss(1, 1).cdouble)
 
   igSliderInt("Count",addr count,100,100000)
   igSliderInt2("Bins", xybins,1,500)
@@ -103,7 +103,7 @@ proc demo_Histogram2D*() =
   igCheckboxFlags("Density", addr hist_flags, Density.int32)
   #static NormalDistribution<100000> dist1(1, 2)
   #static NormalDistribution<100000> dist2(1, 1)
-  var max_count = 0.cfloat64
+  var max_count = 0.cdouble
   var flags = AutoFit or ImPlotAxisFlags.Foreground
   ipPushColormap("Hot")
   var regn = ImVec2()

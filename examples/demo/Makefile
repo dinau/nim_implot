@@ -9,8 +9,8 @@ run: all
 	./$(TARGET)
 
 gen:
-	(cd ..;nimble gen)
+	(cd ../..;nimble gen)
 
 clean:
 	-rm -fr .nimcache
-	-rm $(TARGET).exe
+	-rm $(TARGET)

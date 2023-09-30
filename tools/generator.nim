@@ -91,7 +91,7 @@ proc translateType(name: string): string =
   result = result.replace("time_t", "int32")
   result = result.replace("double", "cdouble") # TODO
   result = result.replace("structtm", "tm")
-  #result = result.replace("cfloat64", "cdouble") # TODO
+  result = result.replace("cfloat64", "cdouble") # TODO
   result = result.replace(" int", " int32")
   result = result.replace("size_t", "uint") # uint matches pointer size just like size_t
   result = result.replace("int3264_t", "int64")
@@ -426,6 +426,10 @@ proc fixAfter(fname:string) =
   var s:seq[string]
   for line in fname.lines:
     var st = line
+    # ignore line
+    if st.toLowerAscii.contains(peg" '#' \s* 'noreplace' "):
+      s.add st
+      continue
     # cast issue
     st = st.replace(peg"'-1.ImPlotColormap'","cast[ImPlotcolormap](-1)")
     st = st.replace(peg"'-1.ImPlotCol'","cast[ImPlotcol](-1)")
@@ -446,6 +450,9 @@ proc fixAfter(fname:string) =
     # replace `range`  to `Range`
     st = st.replace(peg"'range:'","Range:")
     st = st.replace(peg"' range* '"," Range* ")
+    # replace cfloat64 to cdouble
+    while st.contains(peg"'cfloat64'"):
+      st = st.replacef(peg"{@}'cfloat64'{@}$","$1cdouble$2")
 
     s.add st
 

@@ -47,7 +47,6 @@ proc main() =
   doAssert igOpenGL3Init()
   defer: igOpenGL3Shutdown()
 
-  #implot.igStyleColorsCherry()
   #imgui.igStyleColorsCherry()
 
   var
@@ -75,7 +74,7 @@ proc main() =
     igSetNextWindowPos(ImVec2(x: 25, y: 25), FirstUseEver)
     igSetNextWindowSize(ImVec2(x: 580, y: 400), FirstUseEver)
     block:
-      igBegin("This Demos have been written in Nim language.")
+      igBegin("All Demos have been written in Nim language.")
       defer: igEnd()
       igText("Application average %.3f ms/frame (%.1f FPS)",
                  1000.0f / igGetIO().framerate, igGetIO().framerate)

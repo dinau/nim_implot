@@ -23,10 +23,10 @@ proc demo_PieCharts*() =
     ipPlotPieChart(labels1.ptz
       , data1.ptz  # float32
       , 4              # int
-      , 0.5, 0.5       # x,y:cfloat64
-      , 0.4            # radius: cfloat64
+      , 0.5, 0.5       # x,y:cdouble
+      , 0.4            # radius: cdouble
       , "%.2f".cstring # cstring
-      , 90             # angle: cfloat64
+      , 90             # angle: cdouble
       , flags)         # ImPlotPieChartFlags
     ipEndPlot()
   igSameLine()

@@ -25,12 +25,42 @@ import SimplePlots
 import SimpleImGui
 
 # SubPlots
-import Tables
+import Sizing
 import ItemSharing
-
+import AxisLinking
+import Tables
 # Axes
 import LogScale
-#
+import SymmetricLogScale
+import CustomScale
+import MultipleAxes
+import EqualAxes
+import AutoFittingData
+import LinkedAxes
+import AxisConstraints
+import TimeScale
+import TickLabels
+# Tools
+import DragPoints
+import DragLines
+import DragRects
+import Tags
+import ColormapWidgets
+import LegendPopups
+import LegendOptions
+import Annotations
+import OffsetAndStride
+import Querying
+import DragAndDrop
+# Custom
+import CustomStyles
+import CustomDataAndGetters
+import CustomPlottersAndTooltips
+import CustomRendering
+# Config
+import Config
+# Help
+import Help
 
 #---------------
 # demoHeaeder()
@@ -47,7 +77,7 @@ proc imPlotDemoTabs*() =
   if igBeginTabBar("ImPlotDemoTabs"):
     defer: igEndTabBar()
 
-    if (igBeginTabItem("ImPlot")):
+    if (igBeginTabItem("Plots")):
       defer: igEndTabItem()
       demoHeader("Line Plots", demo_LinePlots)
       demoHeader("Filled Line Plots", demo_FilledLinePlots)
@@ -74,24 +104,52 @@ proc imPlotDemoTabs*() =
 
     if igBeginTabItem("Subplots"):
       defer: igEndTabItem()
-      #demoHeader("Sizing", demo_SubplotsSizing)
-      #demoHeader("Item Sharing", demo_SubplotItemSharing)
-      #demoHeader("Axis Linking", demo_SubplotAxisLinking)
-      demoHeader("Tables", demo_Subplots_Tables)
+      demoHeader("Sizing", demo_Subplots_Sizing)
       demoHeader("Item Sharing", demo_Subplots_ItemSharing)
+      demoHeader("Axis Linking", demo_Subplots_AxisLinking)
+      demoHeader("Tables", demo_Subplots_Tables)
 
     if igBeginTabItem("Axes"):
       defer: igEndTabItem()
       demoHeader("Log Scale", demo_Axes_LogScale)
-      #demoHeader("Symmetric Log Scale", demo_SymmetricLogScale)
-      #demoHeader("Time Scale", demo_TimeScale)
-      #demoHeader("Custom Scale", demo_CustomScale)
-      #demoHeader("Multiple Axes", demo_MultipleAxes)
-      #demoHeader("Tick Labels", demo_TickLabels)
-      #demoHeader("Linked Axes", demo_LinkedAxes)
-      #demoHeader("Axis Constraints", demo_AxisConstraints)
-      #demoHeader("Equal Axes", demo_EqualAxes)
-      #demoHeader("Auto-Fitting Data", demo_AutoFittingData)
+      demoHeader("Symmetric Log Scale", demo_Axes_SymmetricLogScale)
+      demoHeader("Time Scale", demo_Axes_TimeScale)
+      demoHeader("Custom Scale", demo_Axes_CustomScale)
+      demoHeader("Multiple Axes", demo_Axes_MultipleAxes)
+      demoHeader("Tick Labels", demo_Axes_TickLabels)
+      demoHeader("Linked Axes", demo_Axes_LinkedAxes)
+      demoHeader("Axis Constraints", demo_Axes_AxisConstraints)
+      demoHeader("Equal Axes", demo_Axes_EqualAxes)
+      demoHeader("Auto-Fitting Data", demo_Axes_AutoFittingData)
+
+    if igBeginTabItem("Tools"):
+      defer: igEndTabItem()
+      demoHeader("Offset and Stride", demo_Tools_OffsetAndStride)
+      demoHeader("Drag Points", demo_Tools_DragPoints)
+      demoHeader("Drag Lines", demo_Tools_DragLines)
+      demoHeader("Drag Rects", demo_Tools_DragRects)
+      demoHeader("Querying", demo_Tools_Querying)
+      demoHeader("Annotations", demo_Tools_Annotations)
+      demoHeader("Tags", demo_Tools_Tags)
+      demoHeader("Drag and Drop", demo_Tools_DragAndDrop)
+      demoHeader("Legend Options", demo_Tools_LegendOptions)
+      demoHeader("Legend Popups", demo_Tools_LegendPopups)
+      demoHeader("Colormap Widgets", demo_Tools_ColormapWidgets)
+
+    if igBeginTabItem("Custom"):
+      defer: igEndTabItem()
+      demoHeader("Custom Styles", demo_Custom_CustomStyles)
+      demoHeader("Custom Data and Getters", demo_Custom_CustomDataAndGetters)
+      demoHeader("Custom Rendering", demo_Custom_CustomRendering)
+      demoHeader("Custom Plotters and Tooltips", demo_Custom_CustomPlottersAndTooltips)
+
+    if igBeginTabItem("Config"):
+      defer: igEndTabItem()
+      demo_Config_Config()
+
+    if igBeginTabItem("Help"):
+      defer: igEndTabItem()
+      demo_Help_Help()
 
     if igBeginTabItem("ImGui"):
       defer: igEndTabItem()

@@ -1,9 +1,13 @@
-switch "path","../../src"
+#switch "path","../../src"
 
 switch "path","."
 switch "path","plots"
 switch "path","axes"
 switch "path","subplots"
+switch "path","tools"
+switch "path","custom"
+switch "path","config"
+switch "path","help"
 
 #switch "path","../../nimgl-imgui/src"
 switch "warning","HoleEnumConv:off"
