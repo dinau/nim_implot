@@ -149,79 +149,79 @@ below images are part of them.
 
 ---
 
-##### [LinePlots.nim](examples/demo/tools/LinePlots.nim)  
+##### [LinePlots.nim](examples/demo/plots/LinePlots.nim)  
 
 ![alt](img/LinePlots.png)  
 
-##### [FilledLinePlots.nim](examples/demo/tools/FilledLinePlots.nim)  
+##### [FilledLinePlots.nim](examples/demo/plots/FilledLinePlots.nim)  
 
 ![alt](img/FilledLinePlots.png)  
 
-##### [ShadedPlots.nim](examples/demo/tools/ShadedPlots.nim)  
+##### [ShadedPlots.nim](examples/demo/plots/ShadedPlots.nim)  
 
 ![alt](img/ShadedPlots.png)  
 
-##### [ScatterPlots.nim](examples/demo/tools/ScatterPlots.nim)  
+##### [ScatterPlots.nim](examples/demo/plots/ScatterPlots.nim)  
 
 ![alt](img/ScatterPlots.png)  
 
-##### [RealtimePlots.nim](examples/demo/tools/RealtimePlots.nim) 
+##### [RealtimePlots.nim](examples/demo/plots/RealtimePlots.nim) 
 
 ![alt](img/RealtimePlots.png)  
 
-##### [StairstepPlots.nim](examples/demo/tools/StairstepPlots.nim)  
+##### [StairstepPlots.nim](examples/demo/plots/StairstepPlots.nim)  
 
 ![alt](img/StairstepPlots.png)  
 
-##### [BarGroups.nim](examples/demo/tools/BarGroups.nim)  
+##### [BarGroups.nim](examples/demo/plots/BarGroups.nim)  
 
 ![alt](img/BarGroups.png)  
 
-##### [BarPlots.nim](examples/demo/tools/BarPlots.nim)  
+##### [BarPlots.nim](examples/demo/plots/BarPlots.nim)  
 
 ![alt](img/BarPlots.png)  
 
-##### [BarStacks.nim](examples/demo/tools/BarStacks.nim)  
+##### [BarStacks.nim](examples/demo/plots/BarStacks.nim)  
 
 ![alt](img/BarStacks.png)  
 
-##### [ErrorBars.nim](examples/demo/tools/ErrorBars.nim)  
+##### [ErrorBars.nim](examples/demo/plots/ErrorBars.nim)  
 
 ![alt](img/ErrorBars.png)  
 
-##### [StemPlots.nim](examples/demo/tools/StemPlots.nim)  
+##### [StemPlots.nim](examples/demo/plots/StemPlots.nim)  
 
 ![alt](img/StemPlots.png)  
 
-##### [InfiniteLines.nim](examples/demo/tools/InfiniteLines.nim)  
+##### [InfiniteLines.nim](examples/demo/plots/InfiniteLines.nim)  
 
 ![alt](img/InfiniteLines.png)  
 
-##### [PieCharts.nim](examples/demo/tools/PieCharts.nim)  
+##### [PieCharts.nim](examples/demo/plots/PieCharts.nim)  
 
 ![alt](img/PieCharts.png)  
 
-##### [HeatMaps.nim](examples/demo/tools/HeatMaps.nim)  
+##### [HeatMaps.nim](examples/demo/plots/HeatMaps.nim)  
 
 ![alt](img/HeatMaps.png)  
 
-##### [Histogram.nim](examples/demo/tools/Histogram.nim)  
+##### [Histogram.nim](examples/demo/plots/Histogram.nim)  
 
 ![alt](img/Histogram.png)  
 
-##### [DigitalPlots.nim](examples/demo/tools/DigitalPlots.nim)  
+##### [DigitalPlots.nim](examples/demo/plots/DigitalPlots.nim)  
 
 ![alt](img/DigitalPlots.png)  
 
-##### [Images.nim](examples/demo/tools/Images.nim)  
+##### [Images.nim](examples/demo/plots/Images.nim)  
 
 ![alt](img/Images.png)  
 
-##### [MarkersAndText.nim](examples/demo/tools/MarkersAndText.nim)  
+##### [MarkersAndText.nim](examples/demo/plots/MarkersAndText.nim)  
 
 ![alt](img/MarkersAndText.png)  
 
-##### [NaNValues.nim](examples/demo/tools/NaNValues.nim)  
+##### [NaNValues.nim](examples/demo/plots/NaNValues.nim)  
 
 ![alt](img/NaNValues.png)  
 
@@ -229,11 +229,11 @@ below images are part of them.
 
 ---
 
-##### [Tables.nim](examples/SubPlots/demo/Tables.nim)  
+##### [Tables.nim](examples/subplots/demo/Tables.nim)  
 
 ![alt](img/Tables.png)  
 
-##### [ItemSharing.nim](examples/demo/SubPlots/ItemSharing.nim)  
+##### [ItemSharing.nim](examples/demo/subplots/ItemSharing.nim)  
 
 ![alt](img/ItemSharing.png)  
 
@@ -241,11 +241,11 @@ below images are part of them.
 
 ---
 
-##### [LogScale.nim](examples/demo/Axes/LogScale.nim)  
+##### [LogScale.nim](examples/demo/axes/LogScale.nim)  
 
 ![alt](img/LogScale.png)  
 
-##### [MultipleAxes.nim](examples/demo/Axes/MultipleAxes.nim)  
+##### [MultipleAxes.nim](examples/demo/axes/MultipleAxes.nim)  
 
 ![alt](img/MultipleAxes.png)  
 
@@ -253,15 +253,15 @@ below images are part of them.
 
 ---
 
-##### [OffsetAndStride.nim](examples/demo/Tools/OffsetAndStride.nim)  
+##### [OffsetAndStride.nim](examples/demo/tools/OffsetAndStride.nim)  
 
 ![alt](img/OffsetAndStride.png)  
 
-##### [DragRects.nim](examples/demo/Tools/DragRects.nim)  
+##### [DragRects.nim](examples/demo/tools/DragRects.nim)  
 
 ![alt](img/DragRects.png)  
 
-##### [DragAndDrop.nim](examples/demo/Tools/DragAndDrop.nim)  
+##### [DragAndDrop.nim](examples/demo/tools/DragAndDrop.nim)  
 
 ![alt](img/DragAndDrop.png)  
 
@@ -269,6 +269,6 @@ below images are part of them.
 
 ---
 
-##### [CustomDataAndGetters.nim](examples/demo/Tools/CustomDataAndGetters.nim)  
+##### [CustomDataAndGetters.nim](examples/demo/custom/CustomDataAndGetters.nim)  
 
 ![alt](img/CustomDataAndGetters.png)  
