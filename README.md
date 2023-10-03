@@ -2,16 +2,46 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Nim ImPlot binding](#nim-implot-binding)
-- [Direct install from Web](#direct-install-from-web)
-- [Runing test application](#runing-test-application)
+- [Direct nimble install from Web](#direct-nimble-install-from-web)
+- [Runing all demo programs](#runing-all-demo-programs)
 - [Compiling application](#compiling-application)
+- [Notice: Compilation options](#notice-compilation-options)
 - [Generating ImPlot bindings for development](#generating-implot-bindings-for-development)
 - [Development](#development)
 - [Tools info](#tools-info)
 - [Example gallery written in Nim language](#example-gallery-written-in-nim-language)
   - [Plots](#plots)
+    - [LinePlots.nim](#lineplotsnim)
+    - [FilledLinePlots.nim](#filledlineplotsnim)
+    - [ShadedPlots.nim](#shadedplotsnim)
+    - [ScatterPlots.nim](#scatterplotsnim)
+    - [RealtimePlots.nim](#realtimeplotsnim)
+    - [StairstepPlots.nim](#stairstepplotsnim)
+    - [BarGroups.nim](#bargroupsnim)
+    - [BarPlots.nim](#barplotsnim)
+    - [BarStacks.nim](#barstacksnim)
+    - [ErrorBars.nim](#errorbarsnim)
+    - [StemPlots.nim](#stemplotsnim)
+    - [InfiniteLines.nim](#infinitelinesnim)
+    - [PieCharts.nim](#piechartsnim)
+    - [HeatMaps.nim](#heatmapsnim)
+    - [Histogram.nim](#histogramnim)
+    - [DigitalPlots.nim](#digitalplotsnim)
+    - [Images.nim](#imagesnim)
+    - [MarkersAndText.nim](#markersandtextnim)
+    - [NaNValues.nim](#nanvaluesnim)
   - [Subplots](#subplots)
+    - [Tables.nim](#tablesnim)
+    - [ItemSharing.nim](#itemsharingnim)
   - [Axes](#axes)
+    - [LogScale.nim](#logscalenim)
+    - [MultipleAxes.nim](#multipleaxesnim)
+  - [Tools](#tools)
+    - [OffsetAndStride.nim](#offsetandstridenim)
+    - [DragRects.nim](#dragrectsnim)
+    - [DragAndDrop.nim](#draganddropnim)
+  - [Custom](#custom)
+    - [CustomDataAndGetters.nim](#customdataandgettersnim)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -24,8 +54,9 @@
 
 1. This project uses the modified generator that derived from the achievement of [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
 1. This project also uses ImGui library ([nim-imgui (ImGui v1.89.9 latest)](https://github.com/dinau/nimgl-imgui)) derived from [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
+1. Also have used [CImGui library](https://github.com/cimgui/cimgui)
 
-### Direct install from Web
+### Direct nimble install from Web
 
 ---
 
@@ -33,7 +64,7 @@
 nimble install https://github.com/dinau/nim_implot
 ```
 
-### Runing test application
+### Runing all demo programs
 
 ---
 
@@ -43,7 +74,7 @@ cd nim_implot
 nimble test
 ```
 
-Test source: [examples/ImPlotDemo.nim](examples/ImPlotDemo.nim)
+Test source: [examples/demo](examples/demo)
 
 ### Compiling application
 
@@ -54,11 +85,20 @@ It has to be used **cpp** backend at compilation for example,
 ```sh
 pwd
 nim_implot
-cd examples
+cd examples/demo
 nim cpp -r ImPlotDemo.nim 
 ```
 
 **Note**: **C** backend is not supported.
+
+### Notice: Compilation options
+
+---
+
+If demo programs crash, please try to specify compilation option  
+`--mm:refc` instead of `--mm:arc` or `--mm:orc`,  
+especially if you use Nim-2.00, try to specify `--mm:refc`.  
+These are TODO at this moment.
 
 ### Generating ImPlot bindings for development
 
@@ -93,85 +133,142 @@ It is currently being developed and tested on
 - Windows10
    - Nim Compiler Version 1.6.14 
    - gcc.exe (Rev2, Built by MSYS2 project) 13.2.0
-   - git version 2.41.0.windows.3
 - Debian 12 Bookworm 
    - Nim Compiler Version 1.6.14 
    - gcc (Debian 12.2.0-14) 12.2.0
-   - git version 2.39.2
 
 ### Example gallery written in Nim language
+
+---
+
+**Now all demo (over 50) programs have been implemented in Nim language** (2023/10),  
+(Orignal demo program is here [implot_demo.cpp](https://github.com/epezent/implot/blob/master/implot_demo.cpp), (C++))  
+below images are part of them.
 
 #### Plots
 
 ---
 
-   - [examples/LinePlots.nim](examples/LinePlots.nim)  
-   ![alt](img/LinePlots.png)  
+##### [LinePlots.nim](examples/demo/tools/LinePlots.nim)  
 
-   - [examples/FilledLinePlots.nim](examples/FilledLinePlots.nim)  
-   ![alt](img/FilledLinePlots.png)  
+![alt](img/LinePlots.png)  
 
-   - [examples/ShadedPlots.nim](examples/ShadedPlots.nim)  
-   ![alt](img/ShadedPlots.png)  
+##### [FilledLinePlots.nim](examples/demo/tools/FilledLinePlots.nim)  
 
-   - [examples/ScatterPlots.nim](examples/ScatterPlots.nim)  
-   ![alt](img/ScatterPlots.png)  
+![alt](img/FilledLinePlots.png)  
 
-   - [examples/RealtimePlots.nim](examples/RealtimePlots.nim)  ( It dosn't work well.)  
-   ![alt](img/RealtimePlots.png)  
+##### [ShadedPlots.nim](examples/demo/tools/ShadedPlots.nim)  
 
-   - [examples/StairstepPlots.nim](examples/StairstepPlots.nim)  
-   ![alt](img/StairstepPlots.png)  
+![alt](img/ShadedPlots.png)  
 
-   - [examples/BarGroups.nim](examples/BarGroups.nim)  
-   ![alt](img/BarGroups.png)  
+##### [ScatterPlots.nim](examples/demo/tools/ScatterPlots.nim)  
 
-   - [examples/BarPlots.nim](examples/BarPlots.nim)  
-   ![alt](img/BarPlots.png)  
+![alt](img/ScatterPlots.png)  
 
-   - [examples/BarStacks.nim](examples/BarStacks.nim)  
-   ![alt](img/BarStacks.png)  
+##### [RealtimePlots.nim](examples/demo/tools/RealtimePlots.nim) 
 
-   - [examples/ErrorBars.nim](examples/ErrorBars.nim)  
-   ![alt](img/ErrorBars.png)  
+![alt](img/RealtimePlots.png)  
 
-   - [examples/StemPlots.nim](examples/StemPlots.nim)  
-   ![alt](img/StemPlots.png)  
+##### [StairstepPlots.nim](examples/demo/tools/StairstepPlots.nim)  
 
-   - [examples/InfiniteLines.nim](examples/InfiniteLines.nim)  
-   ![alt](img/InfiniteLines.png)  
+![alt](img/StairstepPlots.png)  
 
-   - [examples/PieCharts.nim](examples/PieCharts.nim)  
-   ![alt](img/PieCharts.png)  
+##### [BarGroups.nim](examples/demo/tools/BarGroups.nim)  
 
-   - [examples/HeatMaps.nim](examples/HeatMaps.nim)  
-   ![alt](img/HeatMaps.png)  
+![alt](img/BarGroups.png)  
 
-   - [examples/Histogram.nim](examples/Histogram.nim)  
-   ![alt](img/Histogram.png)  
+##### [BarPlots.nim](examples/demo/tools/BarPlots.nim)  
 
-   - [examples/DigitalPlots.nim](examples/DigitalPlots.nim)  
-   ![alt](img/DigitalPlots.png)  
+![alt](img/BarPlots.png)  
 
-   - [examples/Images.nim](examples/Images.nim)  
-   ![alt](img/Images.png)  
+##### [BarStacks.nim](examples/demo/tools/BarStacks.nim)  
 
-   - [examples/MarkersAndText.nim](examples/MarkersAndText.nim)  
-   ![alt](img/MarkersAndText.png)  
+![alt](img/BarStacks.png)  
 
-   - [examples/NaNValues.nim](examples/NaNValues.nim)  
-   ![alt](img/NaNValues.png)  
+##### [ErrorBars.nim](examples/demo/tools/ErrorBars.nim)  
+
+![alt](img/ErrorBars.png)  
+
+##### [StemPlots.nim](examples/demo/tools/StemPlots.nim)  
+
+![alt](img/StemPlots.png)  
+
+##### [InfiniteLines.nim](examples/demo/tools/InfiniteLines.nim)  
+
+![alt](img/InfiniteLines.png)  
+
+##### [PieCharts.nim](examples/demo/tools/PieCharts.nim)  
+
+![alt](img/PieCharts.png)  
+
+##### [HeatMaps.nim](examples/demo/tools/HeatMaps.nim)  
+
+![alt](img/HeatMaps.png)  
+
+##### [Histogram.nim](examples/demo/tools/Histogram.nim)  
+
+![alt](img/Histogram.png)  
+
+##### [DigitalPlots.nim](examples/demo/tools/DigitalPlots.nim)  
+
+![alt](img/DigitalPlots.png)  
+
+##### [Images.nim](examples/demo/tools/Images.nim)  
+
+![alt](img/Images.png)  
+
+##### [MarkersAndText.nim](examples/demo/tools/MarkersAndText.nim)  
+
+![alt](img/MarkersAndText.png)  
+
+##### [NaNValues.nim](examples/demo/tools/NaNValues.nim)  
+
+![alt](img/NaNValues.png)  
 
 #### Subplots
 
 ---
 
-   - [examples/Tables.nim](examples/Tables.nim)  
-   ![alt](img/Tables.png)  
+##### [Tables.nim](examples/SubPlots/demo/Tables.nim)  
+
+![alt](img/Tables.png)  
+
+##### [ItemSharing.nim](examples/demo/SubPlots/ItemSharing.nim)  
+
+![alt](img/ItemSharing.png)  
 
 #### Axes
 
 ---
 
-   - [examples/LogScale.nim](examples/LogScale.nim)  
-   ![alt](img/LogScale.png)  
+##### [LogScale.nim](examples/demo/Axes/LogScale.nim)  
+
+![alt](img/LogScale.png)  
+
+##### [MultipleAxes.nim](examples/demo/Axes/MultipleAxes.nim)  
+
+![alt](img/MultipleAxes.png)  
+
+#### Tools
+
+---
+
+##### [OffsetAndStride.nim](examples/demo/Tools/OffsetAndStride.nim)  
+
+![alt](img/OffsetAndStride.png)  
+
+##### [DragRects.nim](examples/demo/Tools/DragRects.nim)  
+
+![alt](img/DragRects.png)  
+
+##### [DragAndDrop.nim](examples/demo/Tools/DragAndDrop.nim)  
+
+![alt](img/DragAndDrop.png)  
+
+#### Custom
+
+---
+
+##### [CustomDataAndGetters.nim](examples/demo/Tools/CustomDataAndGetters.nim)  
+
+![alt](img/CustomDataAndGetters.png)  
