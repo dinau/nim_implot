@@ -15,7 +15,7 @@
     - [FilledLinePlots.nim](#filledlineplotsnim)
     - [ShadedPlots.nim](#shadedplotsnim)
     - [ScatterPlots.nim](#scatterplotsnim)
-    - [RealtimePlots.nim](#realtimeplotsnim)
+    - [RealTimePlots.nim](#realtimeplotsnim)
     - [StairstepPlots.nim](#stairstepplotsnim)
     - [BarGroups.nim](#bargroupsnim)
     - [BarPlots.nim](#barplotsnim)
@@ -165,9 +165,9 @@ below images are part of them.
 
 ![alt](img/ScatterPlots.png)  
 
-##### [RealtimePlots.nim](examples/demo/plots/RealtimePlots.nim) 
+##### [RealTimePlots.nim](examples/demo/plots/RealTimePlots.nim) 
 
-![alt](img/RealtimePlots.png)  
+![alt](img/RealTimePlots.png)  
 
 ##### [StairstepPlots.nim](examples/demo/plots/StairstepPlots.nim)  
 
