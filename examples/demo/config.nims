@@ -1,5 +1,8 @@
-#switch "path","../../src"
+# for development local path
+switch "path","../../../nimgl-imgui/src" # for imgui
+switch "path","../../src" # for implot
 
+#
 switch "path","."
 switch "path","plots"
 switch "path","axes"
@@ -9,7 +12,6 @@ switch "path","custom"
 switch "path","config"
 switch "path","help"
 
-#switch "path","../../nimgl-imgui/src"
 switch "warning","HoleEnumConv:off"
 
 # Compilation options
@@ -17,7 +19,7 @@ switch "define","release"
 switch "nimcache",".nimcache"
 
 # Notice: Very important option at this time for Nim-2.0.0. TODO
-# Effects DigitalPlots.nim
+# Effects axes/TimeScale.nim
 switch "mm","refc"
 #when (NimMajor, NimMinor, NimPatch) >= (2, 0, 0):
 #  switch "mm","refc"
