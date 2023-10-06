@@ -18,7 +18,9 @@ proc demo_Config_Config*() =
   igSeparator()
   if ipBeginPlot("Preview"):
     defer: ipEndPlot()
-    var nowd {.global.} = epochTime().cdouble
+    var nowd {.global.}:cdouble
+    once:
+      nowd = epochTime().cdouble
     ipSetupAxisScale(ImAxis.X1, ImPlotScale.Time)
     ipSetupAxisLimits(ImAxis.X1, nowd, nowd + 24 * 3600)
     for i in 0..<10:
