@@ -53,11 +53,13 @@ proc demo_Axes_TimeScale*() =
   igSameLine()
   igCheckbox("24 Hour Clock",ipGetStyle().use24HourClock.addr)
 
-  var  data{.global.}:HugeTimeData = nullptr
+  var  data{.global.}: HugeTimeData = nullptr
+  var sdata{.global.}: HugeTimeData
   if data == nullptr:
     igSameLine()
     if igButton("Generate Huge Data (~500MB!)"):
-      var sdata{.global.} = newHugeTimeData(t_min)
+      once:
+        sdata = newHugeTimeData(t_min) # TODO: Use --mm:refc
       data = sdata
 
   if ipBeginPlot("##Time", ImVec2(x: -1,y: 0)):
