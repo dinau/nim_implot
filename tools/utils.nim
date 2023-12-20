@@ -112,7 +112,7 @@ when defined(windows):
 
 const preProcs* = """
 # Procs
-{.push warning[HoleEnumConv]: off.}
+
 when not defined(cpp) or defined(cimguiDLL):
   {.push dynlib: imgui_dll, cdecl, discardable, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 else:
@@ -125,7 +125,7 @@ type
 const postProcs* = """
 
 {.pop.} # push dynlib / nodecl, etc...
-{.pop.} # push warning[HoleEnumConv]: off
+
 """
 
 let reservedWordsDictionary* = [
