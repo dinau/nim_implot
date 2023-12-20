@@ -694,7 +694,7 @@ type
     us* {.importc: "Us".}: int
 
 # Procs
-{.push warning[HoleEnumConv]: off.}
+
 when not defined(cpp) or defined(cimguiDLL):
   {.push dynlib: imgui_dll, cdecl, discardable, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 else:
@@ -1433,4 +1433,4 @@ proc ipTransformInverse_SymLog*(v: cdouble, noname1: pointer): cdouble {.importc
 
 
 {.pop.} # push dynlib / nodecl, etc...
-{.pop.} # push warning[HoleEnumConv]: off
+
