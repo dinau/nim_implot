@@ -229,7 +229,7 @@ below images are part of them.
 
 ---
 
-##### [Tables.nim](examples/subplots/demo/Tables.nim)  
+##### [Tables.nim](examples/demo/subplots/demo/Tables.nim)  
 
 ![alt](img/Tables.png)  
 
