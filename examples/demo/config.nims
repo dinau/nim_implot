@@ -1,5 +1,5 @@
 # for development local path
-switch "path","../../../nimgl-imgui/src" # for imgui
+#switch "path","../../../nimgl-imgui/src" # for imgui
 switch "path","../../src" # for implot
 
 #

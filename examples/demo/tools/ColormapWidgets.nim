@@ -21,7 +21,7 @@ proc demo_Tools_ColormapWidgets*() =
   var
     flags{.global.} = 0.ImPlotColormapScaleFlags
     scale{.global.} = [0.cfloat, 100]
-  ipColormapScale("Scale",scale[0],scale[1],ImVec2(x: 0,y: 0),"%g dB",flags,cmap)
+  ipColormapScale("Scale",scale[0].cdouble,scale[1].cdouble,ImVec2(x: 0,y: 0),"%g dB",flags,cmap)
   igInputFloat2("Scale",scale)
   CHECKBOX_FLAG(flags, ImPlotColormapScaleFlags.NoLabel)
   CHECKBOX_FLAG(flags, ImPlotColormapScaleFlags.Opposite)

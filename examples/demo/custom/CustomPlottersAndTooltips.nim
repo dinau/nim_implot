@@ -16,8 +16,8 @@ proc demo_Custom_CustomPlottersAndTooltips*() =
   igCheckbox("Show Tooltip", tooltip.addr)
   igSameLine()
   var
-    bullCol{.global.} = [0.000f, 1.000f, 0.441f, 1.000f]
-    bearCol{.global.} = [0.853f, 0.050f, 0.310f, 1.000f]
+    bullCol{.global.} = [0.000.cfloat, 1.000, 0.441, 1.000]
+    bearCol{.global.} = [0.853.cfloat, 0.050, 0.310, 1.000]
   igSameLine(); igColorEdit4("##Bull", bullCol, ImGuiColorEditFlags.NoInputs)
   igSameLine(); igColorEdit4("##Bear", bearCol, ImGuiColorEditFlags.NoInputs)
   ipGetStyle().useLocalTime = false
