@@ -12,7 +12,7 @@ proc demo_PieCharts*() =
     flags{.global.} = ImPlotPieChartFlags.None
 
   igSetNextItemWidth(250)
-  igDragFloat4("Values", data1, 0.01f, 0, 1)
+  igDragFloat4("Values".cstring, data1, 0.01'f32, 0, 1)
   if data1[0] + data1[1] + data1[2] + data1[3] < 1:
     igSameLine()
     CHECKBOX_FLAG(flags, ImPlotPieChartFlags.Normalize)

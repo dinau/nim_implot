@@ -13,11 +13,11 @@ import BarGroups
 import ErrorBars
 import StemPlots
 import InfiniteLines
-import PieCharts
+#import PieCharts
 import HeatMaps
-import Histogram
+#import Histogram
 import DigitalPlots
-import Images
+#import Images
 import MarkersAndText
 import NaNValues
 #
@@ -37,7 +37,7 @@ import MultipleAxes
 import EqualAxes
 import AutoFittingData
 import LinkedAxes
-import AxisConstraints
+#import AxisConstraints
 import TimeScale
 import TickLabels
 # Tools
@@ -45,9 +45,9 @@ import DragPoints
 import DragLines
 import DragRects
 import Tags
-import ColormapWidgets
-import LegendPopups
-import LegendOptions
+#import ColormapWidgets
+#import LegendPopups
+#import LegendOptions
 import Annotations
 import OffsetAndStride
 import Querying
@@ -55,7 +55,7 @@ import DragAndDrop
 # Custom
 import CustomStyles
 import CustomDataAndGetters
-import CustomPlottersAndTooltips
+#import CustomPlottersAndTooltips
 import CustomRendering
 # Config
 import Config
@@ -91,12 +91,12 @@ proc imPlotDemoTabs*() =
       demoHeader("Error Bars", demo_ErrorBars)
       demoHeader("Stem Plots##", demo_StemPlots)
       demoHeader("Infinite Lines" , demo_InfiniteLines)
-      demoHeader("Pie Charts", demo_PieCharts)
+      #demoHeader("Pie Charts", demo_PieCharts)
       demoHeader("HeatMaps", demo_Heatmaps)
-      demoHeader("Histogram", demo_Histogram)
-      demoHeader("Histogram2D", demo_Histogram2D)
+      #demoHeader("Histogram", demo_Histogram)
+      #demoHeader("Histogram2D", demo_Histogram2D)
       demoHeader("Digital Plots", demo_DigitalPlots)
-      demoHeader("Images" , demo_Images)
+      #demoHeader("Images" , demo_Images)
       demoHeader("Markers and Text" , demo_MarkersAndText)
       demoHeader("Nan Values" , demo_NaNValues)
       #
@@ -118,7 +118,7 @@ proc imPlotDemoTabs*() =
       demoHeader("Multiple Axes", demo_Axes_MultipleAxes)
       demoHeader("Tick Labels", demo_Axes_TickLabels)
       demoHeader("Linked Axes", demo_Axes_LinkedAxes)
-      demoHeader("Axis Constraints", demo_Axes_AxisConstraints)
+      #demoHeader("Axis Constraints", demo_Axes_AxisConstraints)
       demoHeader("Equal Axes", demo_Axes_EqualAxes)
       demoHeader("Auto-Fitting Data", demo_Axes_AutoFittingData)
 
@@ -132,16 +132,16 @@ proc imPlotDemoTabs*() =
       demoHeader("Annotations", demo_Tools_Annotations)
       demoHeader("Tags", demo_Tools_Tags)
       demoHeader("Drag and Drop", demo_Tools_DragAndDrop)
-      demoHeader("Legend Options", demo_Tools_LegendOptions)
-      demoHeader("Legend Popups", demo_Tools_LegendPopups)
-      demoHeader("Colormap Widgets", demo_Tools_ColormapWidgets)
+      #demoHeader("Legend Options", demo_Tools_LegendOptions)
+      #demoHeader("Legend Popups", demo_Tools_LegendPopups)
+      #demoHeader("Colormap Widgets", demo_Tools_ColormapWidgets)
 
     if igBeginTabItem("Custom"):
       defer: igEndTabItem()
       demoHeader("Custom Styles", demo_Custom_CustomStyles)
       demoHeader("Custom Data and Getters", demo_Custom_CustomDataAndGetters)
       demoHeader("Custom Rendering", demo_Custom_CustomRendering)
-      demoHeader("Custom Plotters and Tooltips", demo_Custom_CustomPlottersAndTooltips)
+      #demoHeader("Custom Plotters and Tooltips", demo_Custom_CustomPlottersAndTooltips)
 
     if igBeginTabItem("Config"):
       defer: igEndTabItem()
