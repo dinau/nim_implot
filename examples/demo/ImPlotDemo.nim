@@ -23,6 +23,7 @@ proc main() =
   glfwWindowHint(GLFWOpenglForwardCompat, GLFW_TRUE)
   glfwWindowHint(GLFWOpenglProfile, GLFW_OPENGL_CORE_PROFILE)
   glfwWindowHint(GLFWResizable, GLFW_TRUE)
+  glfwWindowHint(GLFWVisible, GLFW_FALSE) # Hide main window at start up time. See TODO 1
 
   var glfwWindow: GLFWWindow = glfwCreateWindow(1080, 800)
   if glfwWindow == nil:
@@ -52,6 +53,7 @@ proc main() =
   var
     showDemoImplot: bool = true
     showDemoImgui: bool = false
+    showWindowDelay = 1 # TODO 1
 
   #-----------
   # Main loop
@@ -84,12 +86,19 @@ proc main() =
 
       # ImPlot test window
       imPlotDemoTabs()
+
     #
     igRender()
     glClearColor(0.45f, 0.55f, 0.60f, 1.00f)
     glClear(GL_COLOR_BUFFER_BIT)
     igOpenGL3RenderDrawData(igGetDrawData())
     glfwWindow.swapBuffers()
+    #
+    if showWindowDelay > 0:
+      dec showWindowDelay
+    else:
+      once: # Avoid flickering screen at startup.
+        glfwWindow.showWindow()
 
 #--------
 # main()
