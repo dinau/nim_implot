@@ -1,3 +1,0 @@
-[submodule "src/implot/private/cimplot"]
-	path = src/implot/private/cimplot
-	url = https://github.com/cimgui/cimplot

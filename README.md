@@ -2,13 +2,13 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Nim ImPlot binding](#nim-implot-binding)
-- [Direct nimble install from Web](#direct-nimble-install-from-web)
-- [Runing all demo programs](#runing-all-demo-programs)
+- [Nimble install](#nimble-install)
+- [Runing demo programs](#runing-demo-programs)
 - [Compiling application](#compiling-application)
 - [Notice: Compilation options](#notice-compilation-options)
 - [Generating ImPlot bindings for development](#generating-implot-bindings-for-development)
 - [Development](#development)
-- [Tools info](#tools-info)
+- [My tools info](#my-tools-info)
 - [Example gallery written in Nim language](#example-gallery-written-in-nim-language)
   - [Plots](#plots)
     - [LinePlots.nim](#lineplotsnim)
@@ -42,6 +42,8 @@
     - [DragAndDrop.nim](#draganddropnim)
   - [Custom](#custom)
     - [CustomDataAndGetters.nim](#customdataandgettersnim)
+- [Other ImGui / CImGui project](#other-imgui--cimgui-project)
+- [SDL game tutorial Platfromer](#sdl-game-tutorial-platfromer)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -56,20 +58,20 @@
 1. This project also uses ImGui library ([nim-imgui (ImGui v1.89.9 latest)](https://github.com/dinau/nimgl-imgui)) derived from [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
 1. Also have used [CImGui library](https://github.com/cimgui/cimgui)
 
-### Direct nimble install from Web
+### Nimble install
 
 ---
 
 ```sh
-nimble install https://github.com/dinau/nim_implot
+nimble install implot
 ```
 
-### Runing all demo programs
+### Runing demo programs
 
 ---
 
 ```bash
-git clone --recursive https://github.com/dinau/nim_implot
+git clone https://github.com/dinau/nim_implot
 cd nim_implot
 nimble test
 ```
@@ -123,19 +125,19 @@ It is currently being developed and tested on
 * (Debian 12 Bookworm)  
 
    ```sh
-   $ sudo apt install xorg-dev libopengl-dev libgl1-mesa-dev
+   $ sudo apt install lib{opengl-dev,gl1-mesa-dev,glfw3-dev} 
    ```
 
-### Tools info
+### My tools info
 
 ---
  
-- Windows10
-   - Nim Compiler Version 1.6.14 
-   - gcc.exe (Rev2, Built by MSYS2 project) 13.2.0
-- Debian 12 Bookworm 
-   - Nim Compiler Version 1.6.14 
-   - gcc (Debian 12.2.0-14) 12.2.0
+- Windows11
+   - Nim Compiler Version 2.2.4 
+   - gcc.exe 15.2.0
+- Debian 13 
+   - Nim Compiler Version 2.2.4 
+   - gcc 14.2.0
 
 ### Example gallery written in Nim language
 
@@ -272,3 +274,34 @@ below images are part of them.
 ##### [CustomDataAndGetters.nim](examples/demo/custom/CustomDataAndGetters.nim)  
 
 ![alt](img/CustomDataAndGetters.png)  
+
+### Other ImGui / CImGui project
+
+---
+
+
+| Language             |          | Project                                                                                                                                         |
+| -------------------: | :---:    | :----------------------------------------------------------------:                                                                              |
+| **Lua**              | Script   | [LuaJITImGui](https://github.com/dinau/luajitImGui)                                                                                             |
+| **NeLua**            | Compiler | [NeLuaImGui](https://github.com/dinau/neluaImGui), [NeLuaImGui2](https://github.com/dinau/neluaImGui2)                                          |
+| **Nim**              | Compiler | [ImGuin](https://github.com/dinau/imguin), [Nimgl_test](https://github.com/dinau/nimgl_test), [Nim_implot](https://github.com/dinau/nim_implot) |
+| **Python**           | Script   | [DearPyGui for 32bit WindowsOS Binary](https://github.com/dinau/DearPyGui32/tree/win32)                                                         |
+| **Ruby**             | Script   | [igRuby_Examples](https://github.com/dinau/igruby_examples)                                                                                     |
+| **Zig**, C lang.     | Compiler | [Dear_Bindings_Build](https://github.com/dinau/dear_bindings_build)                                                                             |
+| **Zig**              | Compiler | [ImGuinZ](https://github.com/dinau/imguinz)                                                                                                     |
+
+
+### SDL game tutorial Platfromer
+
+---
+
+![ald](https://github.com/dinau/nelua-platformer/raw/main/img/platformer-nelua-sdl2.gif)
+
+
+| Language             |          | SDL         | Project                                                                                                                                               |
+| -------------------: | :---:    | :---:       | :----------------------------------------------------------------:                                                                                    |
+| **LuaJIT**           | Script   | SDL2        | [LuaJIT-Platformer](https://github.com/dinau/luajit-platformer)
+| **Nelua**            | Compiler | SDL2        | [NeLua-Platformer](https://github.com/dinau/nelua-platformer)
+| **Nim**              | Compiler | SDL3 / SDL2 | [Nim-Platformer-sdl2](https://github.com/def-/nim-platformer)/ [Nim-Platformer-sdl3](https://github.com/dinau/sdl3_nim/tree/main/examples/platformer) |
+| **Ruby**             | Script   | SDL3        | [Ruby-Platformer](https://github.com/dinau/ruby-platformer)                                                                                           |
+| **Zig**              | Compiler | SDL3 / SDL2 | [Zig-Platformer](https://github.com/dinau/zig-platformer)                                                                                             |
