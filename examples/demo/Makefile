@@ -6,7 +6,6 @@ all:
 	nim cpp  $(OPT) --nimcache:.nimcache $(TARGET).nim
 
 run: all
-	#rm imgui.ini
 	./$(TARGET)
 
 gen:

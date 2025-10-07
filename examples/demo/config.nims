@@ -2,6 +2,8 @@
 #switch "path","../../../nimgl-imgui/src" # for imgui
 #switch "path","../../src" # for implot
 
+switch "warning","HoleEnumConv:off" # nim-1.6.0 or later
+
 switch "app","gui"
 #
 switch "path","."
@@ -20,7 +22,6 @@ else:
   # Notice: Very important option at this time for Nim-2.0.0. TODO
   # ,effects axes/TimeScale.nim
 
-switch "warning","HoleEnumConv:off" # nim-1.6.0 or later
 
 # Compilation options
 switch "define","release"

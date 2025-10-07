@@ -58,6 +58,35 @@
 1. This project also uses ImGui library ([nim-imgui (ImGui v1.89.9 latest)](https://github.com/dinau/nimgl-imgui)) derived from [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
 1. Also have used [CImGui library](https://github.com/cimgui/cimgui)
 
+
+### Prerequisites
+
+---
+
+- Windows10 or later  
+MSys2/MinGW basic commands (make, rm, cp, strip ...)
+  ```sh
+  pacman -S make mingw-w64-x86_64-{gcc,glfw}
+  ```
+
+
+
+- Linux Debian13 Trixie (and Ubuntu families)
+
+   ```sh
+   sudo apt install make git gcc g++  
+   sudo apt install lib{opengl-dev,gl1-mesa-dev,glfw3-dev,xcursor-dev,xinerama-dev,xi-dev} 
+   ```
+   
+   - Install nim (If you'd like to install Nim compiler)
+   
+     ```sh
+     curl https://nim-lang.org/choosenim/init.sh -sSf | sh
+     ```
+     You must now ensure that the Nimble bin dir is in your PATH.  
+     Place the following line in the ~/.profile or ~/.bashrc file.  
+     `export PATH=/home/username/.nimble/bin:$PATH`
+
 ### Nimble install
 
 ---
@@ -66,7 +95,7 @@
 nimble install implot
 ```
 
-### Runing demo programs
+### Running demo programs
 
 ---
 
@@ -113,20 +142,6 @@ nimble gen
 ```
 
 Genarated file: [src/implot.nim](src/implot.nim)
-
-
-### Development
-
----
-
-It is currently being developed and tested on
-
-* Windows 10
-* (Debian 12 Bookworm)  
-
-   ```sh
-   $ sudo apt install lib{opengl-dev,gl1-mesa-dev,glfw3-dev} 
-   ```
 
 ### My tools info
 

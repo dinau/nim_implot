@@ -82,7 +82,7 @@ proc AddPoint*(self: var RollingBuffer, x, y: cfloat) =
 proc sparkline*(id: cstring, values: ptr cfloat, count: int32, min_v: cfloat,
                   max_v: cfloat, offset: int32, col: ImVec4, size: ImVec2) =
   ipPushStyleVar(ImPlotStyleVar.PlotPadding, ImVec2(x: 0, y: 0))
-  if ipBeginPlot(id, size, ImPlotFlags.CanvasOnly or ImPlotFlags.NoChild):
+  if ipBeginPlot(id, size, ImPlotFlags.CanvasOnly):
     defer: ipEndPlot()
     ipSetupAxes(nullptr, nullptr, ImPlotAxisFlags.NoDecorations,
         ImPlotAxisFlags.NoDecorations)

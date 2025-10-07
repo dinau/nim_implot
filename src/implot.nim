@@ -227,10 +227,9 @@ type
     NoMenus = 16
     NoBoxSelect = 32
     CanvasOnly = 55
-    NoChild = 64
-    NoFrame = 128
-    Equal = 256
-    Crosshairs = 512
+    NoFrame = 64
+    Equal = 128
+    Crosshairs = 256
   ImPlotHeatmapFlags* {.pure, size: int32.sizeof.} = enum
     None = 0
     ColMajor = 1024
@@ -297,6 +296,7 @@ type
   ImPlotPieChartFlags* {.pure, size: int32.sizeof.} = enum
     None = 0
     Normalize = 1024
+    IgnoreHidden = 2048
   ImPlotScale* {.pure, size: int32.sizeof.} = enum
     Linear = 0
     Time = 1
@@ -482,7 +482,6 @@ type
     cTicker* {.importc: "CTicker".}: ImPlotTicker
     annotations* {.importc: "Annotations".}: ImPlotAnnotationCollection
     tags* {.importc: "Tags".}: ImPlotTagCollection
-    childWindowMade* {.importc: "ChildWindowMade".}: bool
     style* {.importc: "Style".}: ImPlotStyle
     colorModifiers* {.importc: "ColorModifiers".}: ImVector[ImGuiColorMod]
     styleModifiers* {.importc: "StyleModifiers".}: ImVector[ImGuiStyleMod]
@@ -539,9 +538,11 @@ type
     previousFlags* {.importc: "PreviousFlags".}: ImPlotLegendFlags
     location* {.importc: "Location".}: ImPlotLocation
     previousLocation* {.importc: "PreviousLocation".}: ImPlotLocation
+    scroll* {.importc: "Scroll".}: ImVec2
     indices* {.importc: "Indices".}: ImVector[int]
     labels* {.importc: "Labels".}: ImGuiTextBuffer
     rect* {.importc: "Rect".}: ImRect
+    rectClamped* {.importc: "RectClamped".}: ImRect
     hovered* {.importc: "Hovered".}: bool
     held* {.importc: "Held".}: bool
     canGoInside* {.importc: "CanGoInside".}: bool
@@ -907,6 +908,7 @@ proc ipCalculateBins*(values: ptr uint64, count: int, meth: ImPlotBin, Range: Im
 proc ipCancelPlotSelection*(): void {.importc: "ImPlot_CancelPlotSelection".}
 proc ipCeilTimeNonUDT*(pOut: ptr ImPlotTime, t: ImPlotTime, unit: ImPlotTimeUnit): void {.importc: "ImPlot_CeilTime".}
 proc ipClampLabelPosNonUDT*(pOut: ptr ImVec2, pos: ImVec2, size: ImVec2, min: ImVec2, max: ImVec2): void {.importc: "ImPlot_ClampLabelPos".}
+proc ipClampLegendRect*(legend_rect: ptr ImRect, outer_rect: ImRect, pad: ImVec2): bool {.importc: "ImPlot_ClampLegendRect".}
 proc ipColormapButton*(label: cstring, size: ImVec2 = ImVec2(x: 0, y: 0), cmap: ImPlotColormap = cast[ImPlotcolormap](-1)): bool {.importc: "ImPlot_ColormapButton".}
 proc ipColormapIcon*(cmap: ImPlotColormap): void {.importc: "ImPlot_ColormapIcon".}
 proc ipColormapScale*(label: cstring, scale_min: cdouble, scale_max: cdouble, size: ImVec2 = ImVec2(x: 0, y: 0), format: cstring = "%g", flags: ImPlotColormapScaleFlags = 0.ImPlotColormapScaleFlags, cmap: ImPlotColormap = cast[ImPlotcolormap](-1)): void {.importc: "ImPlot_ColormapScale".}
@@ -914,10 +916,10 @@ proc ipColormapSlider*(label: cstring, t: ptr float32, `out`: ptr ImVec4 = nullp
 proc ipCombineDateTimeNonUDT*(pOut: ptr ImPlotTime, date_part: ImPlotTime, time_part: ImPlotTime): void {.importc: "ImPlot_CombineDateTime".}
 proc ipCreateContext*(): ptr ImPlotContext {.importc: "ImPlot_CreateContext".}
 proc ipDestroyContext*(ctx: ptr ImPlotContext = nullptr): void {.importc: "ImPlot_DestroyContext".}
-proc ipDragLineX*(id: int, x: ptr cdouble, col: ImVec4, thickness: float32 = 1, flags: ImPlotDragToolFlags = 0.ImPlotDragToolFlags): bool {.importc: "ImPlot_DragLineX".}
-proc ipDragLineY*(id: int, y: ptr cdouble, col: ImVec4, thickness: float32 = 1, flags: ImPlotDragToolFlags = 0.ImPlotDragToolFlags): bool {.importc: "ImPlot_DragLineY".}
-proc ipDragPoint*(id: int, x: ptr cdouble, y: ptr cdouble, col: ImVec4, size: float32 = 4, flags: ImPlotDragToolFlags = 0.ImPlotDragToolFlags): bool {.importc: "ImPlot_DragPoint".}
-proc ipDragRect*(id: int, x1: ptr cdouble, y1: ptr cdouble, x2: ptr cdouble, y2: ptr cdouble, col: ImVec4, flags: ImPlotDragToolFlags = 0.ImPlotDragToolFlags): bool {.importc: "ImPlot_DragRect".}
+proc ipDragLineX*(id: int, x: ptr cdouble, col: ImVec4, thickness: float32 = 1, flags: ImPlotDragToolFlags = 0.ImPlotDragToolFlags, out_clicked: ptr bool = nullptr, out_hovered: ptr bool = nullptr, held: ptr bool = nullptr): bool {.importc: "ImPlot_DragLineX".}
+proc ipDragLineY*(id: int, y: ptr cdouble, col: ImVec4, thickness: float32 = 1, flags: ImPlotDragToolFlags = 0.ImPlotDragToolFlags, out_clicked: ptr bool = nullptr, out_hovered: ptr bool = nullptr, held: ptr bool = nullptr): bool {.importc: "ImPlot_DragLineY".}
+proc ipDragPoint*(id: int, x: ptr cdouble, y: ptr cdouble, col: ImVec4, size: float32 = 4, flags: ImPlotDragToolFlags = 0.ImPlotDragToolFlags, out_clicked: ptr bool = nullptr, out_hovered: ptr bool = nullptr, held: ptr bool = nullptr): bool {.importc: "ImPlot_DragPoint".}
+proc ipDragRect*(id: int, x1: ptr cdouble, y1: ptr cdouble, x2: ptr cdouble, y2: ptr cdouble, col: ImVec4, flags: ImPlotDragToolFlags = 0.ImPlotDragToolFlags, out_clicked: ptr bool = nullptr, out_hovered: ptr bool = nullptr, held: ptr bool = nullptr): bool {.importc: "ImPlot_DragRect".}
 proc ipEndAlignedPlots*(): void {.importc: "ImPlot_EndAlignedPlots".}
 proc ipEndDragDropSource*(): void {.importc: "ImPlot_EndDragDropSource".}
 proc ipEndDragDropTarget*(): void {.importc: "ImPlot_EndDragDropTarget".}
@@ -1239,16 +1241,26 @@ proc ipPlotLine*(label_id: cstring, xs: ptr uint32, ys: ptr uint32, count: int, 
 proc ipPlotLine*(label_id: cstring, xs: ptr int64, ys: ptr int64, count: int, flags: ImPlotLineFlags = 0.ImPlotLineFlags, offset: int = 0, stride: int = sizeof(int64).int32): void {.importc: "ImPlot_PlotLine_S64PtrS64Ptr".}
 proc ipPlotLine*(label_id: cstring, xs: ptr uint64, ys: ptr uint64, count: int, flags: ImPlotLineFlags = 0.ImPlotLineFlags, offset: int = 0, stride: int = sizeof(uint64).int32): void {.importc: "ImPlot_PlotLine_U64PtrU64Ptr".}
 proc ipPlotLineG*(label_id: cstring, getter: ImPlotPointGetter, data: pointer, count: int, flags: ImPlotLineFlags = 0.ImPlotLineFlags): void {.importc: "ImPlot_PlotLineG".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr float32, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_FloatPtr".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr cdouble, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_doublePtr".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int8, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S8Ptr".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint8, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U8Ptr".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int16, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S16Ptr".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint16, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U16Ptr".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int32, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S32Ptr".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint32, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U32Ptr".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int64, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S64Ptr".}
-proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint64, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U64Ptr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr float32, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_FloatPtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr cdouble, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_doublePtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int8, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S8PtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint8, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U8PtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int16, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S16PtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint16, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U16PtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int32, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S32PtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint32, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U32PtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int64, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S64PtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint64, count: int, x: cdouble, y: cdouble, radius: cdouble, fmt: ImPlotFormatter, fmt_data: pointer = nullptr, angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U64PtrPlotFormatter".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr float32, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_FloatPtrStr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr cdouble, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_doublePtrStr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int8, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S8PtrStr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint8, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U8PtrStr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int16, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S16PtrStr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint16, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U16PtrStr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int32, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S32PtrStr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint32, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U32PtrStr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr int64, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_S64PtrStr".}
+proc ipPlotPieChart*(label_ids: ptr cstring, values: ptr uint64, count: int, x: cdouble, y: cdouble, radius: cdouble, label_fmt: cstring = "%.1f", angle0: cdouble = 90, flags: ImPlotPieChartFlags = 0.ImPlotPieChartFlags): void {.importc: "ImPlot_PlotPieChart_U64PtrStr".}
 proc ipPlotScatter*(label_id: cstring, values: ptr float32, count: int, xscale: cdouble = 1, xstart: cdouble = 0, flags: ImPlotScatterFlags = 0.ImPlotScatterFlags, offset: int = 0, stride: int = sizeof(float32).int32): void {.importc: "ImPlot_PlotScatter_FloatPtrInt".}
 proc ipPlotScatter*(label_id: cstring, values: ptr cdouble, count: int, xscale: cdouble = 1, xstart: cdouble = 0, flags: ImPlotScatterFlags = 0.ImPlotScatterFlags, offset: int = 0, stride: int = sizeof(cdouble).int32): void {.importc: "ImPlot_PlotScatter_doublePtrInt".}
 proc ipPlotScatter*(label_id: cstring, values: ptr int8, count: int, xscale: cdouble = 1, xstart: cdouble = 0, flags: ImPlotScatterFlags = 0.ImPlotScatterFlags, offset: int = 0, stride: int = sizeof(int8).int32): void {.importc: "ImPlot_PlotScatter_S8PtrInt".}
