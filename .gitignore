@@ -1,3 +1,5 @@
+src/implot3d.nim
+delsubmod.bat
 ### C ###
 # Prerequisites
 *.d

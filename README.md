@@ -54,22 +54,18 @@
 
 [ImPlot ](https://github.com/epezent/implot) is an immediate mode, GPU accelerated plotting library for [Dear ImGui](https://github.com/ocornut/imgui).
 
-1. This project uses the modified generator that derived from the achievement of [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
-1. This project also uses ImGui library ([nim-imgui (ImGui v1.89.9 latest)](https://github.com/dinau/nimgl-imgui)) derived from [Nimgl/imgui](https://github.com/nimgl/imgui) and [nimgl-imgui](https://github.com/daniel-j/nimgl-imgui)(forked).
-1. Also have used [CImGui library](https://github.com/cimgui/cimgui)
-
+This project uses the modified generator that derived from the achievement of [Nimgl/imgui](https://github.com/nimgl/imgui).
 
 ### Prerequisites
 
 ---
 
-- Windows10 or later  
+- Windows11 or later  
 MSys2/MinGW basic commands (make, rm, cp, strip ...)
+
   ```sh
-  pacman -S make mingw-w64-x86_64-{gcc,glfw}
+  pacman -S make mingw-w64-ucrt-x86_64-{gcc,glfw}
   ```
-
-
 
 - Linux Debian13 Trixie (and Ubuntu families)
 
@@ -92,6 +88,7 @@ MSys2/MinGW basic commands (make, rm, cp, strip ...)
 ---
 
 ```sh
+nimble uninstall implot   # Remove old version if exists
 nimble install implot
 ```
 
