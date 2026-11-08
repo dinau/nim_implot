@@ -113,6 +113,9 @@ when defined(windows):
 const preProcs* = """
 # Procs
 
+proc initImPlotSpec*(): ImPlotSpec
+proc applyNextStyle(spec: var ImPlotSpec)
+
 when not defined(cpp) or defined(cimguiDLL):
   {.push dynlib: imgui_dll, cdecl, discardable, header: currentSourceDir() & "/implot/private/ncimplot.h".}
 else:
@@ -125,6 +128,23 @@ type
 const postProcs* = """
 
 {.pop.} # push dynlib / nodecl, etc...
+
+const implotAutoCol* = ImVec4(x: 0, y: 0, z: 0, w: -1)
+
+proc initImPlotSpec*(): ImPlotSpec =
+  ImPlotSpec(
+    lineColor: implotAutoCol,
+    lineWeight: 1'f32,
+    fillColor: implotAutoCol,
+    fillAlpha: 1'f32,
+    marker: ImPlotMarker.None,
+    markerSize: 4'f32,
+    markerLineColor: implotAutoCol,
+    markerFillColor: implotAutoCol,
+    size: 4'f32,
+    stride: -1,
+    flags: 0.ImPlotItemFlags
+  )
 
 """
 

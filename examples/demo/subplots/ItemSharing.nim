@@ -18,6 +18,7 @@ proc demo_Subplots_ItemSharing*() =
     curj{.global.} = -1
   if ipBeginSubplots("##ItemSharing", rows, cols, ImVec2(x: -1, y: 400), flags):
     defer: ipEndSubplots()
+    ipSetupLegend(ImPlotLocation.South, ImPlotLegendFlags.Sort or ImPlotLegendFlags.Horizontal)
     for i in 0..<rows*cols:
       if ipBeginPlot(""):
         defer: ipEndPlot()
@@ -38,6 +39,6 @@ proc demo_Subplots_ItemSharing*() =
               igTextUnformatted(label.addr.cstringCast)
               ipEndDragDropSource()
         if ipBeginDragDropTargetPlot():
-          if isNil igAcceptDragDropPayload("MY_DND"):
+          if not isNil igAcceptDragDropPayload("MY_DND"):
             id[curj] = i
           ipEndDragDropTarget()

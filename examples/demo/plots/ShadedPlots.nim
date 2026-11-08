@@ -24,15 +24,16 @@ proc demo_ShadedPlots*() =
     ys3[i] = 0.75f + 0.2f * sin(25 * xs[i])
     ys4[i] = 0.75f + 0.1f * cos(25 * xs[i])
 
-  var alpha{.global.} = 0.25.cfloat
-  igDragFloat("Alpha",addr alpha,0.01f,0,1)
+  var spec = initImPlotSpec()
+  spec.fillAlpha = 0.25f
+  igDragFloat("Alpha", addr spec.fillAlpha, 0.01f, 0, 1)
 
   if ipBeginPlot("Shaded Plots"):
-    ipPushStyleVar(ImPlotStyleVar.FillAlpha, alpha)
-    ipPlotShaded("Uncertain Data",xs.ptz, ys1.ptz, ys2.ptz,1001)
-    ipPlotLine("Uncertain Data"  ,xs.ptz, ys.ptz, 1001)
-    ipPlotShaded("Overlapping"   ,xs.ptz, ys3.ptz,ys4.ptz,1001)
-    ipPlotLine("Overlapping"     ,xs.ptz, ys3.ptz,1001)
-    ipPlotLine("Overlapping"     ,xs.ptz, ys4.ptz,1001)
-    ipPopStyleVar()
+    # reverse legend to match vertical order on plot
+    ipSetupLegend(ImPlotLocation.NorthWest, ImPlotLegendFlags.Reverse)
+    ipPlotShaded_spec("Uncertain Data", xs.ptz, ys1.ptz, ys2.ptz, 1001, spec)
+    ipPlotLine_spec("Uncertain Data", xs.ptz, ys.ptz, 1001, spec)
+    ipPlotShaded_spec("Overlapping", xs.ptz, ys3.ptz, ys4.ptz, 1001, spec)
+    ipPlotLine_spec("Overlapping", xs.ptz, ys3.ptz, 1001, spec)
+    ipPlotLine_spec("Overlapping", xs.ptz, ys4.ptz, 1001, spec)
     ipEndPlot()

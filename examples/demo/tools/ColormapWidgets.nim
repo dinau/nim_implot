@@ -15,7 +15,7 @@ proc demo_Tools_ColormapWidgets*() =
     col{.global.} = ImVec4()
   igColorButton("##Display",col,ImGuiColorEditFlags.NoInputs)
   igSameLine()
-  ipColormapSlider("Slider", t.addr, col.addr, "%.3f", cmap)
+  discard ipColormapSlider("Slider", t.addr, col.addr, "%.3f", cmap)
 
   ipColormapIcon(cmap);igSameLine();igText("Icon")
   var

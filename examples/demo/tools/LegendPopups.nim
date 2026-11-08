@@ -26,16 +26,25 @@ proc demo_Tools_LegendPopups*() =
     defer: ipEndPlot()
     ipSetupAxesLimits(0,100,-1,1)
     #// rendering logic
-    ipPushStyleVar(ImPlotStyleVar.FillAlpha, alpha)
     if not line:
-      ipSetNextFillStyle(color)
-      ipPlotBars("Right Click Me", vals.ptz, 101)
+      var spec = initImPlotSpec()
+      spec.fillColor = color
+      spec.fillAlpha = alpha
+      ipPlotBars_spec("Right Click Me", vals.ptz, 101, 0.67, 0, spec)
     else:
-      if markers: ipSetNextMarkerStyle(ImPlotMarker.Square)
-      ipSetNextLineStyle(color, thickness)
-      ipPlotLine("Right Click Me", vals.ptz, 101)
-      if shaded: ipPlotShaded("Right Click Me",vals.ptz,101)
-    ipPopStyleVar()
+      var spec = initImPlotSpec()
+      spec.lineColor = color
+      spec.lineWeight = thickness
+      ipPlotLine_spec("Right Click Me", vals.ptz, 101, 1, 0, spec)
+      if markers:
+        var mspec = initImPlotSpec()
+        mspec.marker = ImPlotMarker.Square
+        mspec.lineColor = color
+        ipPlotScatter_spec("Right Click Me", vals.ptz, 101, 1, 0, mspec)
+      if shaded:
+        var sspec = initImPlotSpec()
+        sspec.fillAlpha = alpha
+        ipPlotShaded_spec("Right Click Me", vals.ptz, 101, 0, 1, 0, sspec)
     #// custom legend context menu
     if ipBeginLegendPopup("Right Click Me") :
       defer: ipEndLegendPopup()

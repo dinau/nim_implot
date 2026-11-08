@@ -13,13 +13,14 @@ import BarGroups
 import ErrorBars
 import StemPlots
 import InfiniteLines
-#import PieCharts
+import PieCharts
 import HeatMaps
-#import Histogram
+import Histogram
 import DigitalPlots
-#import Images
+import Images
 import MarkersAndText
 import NaNValues
+import PerIndexColors
 #
 import SimplePlots
 import SimpleImGui
@@ -41,13 +42,14 @@ import LinkedAxes
 import TimeScale
 import TickLabels
 # Tools
+import ItemStylingAndSpec
 import DragPoints
 import DragLines
 import DragRects
 import Tags
-#import ColormapWidgets
-#import LegendPopups
-#import LegendOptions
+import ColormapWidgets
+import LegendPopups
+import LegendOptions
 import Annotations
 import OffsetAndStride
 import Querying
@@ -55,7 +57,7 @@ import DragAndDrop
 # Custom
 import CustomStyles
 import CustomDataAndGetters
-#import CustomPlottersAndTooltips
+import CustomPlottersAndTooltips
 import CustomRendering
 # Config
 import Config
@@ -91,14 +93,15 @@ proc imPlotDemoTabs*() =
       demoHeader("Error Bars", demo_ErrorBars)
       demoHeader("Stem Plots##", demo_StemPlots)
       demoHeader("Infinite Lines" , demo_InfiniteLines)
-      #demoHeader("Pie Charts", demo_PieCharts)
+      demoHeader("Pie Charts", demo_PieCharts)
       demoHeader("HeatMaps", demo_Heatmaps)
-      #demoHeader("Histogram", demo_Histogram)
-      #demoHeader("Histogram2D", demo_Histogram2D)
+      demoHeader("Histogram", demo_Histogram)
+      demoHeader("Histogram2D", demo_Histogram2D)
       demoHeader("Digital Plots", demo_DigitalPlots)
-      #demoHeader("Images" , demo_Images)
+      demoHeader("Images" , demo_Images)
       demoHeader("Markers and Text" , demo_MarkersAndText)
       demoHeader("Nan Values" , demo_NaNValues)
+      demoHeader("Per-Index Colors", demo_PerIndexColors)
       #
       demoHeader("Simple Plots", demo_SimplePlot)
 
@@ -124,6 +127,7 @@ proc imPlotDemoTabs*() =
 
     if igBeginTabItem("Tools"):
       defer: igEndTabItem()
+      demoHeader("Item Styling and Spec", demo_Tools_ItemStylingAndSpec)
       demoHeader("Offset and Stride", demo_Tools_OffsetAndStride)
       demoHeader("Drag Points", demo_Tools_DragPoints)
       demoHeader("Drag Lines", demo_Tools_DragLines)
@@ -132,16 +136,16 @@ proc imPlotDemoTabs*() =
       demoHeader("Annotations", demo_Tools_Annotations)
       demoHeader("Tags", demo_Tools_Tags)
       demoHeader("Drag and Drop", demo_Tools_DragAndDrop)
-      #demoHeader("Legend Options", demo_Tools_LegendOptions)
-      #demoHeader("Legend Popups", demo_Tools_LegendPopups)
-      #demoHeader("Colormap Widgets", demo_Tools_ColormapWidgets)
+      demoHeader("Legend Options", demo_Tools_LegendOptions)
+      demoHeader("Legend Popups", demo_Tools_LegendPopups)
+      demoHeader("Colormap Widgets", demo_Tools_ColormapWidgets)
 
     if igBeginTabItem("Custom"):
       defer: igEndTabItem()
       demoHeader("Custom Styles", demo_Custom_CustomStyles)
       demoHeader("Custom Data and Getters", demo_Custom_CustomDataAndGetters)
       demoHeader("Custom Rendering", demo_Custom_CustomRendering)
-      #demoHeader("Custom Plotters and Tooltips", demo_Custom_CustomPlottersAndTooltips)
+      demoHeader("Custom Plotters and Tooltips", demo_Custom_CustomPlottersAndTooltips)
 
     if igBeginTabItem("Config"):
       defer: igEndTabItem()

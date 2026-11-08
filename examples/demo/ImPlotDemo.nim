@@ -25,7 +25,7 @@ proc main() =
   glfwWindowHint(GLFWResizable, GLFW_TRUE)
   glfwWindowHint(GLFWVisible, GLFW_FALSE) # Hide main window at start up time. See TODO 1
 
-  var glfwWindow: GLFWWindow = glfwCreateWindow(1080, 800)
+  var glfwWindow: GLFWWindow = glfwCreateWindow(1240, 800)
   if glfwWindow == nil:
     quit(-1)
   glfwWindow.makeContextCurrent()

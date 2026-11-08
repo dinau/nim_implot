@@ -151,9 +151,9 @@ proc demo_Tools_DragAndDrop*() =
   #// plot 2 (Lissajous)
   if ipBeginPlot("##DND2", ImVec2(x: -1, y: 195)):
     defer: ipEndPlot()
-    ipPushStyleColor(ImPlotCol.AxisBg, if dndx != nullptr: dndx.Color else: ipGetStyle().colors[ImPlotCol.AxisBg.int])
+    ipPushStyleColor(ImPlotCol.AxisBg, if dndx != nullptr: dndx.Color else: getImVec4(ipGetStyle().colors[ImPlotCol.AxisBg.int]))
     ipSetupAxis(ImAxis.X1, if dndx == nullptr: "[drop here]".cstring else: dndx.Label.ptz.cstringCast, flags)
-    ipPushStyleColor(ImPlotCol.AxisBg, if dndy != nullptr: dndy.Color else: ipGetStyle().colors[ImPlotCol.AxisBg.int])
+    ipPushStyleColor(ImPlotCol.AxisBg, if dndy != nullptr: dndy.Color else: getImVec4(ipGetStyle().colors[ImPlotCol.AxisBg.int]))
     ipSetupAxis(ImAxis.Y1, if dndy == nullptr: "[drop here]".cstring else: dndy.Label.ptz.cstringCast, flags)
     ipPopStyleColor(2)
     if dndx != nullptr and dndy != nullptr:

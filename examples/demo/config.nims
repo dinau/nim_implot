@@ -1,10 +1,10 @@
 # for development local path
-#switch "path","../../../nimgl-imgui/src" # for imgui
-#switch "path","../../src" # for implot
+switch "path","../../../nimgl-imgui/src" # for imgui
+switch "path","../../src" # for implot
 
 switch "warning","HoleEnumConv:off" # nim-1.6.0 or later
 
-switch "app","gui"
+#switch "app","gui"
 #
 switch "path","."
 switch "path","plots"

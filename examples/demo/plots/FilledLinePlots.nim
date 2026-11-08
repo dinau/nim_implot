@@ -45,27 +45,16 @@ proc demo_FilledLinePlots*() =
     ipSetupAxes("Days", "Price")
     ipSetupAxesLimits(0, 100, 0, 500)
     if show_fills:
-      ipPushStyleVar(ImPlotStyleVar.FillAlpha, 0.25f)
-      ipPlotShaded("Stock 1", xs1.ptz, ys1.ptz, 101
-        , if shade_mode == 0: -Inf
-                 else:
-                   if shade_mode == 1: Inf
-                   else: fill_ref
-               , flags)
-      ipPlotShaded("Stock 2", xs1.ptz, ys2.ptz, 101
-        , if shade_mode == 0: -Inf
-                 else:
-                   if shade_mode == 1: Inf
-                   else: fill_ref
-               , flags)
-      ipPlotShaded("Stock 3", xs1.ptz, ys3.ptz, 101
-        , if shade_mode == 0: -Inf
-                 else:
-                   if shade_mode == 1: Inf
-                   else: fill_ref
-               , flags)
-      ipPopStyleVar()
-
+      var spec = initImPlotSpec()
+      spec.flags = cast[ImPlotItemFlags](flags)
+      spec.fillAlpha = 0.25f
+      let ref_val = if shade_mode == 0: -Inf
+                    else:
+                      if shade_mode == 1: Inf
+                      else: fill_ref.float64
+      ipPlotShaded_spec("Stock 1", xs1.ptz, ys1.ptz, 101, ref_val, spec)
+      ipPlotShaded_spec("Stock 2", xs1.ptz, ys2.ptz, 101, ref_val, spec)
+      ipPlotShaded_spec("Stock 3", xs1.ptz, ys3.ptz, 101, ref_val, spec)
     if show_lines:
       ipPlotLine("Stock 1", xs1.ptz, ys1.ptz, 101)
       ipPlotLine("Stock 2", xs1.ptz, ys2.ptz, 101)

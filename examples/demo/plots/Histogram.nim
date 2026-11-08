@@ -71,11 +71,12 @@ proc demo_Histogram*() =
   if ipBeginPlot("##Histograms"):
     defer: ipEndPlot()
     ipSetupAxes(nil, nil, AutoFit, AutoFit)
-    ipSetNextFillStyle(IMPLOT_AUTO_COL,0.5f)
-    #ipSetNextFillStyle(ImVec4(x: 0, y: 0, z: 0, w: -1), 0.5f)
-    ipPlotHistogram("Empirical", dist.ptz, 10000.int, bins.int,
-                    1.0.cdouble, (if frange: ImPlotRange(min: rmin, max: rmax) else: ImPlotRange()),
-                    hist_flags.ImPlotHistogramFlags)
+    var spec = initImPlotSpec()
+    spec.fillAlpha = 0.5f
+    spec.flags = cast[ImPlotItemFlags](hist_flags.ImPlotHistogramFlags)
+    ipPlotHistogram_spec("Empirical", dist.ptz, 10000.int, bins.int,
+                    1.0.cdouble, (if frange: ImPlotRange_c(min: rmin, max: rmax) else: ImPlotRange_c()),
+                    spec)
     if (0 != (hist_flags and Density.int32)) and not (0 != (hist_flags and NoOutliers.int32)):
       if 0 != (hist_flags and ImPlotHistogramFlags.Horizontal.int32):
         ipPlotLine("Theoretical", y.ptz, x.ptz, 100)
@@ -106,19 +107,21 @@ proc demo_Histogram2D*() =
   var max_count = 0.cdouble
   var flags = AutoFit or ImPlotAxisFlags.Foreground
   ipPushColormap("Hot")
-  var regn = ImVec2()
-  igGetContentRegionAvailNonUDT(addr regn)
+  var regn = igGetContentRegionAvailNonUDT()
   if ipBeginPlot("##Hist2D",ImVec2(x: regn.x - 100 - igGetStyle().itemSpacing.x,y: 0)):
     ipSetupAxes(nullptr, nullptr, flags.ImPlotAxisFlags , flags.ImPlotAxisFlags )
     ipSetupAxesLimits(-6,6,-6,6)
-    max_count = ipPlotHistogram2D("Hist2D"
+    max_count = ipPlotHistogram2D_spec("Hist2D"
                     ,dist1.ptz
                     ,dist2.ptz
                     ,count.int
                     ,xybins[0].int
                     ,xybins[1].int
-                    ,ImPlotRect(x: ImPlotRange(min: -6,max: 6) ,y: ImPlotRange(min: -6,max: 6))
-                    ,hist_flags.ImPlotHistogramFlags)
+                    ,ImPlotRect_c(x: ImPlotRange_c(min: -6,max: 6) ,y: ImPlotRange_c(min: -6,max: 6))
+                    , (block:
+                        var spec = initImPlotSpec()
+                        spec.flags = cast[ImPlotItemFlags](hist_flags.ImPlotHistogramFlags)
+                        spec))
     ipEndPlot()
   igSameLine()
   ipColormapScale((if 0 != (hist_flags and Density.int32) : "Density" else: "Count").cstring

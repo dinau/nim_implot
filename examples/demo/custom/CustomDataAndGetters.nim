@@ -48,9 +48,8 @@ proc demo_Custom_CustomDataAndGetters*() =
       data2 = WaveData(X: 0.001, Amp: 0.2, Freq: 4, Offset: 0.25)
     ipPlotLineG("Waves", SineWave2, data1.addr, 1000)
     ipPlotLineG("Waves", SawWave, data2.addr, 1000)
-    ipPushStyleVar(ImPlotStyleVar.FillAlpha, 0.25f)
+    ipSetNextFillAlpha(0.25f)
     ipPlotShadedG("Waves", SineWave2, data1.addr, SawWave, data2.addr, 1000)
-    ipPopStyleVar()
 
     #// you can also pass C++ lambdas:
     #// auto lamda = [](void* data, int idx) { ... return ImPlotPoint(x,y); }

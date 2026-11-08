@@ -2,20 +2,20 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [Nim ImPlot binding](#nim-implot-binding)
+- [Prerequisites](#prerequisites)
 - [Nimble install](#nimble-install)
-- [Runing demo programs](#runing-demo-programs)
+- [Running demo programs](#running-demo-programs)
 - [Compiling application](#compiling-application)
 - [Notice: Compilation options](#notice-compilation-options)
 - [Generating ImPlot bindings for development](#generating-implot-bindings-for-development)
-- [Development](#development)
-- [My tools info](#my-tools-info)
+- [Nim version](#nim-version)
 - [Example gallery written in Nim language](#example-gallery-written-in-nim-language)
   - [Plots](#plots)
     - [LinePlots.nim](#lineplotsnim)
     - [FilledLinePlots.nim](#filledlineplotsnim)
     - [ShadedPlots.nim](#shadedplotsnim)
     - [ScatterPlots.nim](#scatterplotsnim)
-    - [RealTimePlots.nim](#realtimeplotsnim)
+    - [RealtimePlots.nim](#realtimeplotsnim)
     - [StairstepPlots.nim](#stairstepplotsnim)
     - [BarGroups.nim](#bargroupsnim)
     - [BarPlots.nim](#barplotsnim)
@@ -30,6 +30,7 @@
     - [Images.nim](#imagesnim)
     - [MarkersAndText.nim](#markersandtextnim)
     - [NaNValues.nim](#nanvaluesnim)
+    - [PerIndexColors.nim](#perindexcolorsnim)
   - [Subplots](#subplots)
     - [Tables.nim](#tablesnim)
     - [ItemSharing.nim](#itemsharingnim)
@@ -51,6 +52,8 @@
 ### Nim ImPlot binding
 
 ---
+
+Updated ImPlot / CImPlot (2026/11/08).
 
 [ImPlot ](https://github.com/epezent/implot) is an immediate mode, GPU accelerated plotting library for [Dear ImGui](https://github.com/ocornut/imgui).
 
@@ -99,22 +102,26 @@ nimble install implot
 ```bash
 git clone https://github.com/dinau/nim_implot
 cd nim_implot
-nimble test
+make run
 ```
 
-Test source: [examples/demo](examples/demo)
+Demo source: [examples/demo](examples/demo)
 
 ### Compiling application
 
 ---
 
-It has to be used **cpp** backend at compilation for example,
+The **cpp** backend is required. From the repository root, build and run the demo with:
 
 ```sh
-pwd
-nim_implot
+make run
+```
+
+To compile and run it directly:
+
+```sh
 cd examples/demo
-nim cpp -r ImPlotDemo.nim 
+nim cpp -r ImPlotDemo.nim
 ```
 
 **Note**: **C** backend is not supported.
@@ -133,31 +140,25 @@ These are TODO at this moment.
 ---
 
 ```bash
-pwd
-nim_implot
 nimble gen
 ```
 
-Genarated file: [src/implot.nim](src/implot.nim)
+This command generates [src/implot.nim](src/implot.nim) from the JSON files in `src/implot/private/cimplot/generator/output`.
 
-### My tools info
+Any existing changes to `src/implot.nim` will be overwritten.
+
+### Nim version
 
 ---
- 
-- Windows11
-   - Nim Compiler Version 2.2.4 
-   - gcc.exe 15.2.0
-- Debian 13 
-   - Nim Compiler Version 2.2.4 
-   - gcc 14.2.0
+
+The package requires Nim 2.2.8 or later. The current development environment uses Nim 2.2.14.
 
 ### Example gallery written in Nim language
 
 ---
 
-**Now all demo (over 50) programs have been implemented in Nim language** (2023/10),  
-(Orignal demo program is here [implot_demo.cpp](https://github.com/epezent/implot/blob/master/implot_demo.cpp), (C++))  
-below images are part of them.
+The demo application includes more than 50 examples. Selected examples are shown below.
+The original C++ demo is [implot_demo.cpp](https://github.com/epezent/implot/blob/master/implot_demo.cpp).
 
 #### Plots
 
@@ -179,7 +180,7 @@ below images are part of them.
 
 ![alt](img/ScatterPlots.png)  
 
-##### [RealTimePlots.nim](examples/demo/plots/RealTimePlots.nim) 
+##### [RealtimePlots.nim](examples/demo/plots/RealtimePlots.nim)
 
 ![alt](img/RealTimePlots.png)  
 
@@ -238,6 +239,8 @@ below images are part of them.
 ##### [NaNValues.nim](examples/demo/plots/NaNValues.nim)  
 
 ![alt](img/NaNValues.png)  
+
+##### [PerIndexColors.nim](examples/demo/plots/PerIndexColors.nim)
 
 #### Subplots
 

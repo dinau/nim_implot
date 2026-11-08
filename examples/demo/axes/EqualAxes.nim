@@ -18,6 +18,7 @@ proc demo_Axes_EqualAxes*() =
   var
     xs2 = [-1.cfloat,0,1,0,-1]
     ys2 = [0.cfloat,1,0,-1,0]
+  igBulletText("Equal constraint applies to axis pairs (e.g ImAxis_X1/Y1, ImAxis_X2/Y2)")
   if ipBeginPlot("##EqualAxes",ImVec2(x: -1,y: 0),ImPlotFlags.Equal):
     defer: ipEndPlot()
     ipSetupAxis(ImAxis.X2, nullptr, ImPlotAxisFlags.AuxDefault)

@@ -16,7 +16,12 @@ proc demo_Tools_DragLines*() =
     flags{.global.} = ImPlotDragToolFlags.None
   igCheckboxFlags("NoCursors", flags.pu32, ImPlotDragToolFlags.NoCursors.uint32); igSameLine()
   igCheckboxFlags("NoFit", flags.pu32, ImPlotDragToolFlags.NoFit.uint32); igSameLine()
-  igCheckboxFlags("NoInput", flags.pu32, ImPlotDragToolFlags.NoInputs.uint32)
+  igCheckboxFlags("NoInput", flags.pu32, ImPlotDragToolFlags.NoInputs.uint32); igSameLine()
+  igCheckboxFlags("NoMove", flags.pu32, ImPlotDragToolFlags.NoMove.uint32)
+  var
+    clicked{.global.} = false
+    hovered{.global.} = false
+    held{.global.} = false
   if ipBeginPlot("##lines", ImVec2(x: -1, y: 0)):
     defer: ipEndPlot()
     ipSetupAxesLimits(0, 1, 0, 1)
@@ -30,5 +35,7 @@ proc demo_Tools_DragLines*() =
     for i in 0..<1000:
       xs[i] = (x2+x1)/2+abs(x2-x1)*(i.cfloat/1000.0f - 0.5f)
       ys[i] = (y1+y2)/2+abs(y2-y1)/2*sin(f*i.cfloat/10)
-    ipPlotLine("Interactive Data", xs.ptz, ys.ptz, 1000)
-    ipDragLineY(120482, f.addr, ImVec4(x: 1, y: 0.5f, z: 1, w: 1), 1, flags)
+    ipDragLineY(120482, f.addr, ImVec4(x: 1, y: 0.5f, z: 1, w: 1), 1, flags, clicked.addr, hovered.addr, held.addr)
+    var spec = initImPlotSpec()
+    spec.lineWeight = if hovered or held: 2.0f else: 1.0f
+    ipPlotLine_spec("Interactive Data", xs.ptz, ys.ptz, 1000, spec)

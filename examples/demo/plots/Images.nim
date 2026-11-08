@@ -28,7 +28,8 @@ proc demo_Images*() =
       uv0Vec2   = ImVec2(x: uv0[0], y: uv0[1])
       uv1Vec2   = ImVec2(x: uv1[0], y: uv1[1])
       tintVec4  = ImVec4( x: tint[0], y: tint[1], z: tint[2], w: tint[3])
-    ipPlotImage("my image",igGetIO().fonts.texID
+    # font atlas TexRef carries TexData whose _TexID is unset; use the uploaded TexID
+    ipPlotImage("my image", ImTextureRef(texData: nil, texID: igGetIO().fonts.texData.texID)
                  , bminPoint, bmaxPoint
                  , uv0Vec2 , uv1Vec2
                  , tintVec4)

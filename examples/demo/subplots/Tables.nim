@@ -1,7 +1,16 @@
-import std/[random]
 import imgui
 import implot
 import utils
+
+var msvcRandState {.global.}: uint32
+
+proc msvcSrand(seed: uint32) =
+  msvcRandState = seed
+
+proc msvcRand(): cint =
+  # Match the MSVC CRT rand sequence used by the C++ demo.
+  msvcRandState = msvcRandState * 214013'u32 + 2531011'u32
+  result = ((msvcRandState shr 16) and 0x7FFF'u32).cint
 
 #-----------------------
 # demo_Subplots_Tables()
@@ -27,9 +36,10 @@ proc demo_Subplots_Tables*() =
     for row in 0..<10.int32:
       igTableNextRow()
       var data{.global.}: array[100,cfloat]
-      randomize(row) # srand() : C++
+      msvcSrand(row.uint32)
       for i in 0..<100:
-        data[i] = RandomRange(0.0f,10.0f)
+        let scale = msvcRand().cfloat / 32767.0f
+        data[i] = scale * 10.0f
       igTableSetColumnIndex(0)
       igText("EMG %d", row)
       igTableSetColumnIndex(1)

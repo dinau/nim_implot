@@ -11,6 +11,23 @@ export random.rand
 proc snprintf*(s: cstring): cint {.importc,
     header: "<stdio.h>", varargs.}
 
+
+template setImVec4*(v: untyped, px, py, pz, pw: float32) =
+  v.x = px; v.y = py; v.z = pz; v.w = pw
+
+template setImVec2*(v: untyped, px, py: float32) =
+  v.x = px; v.y = py
+
+template getImVec2*(v: untyped): ImVec2 =
+  var r: ImVec2
+  r.x = v.x; r.y = v.y
+  r
+
+template getImVec4*(v: untyped): ImVec4 =
+  var r: ImVec4
+  r.x = v.x; r.y = v.y; r.z = v.z; r.w = v.w
+  r
+
 const IMPLOT_AUTO_COL* = ImVec4(x: 0, y: 0, z: 0, w: -1)
 
 #define CHECKBOX_FLAG(flags, flag) ImGui::CheckboxFlags(#flag, (unsigned int*)&flags, flag)
@@ -87,9 +104,13 @@ proc sparkline*(id: cstring, values: ptr cfloat, count: int32, min_v: cfloat,
     ipSetupAxes(nullptr, nullptr, ImPlotAxisFlags.NoDecorations,
         ImPlotAxisFlags.NoDecorations)
     ipSetupAxesLimits(0, (count - 1).cdouble, min_v, max_v, ImPlotCond.Always)
-    ipSetNextLineStyle(col)
-    ipSetNextFillStyle(col, 0.25)
-    ipPlotLine(id, values, count, 1, 0, ImPlotLineFlags.Shaded, offset)
+    var spec = initImPlotSpec()
+    spec.lineColor = col
+    spec.fillColor = col
+    spec.fillAlpha = 0.25
+    spec.offset = offset.cint
+    spec.flags = cast[ImPlotItemFlags](ImPlotLineFlags.Shaded)
+    ipPlotLine_spec(id, values, count, 1, 0, spec)
   ipPopStyleVar()
 
 #[ from cimplot.h
@@ -153,52 +174,38 @@ proc FindCentroid*(data: seq[ImPlotPoint], bounds:ImPlotRect , cnt: var int): Im
 # StyleSeaborn
 #----------------
 proc StyleSeaborn*() =
-  const ImVec4 = proc(x: float32, y: float32, z: float32, w: float32): ImVec4 = ImVec4(x: x, y: y, z: z, w: w)
-  const ImVec2 = proc(x: float32, y: float32): ImVec2 = ImVec2(x: x, y: y)
   var style                                    = ipGetStyle()
 
-  style.colors[Line.uint32]                    = IMPLOT_AUTO_COL
-  style.colors[Fill.uint32]                    = IMPLOT_AUTO_COL
-  style.colors[MarkerOutline.uint32]           = IMPLOT_AUTO_COL
-  style.colors[MarkerFill.uint32]              = IMPLOT_AUTO_COL
-  style.colors[ErrorBar.uint32]                = ImVec4(0.00f, 0.00f, 0.00f, 1.00f)
-  style.colors[ImPlotCol.FrameBg.uint32]       = ImVec4(1.00f, 1.00f, 1.00f, 1.00f)
-  style.colors[PlotBg.uint32]                  = ImVec4(0.92f, 0.92f, 0.95f, 1.00f)
-  style.colors[PlotBorder.uint32]              = ImVec4(0.00f, 0.00f, 0.00f, 0.00f)
-  style.colors[LegendBg.uint32]                = ImVec4(0.92f, 0.92f, 0.95f, 1.00f)
-  style.colors[LegendBorder.uint32]            = ImVec4(0.80f, 0.81f, 0.85f, 1.00f)
-  style.colors[LegendText.uint32]              = ImVec4(0.00f, 0.00f, 0.00f, 1.00f)
-  style.colors[TitleText.uint32]               = ImVec4(0.00f, 0.00f, 0.00f, 1.00f)
-  style.colors[InlayText.uint32]               = ImVec4(0.00f, 0.00f, 0.00f, 1.00f)
-  style.colors[AxisText.uint32]                = ImVec4(0.00f, 0.00f, 0.00f, 1.00f)
-  style.colors[AxisGrid.uint32]                = ImVec4(1.00f, 1.00f, 1.00f, 1.00f)
-  style.colors[AxisBgHovered.uint32]           = ImVec4(0.92f, 0.92f, 0.95f, 1.00f)
-  style.colors[AxisBgActive.uint32]            = ImVec4(0.92f, 0.92f, 0.95f, 0.75f)
-  style.colors[Selection.uint32]               = ImVec4(1.00f, 0.65f, 0.00f, 1.00f)
-  style.colors[ImPlotCol.Crosshairs.uint32]    = ImVec4(0.23f, 0.10f, 0.64f, 0.50f)
+  setImVec4(style.colors[ImPlotCol.FrameBg.uint32], 1.00f,  1.00f,  1.00f,  1.00f)
+  setImVec4(style.colors[PlotBg.uint32], 0.92f,  0.92f,  0.95f,  1.00f)
+  setImVec4(style.colors[PlotBorder.uint32], 0.00f,  0.00f,  0.00f,  0.00f)
+  setImVec4(style.colors[LegendBg.uint32], 0.92f,  0.92f,  0.95f,  1.00f)
+  setImVec4(style.colors[LegendBorder.uint32], 0.80f,  0.81f,  0.85f,  1.00f)
+  setImVec4(style.colors[LegendText.uint32], 0.00f,  0.00f,  0.00f,  1.00f)
+  setImVec4(style.colors[TitleText.uint32], 0.00f,  0.00f,  0.00f,  1.00f)
+  setImVec4(style.colors[InlayText.uint32], 0.00f,  0.00f,  0.00f,  1.00f)
+  setImVec4(style.colors[AxisText.uint32], 0.00f,  0.00f,  0.00f,  1.00f)
+  setImVec4(style.colors[AxisGrid.uint32], 1.00f,  1.00f,  1.00f,  1.00f)
+  setImVec4(style.colors[AxisBgHovered.uint32], 0.92f,  0.92f,  0.95f,  1.00f)
+  setImVec4(style.colors[AxisBgActive.uint32], 0.92f,  0.92f,  0.95f,  0.75f)
+  setImVec4(style.colors[Selection.uint32], 1.00f,  0.65f,  0.00f,  1.00f)
+  setImVec4(style.colors[ImPlotCol.Crosshairs.uint32], 0.23f,  0.10f,  0.64f,  0.50f)
 
-  style.lineWeight       = 1.5
-  style.marker           = ImPlotMarker.None.int
-  style.markerSize       = 4
-  style.markerWeight     = 1
-  style.fillAlpha        = 1.0f
-  style.errorBarSize     = 5
-  style.errorBarWeight   = 1.5f
-  style.digitalBitHeight = 8
-  style.digitalBitGap    = 4
+  style.digitalPadding   = 8
+  style.digitalSpacing   = 4
   style.plotBorderSize   = 0
   style.minorAlpha       = 1.0f
-  style.majorTickLen     = ImVec2(0, 0)
-  style.minorTickLen     = ImVec2(0, 0)
-  style.majorTickSize    = ImVec2(0, 0)
-  style.minorTickSize    = ImVec2(0, 0)
-  style.majorGridSize    = ImVec2(1.2f, 1.2f)
-  style.minorGridSize    = ImVec2(1.2f, 1.2f)
-  style.plotPadding      = ImVec2(12, 12)
-  style.labelPadding     = ImVec2(5, 5)
-  style.legendPadding    = ImVec2(5, 5)
-  style.mousePosPadding  = ImVec2(5, 5)
-  style.plotMinSize      = ImVec2(300, 225)
+  setImVec2(style.majorTickLen, 0,  0)
+  setImVec2(style.minorTickLen, 0,  0)
+  setImVec2(style.majorTickSize, 0,  0)
+  setImVec2(style.minorTickSize, 0,  0)
+  setImVec2(style.majorGridSize, 1.2f,  1.2f)
+  setImVec2(style.minorGridSize, 1.2f,  1.2f)
+  setImVec2(style.plotPadding, 12,  12)
+  setImVec2(style.labelPadding, 5,  5)
+  setImVec2(style.legendPadding, 5,  5)
+  setImVec2(style.mousePosPadding, 5,  5)
+  setImVec2(style.plotMinSize, 300,  225)
 
 #--------------
 # BinarySearch
@@ -257,7 +264,7 @@ proc PlotCandlestick*(label_id:cstring, xs: openArray[cdouble], opens: openArray
       var buff:array[32,cchar]
       var tm:ImPlotTime
       fromDoubleNonUDT(tm.addr,xs[idx])
-      ipFormatDate(tm,buff.ptz.cstringCast,32,ImPlotDateFmt.DayMoYr,ipGetStyle().useISO8601)
+      discard ipFormatDateNonUDT(tm,buff.ptz.cstringCast,32,ImPlotDateFmt.DayMoYr,ipGetStyle().useISO8601)
       igText("Day:   %s",  buff)
       igText("Open:  $%.2f", opens[idx])
       igText("Close: $%.2f", closes[idx])

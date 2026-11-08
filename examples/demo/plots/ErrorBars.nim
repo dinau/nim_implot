@@ -1,5 +1,6 @@
 import imgui
 import implot
+import utils
 
 #----------------
 # Demo_ErrorBars()
@@ -17,20 +18,29 @@ proc demo_ErrorBars*() =
 
   if ipBeginPlot("##ErrorBars"):
     ipSetupAxesLimits(0, 6, 0, 10)
-    ipPlotBars("Bar",       xs.ptz, bar.ptz, 5, 0.5f)
-    ipPlotErrorBars("Bar",  xs.ptz, bar.ptz, err1.ptz, 5)
-    var vec4:ImVec4
-    ipGetColormapColorNonUDT(addr vec4,1)
-    ipSetNextErrorBarStyle(vec4, 0)
-    ipPlotErrorBars("Line", xs.ptz, lin1.ptz, err1.ptz,  err2.ptz, 5)
-    ipSetNextMarkerStyle(ImPlotMarker.Square)
-    ipPlotLine("Line",  xs.ptz,  lin1.ptz, 5)
 
-    ipGetColormapColorNonUDT( addr vec4,2)
-    ipPushStyleColor(ImPlotCol.ErrorBar, vec4)
-    ipPlotErrorBars("Scatter",  xs.ptz,  lin2.ptz,  err2.ptz, 5)
-    ipPlotErrorBars("Scatter",  xs.ptz,  lin2.ptz,  err3.ptz,  err4.ptz, 5, ImPlotErrorBarsFlags.Horizontal)
-    ipPopStyleColor()
-    ipPlotScatter("Scatter",  xs.ptz,  lin2.ptz, 5)
+    ipPlotBars("Bar", xs.ptz, bar.ptz, 5, 0.5f)
+    ipPlotErrorBars("Bar", xs.ptz, bar.ptz, err1.ptz, 5)
+
+    var col1: ImVec4
+    ipGetColormapColorNonUDT(addr col1, 1)
+    var spec = initImPlotSpec()
+    spec.lineColor = col1
+    spec.size = 0
+    ipPlotErrorBars_spec("Line", xs.ptz, lin1.ptz, err1.ptz, err2.ptz, 5, spec)
+    spec = initImPlotSpec()
+    spec.marker = ImPlotMarker.Square
+    ipPlotLine_spec("Line", xs.ptz, lin1.ptz, 5, spec)
+
+    var col2: ImVec4
+    ipGetColormapColorNonUDT(addr col2, 2)
+    spec = initImPlotSpec()
+    spec.lineColor = col2
+    spec.size = 6
+    spec.lineWeight = 1.5f
+    ipPlotErrorBars_spec("Scatter", xs.ptz, lin2.ptz, err2.ptz, 5, spec)
+    spec.flags = cast[ImPlotItemFlags](ImPlotErrorBarsFlags.Horizontal)
+    ipPlotErrorBars_spec("Scatter", xs.ptz, lin2.ptz, err3.ptz, err4.ptz, 5, spec)
+    ipPlotScatter("Scatter", xs.ptz, lin2.ptz, 5)
 
     ipEndPlot()

@@ -14,9 +14,10 @@ proc demo_StemPlots*() =
     ys1[i] = 1.0 + 0.5 * sin(25*xs[i])*cos(2*xs[i])
     ys2[i] = 0.5 + 0.25  * sin(10*xs[i]) * sin(xs[i])
   if ipBeginPlot("Stem Plots"):
-      ipSetupAxisLimits(ImAxis.X1,0,1.0)
-      ipSetupAxisLimits(ImAxis.Y1,0,1.6)
-      ipPlotStems("Stems 1", xs.ptz, ys1.ptz,51)
-      ipSetNextMarkerStyle(ImPlotMarker.Circle)
-      ipPlotStems("Stems 2", xs.ptz, ys2.ptz,51)
-      ipEndPlot()
+    ipSetupAxisLimits(ImAxis.X1,0,1.0)
+    ipSetupAxisLimits(ImAxis.Y1,0,1.6)
+    ipPlotStems("Stems 1", xs.ptz, ys1.ptz,51)
+    var spec = initImPlotSpec()
+    spec.marker = ImPlotMarker.Circle
+    ipPlotStems_spec("Stems 2", xs.ptz, ys2.ptz, 51, 0, spec)
+    ipEndPlot()

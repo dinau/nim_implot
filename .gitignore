@@ -1,3 +1,5 @@
+AGENTS.*
+.sandbox
 src/implot3d.nim
 delsubmod.bat
 ### C ###

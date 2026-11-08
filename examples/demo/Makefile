@@ -12,5 +12,5 @@ gen:
 	(cd ../..;nimble gen)
 
 clean:
-	-rm -fr .nimcache
+	-rm -fr .nimcache .nimcache2
 	-rm $(TARGET)

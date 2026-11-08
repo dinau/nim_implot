@@ -5,6 +5,22 @@ import strutils, json, strformat, tables,
        algorithm, sets, re, ./utils
 import pegs
 
+const specPlotProcs = [
+  "ImPlot_PlotBarGroups", "ImPlot_PlotBars", "ImPlot_PlotBarsG",
+  "ImPlot_PlotBubbles", "ImPlot_PlotDigital", "ImPlot_PlotDigitalG",
+  "ImPlot_PlotDummy", "ImPlot_PlotErrorBars", "ImPlot_PlotHeatmap",
+  "ImPlot_PlotHistogram", "ImPlot_PlotHistogram2D", "ImPlot_PlotImage",
+  "ImPlot_PlotInfLines", "ImPlot_PlotLine", "ImPlot_PlotLineG",
+  "ImPlot_PlotPieChart", "ImPlot_PlotPolygon", "ImPlot_PlotScatter",
+  "ImPlot_PlotScatterG", "ImPlot_PlotShaded", "ImPlot_PlotShadedG",
+  "ImPlot_PlotStairs", "ImPlot_PlotStairsG", "ImPlot_PlotStems",
+  "ImPlot_PlotText"
+]
+const nextStyleProcs = [
+  "ImPlot_SetNextErrorBarStyle", "ImPlot_SetNextFillStyle",
+  "ImPlot_SetNextLineStyle", "ImPlot_SetNextMarkerStyle"
+]
+
 var enums: HashSet[string]
 var enumsCount: Table[string, int]
 
@@ -143,6 +159,28 @@ proc translateType(name: string): string =
   if result == "":
     result = "void"
 
+proc cWrapperType(name: string): string =
+  if name in ["ImPlotPoint", "ImPlotRange", "ImPlotRect", "ImPlotTime", "ImPlotDateTimeSpec",
+              "ImVec2", "ImVec4", "ImTextureRef"]:
+    result = name & "_c"
+  else:
+    result = name
+
+proc cWrapperArgType(procName, argName, argType: string): string =
+  if procName == "ImPlot_ColormapSlider" and argName == "out" or
+     procName == "ImPlot_AddColormap_Vec4Ptr" and argName == "cols":
+    result = "ptr ImVec4Cpp"
+  else:
+    result = cWrapperType(argType)
+
+proc cWrapperCast(sourceType, destType, expression: string): string =
+  if sourceType == destType:
+    result = expression
+  elif sourceType.startsWith("ptr "):
+    result = "cast[{destType}]({expression})".fmt
+  else:
+    result = "cast[ptr {destType}](unsafeAddr({expression}))[]".fmt
+
 
 proc genEnums(output: var string) =
   let file = readFile("src/implot/private/cimplot/generator/output/structs_and_enums.json")
@@ -179,6 +217,79 @@ proc genEnums(output: var string) =
         #tableNamedKeys[ "ImAxis" & "_" & "X1"]   = 0
         continue
       table[dataValue] = dataName                   # 0に `"X1"` を対応させる
+
+    if enumName == "ImPlotMarker":
+      table.clear()
+      table[-2] = "None"
+      table[-1] = "Auto"
+      table[0] = "Circle"
+      table[1] = "Square"
+      table[2] = "Diamond"
+      table[3] = "Up"
+      table[4] = "Down"
+      table[5] = "Left"
+      table[6] = "Right"
+      table[7] = "Cross"
+      table[8] = "Plus"
+      table[9] = "Asterisk"
+      table[10] = "Vertical"
+      table[11] = "Horizontal"
+      table[12] = "COUNT"
+    elif enumName == "ImPlotLegendFlags":
+      table[128] = "Reverse"
+    elif enumName == "ImPlotDragToolFlags":
+      table[16] = "NoMove"
+      table[32] = "NoResize"
+    elif enumName == "ImPlotPieChartFlags":
+      table[8192] = "NoSliceBorder"
+    elif enumName == "ImPlotAxisFlags":
+      table[65536] = "TickLabelsInside"
+    elif enumName == "ImPlotCol":
+      # The checked-in enum metadata is from a different ImPlot revision.
+      table.clear()
+      table[0] = "FrameBg"
+      table[1] = "PlotBg"
+      table[2] = "PlotBorder"
+      table[3] = "LegendBg"
+      table[4] = "LegendBorder"
+      table[5] = "LegendText"
+      table[6] = "TitleText"
+      table[7] = "InlayText"
+      table[8] = "AxisText"
+      table[9] = "AxisGrid"
+      table[10] = "AxisTick"
+      table[11] = "AxisBg"
+      table[12] = "AxisBgHovered"
+      table[13] = "AxisBgActive"
+      table[14] = "Selection"
+      table[15] = "Crosshairs"
+      table[16] = "COUNT"
+      enumsCount["ImPlotCol_COUNT"] = 16
+    elif enumName == "ImPlotStyleVar":
+      # The checked-in enum metadata is stale; match the current implot.h declaration.
+      table.clear()
+      table[0] = "PlotDefaultSize"
+      table[1] = "PlotMinSize"
+      table[2] = "PlotBorderSize"
+      table[3] = "MinorAlpha"
+      table[4] = "MajorTickLen"
+      table[5] = "MinorTickLen"
+      table[6] = "MajorTickSize"
+      table[7] = "MinorTickSize"
+      table[8] = "MajorGridSize"
+      table[9] = "MinorGridSize"
+      table[10] = "PlotPadding"
+      table[11] = "LabelPadding"
+      table[12] = "LegendPadding"
+      table[13] = "LegendInnerPadding"
+      table[14] = "LegendSpacing"
+      table[15] = "MousePosPadding"
+      table[16] = "AnnotationPadding"
+      table[17] = "FitPadding"
+      table[18] = "DigitalPadding"
+      table[19] = "DigitalSpacing"
+      table[20] = "COUNT"
+      enumsCount["ImPlotStyleVar_COUNT"] = 20
 
     var tableOrder: OrderedTable[int, string] # Weird error where data is erased if used directly
     for k, v in table.pairs: # Sort開始
@@ -220,6 +331,37 @@ proc genTypes(output: var string) =
 
   for name, obj in data["structs"].pairs:
     if name == "Pair" or name == "ImGuiStoragePair" or name == "ImGuiStyleMod" or name == "ImGuiInputEvent":
+      continue
+
+    if name == "ImPlotStyle":
+      output.add("""
+  ImPlotStyle* {.importc: "ImPlotStyle", implot_header.} = object
+    plotDefaultSize* {.importc: "PlotDefaultSize".}: ImVec2
+    plotMinSize* {.importc: "PlotMinSize".}: ImVec2
+    plotBorderSize* {.importc: "PlotBorderSize".}: float32
+    minorAlpha* {.importc: "MinorAlpha".}: float32
+    majorTickLen* {.importc: "MajorTickLen".}: ImVec2
+    minorTickLen* {.importc: "MinorTickLen".}: ImVec2
+    majorTickSize* {.importc: "MajorTickSize".}: ImVec2
+    minorTickSize* {.importc: "MinorTickSize".}: ImVec2
+    majorGridSize* {.importc: "MajorGridSize".}: ImVec2
+    minorGridSize* {.importc: "MinorGridSize".}: ImVec2
+    plotPadding* {.importc: "PlotPadding".}: ImVec2
+    labelPadding* {.importc: "LabelPadding".}: ImVec2
+    legendPadding* {.importc: "LegendPadding".}: ImVec2
+    legendInnerPadding* {.importc: "LegendInnerPadding".}: ImVec2
+    legendSpacing* {.importc: "LegendSpacing".}: ImVec2
+    mousePosPadding* {.importc: "MousePosPadding".}: ImVec2
+    annotationPadding* {.importc: "AnnotationPadding".}: ImVec2
+    fitPadding* {.importc: "FitPadding".}: ImVec2
+    digitalPadding* {.importc: "DigitalPadding".}: float32
+    digitalSpacing* {.importc: "DigitalSpacing".}: float32
+    colors* {.importc: "Colors".}: array[16, ImVec4]
+    colormap* {.importc: "Colormap".}: ImPlotColormap
+    useLocalTime* {.importc: "UseLocalTime".}: bool
+    useISO8601* {.importc: "UseISO8601".}: bool
+    use24HourClock* {.importc: "Use24HourClock".}: bool
+""")
       continue
 
     if name == "ImDrawChannel":
@@ -264,9 +406,64 @@ proc genTypes(output: var string) =
       let arrayData = memberName.translateArray()
       output.add("    {arrayData[1]}* {memberImGuiName}: array[{arrayData[0]}, {member[\"type\"].getStr().translateType()}]\n".fmt)
 
+  output.add("""
+  ImVec2_c* {.importc: "ImVec2_c", implot_header.} = object
+    x* {.importc: "x".}: float32
+    y* {.importc: "y".}: float32
+  ImVec4_c* {.importc: "ImVec4_c", implot_header.} = object
+    x* {.importc: "x".}: float32
+    y* {.importc: "y".}: float32
+    z* {.importc: "z".}: float32
+    w* {.importc: "w".}: float32
+  ImVec4Cpp {.importc: "ImVec4", implot_header.} = object
+  ImTextureRef_c* {.importc: "ImTextureRef_c", implot_header.} = object
+    texData* {.importc: "_TexData".}: ptr ImTextureData
+    texID* {.importc: "_TexID".}: ImTextureID
+  ImPlotSpec* {.importc: "ImPlotSpec_c", implot_header.} = object
+    lineColor* {.importc: "LineColor".}: ImVec4
+    lineColors* {.importc: "LineColors".}: ptr uint32
+    lineWeight* {.importc: "LineWeight".}: float32
+    fillColor* {.importc: "FillColor".}: ImVec4
+    fillColors* {.importc: "FillColors".}: ptr uint32
+    fillAlpha* {.importc: "FillAlpha".}: float32
+    marker* {.importc: "Marker".}: ImPlotMarker
+    markerSize* {.importc: "MarkerSize".}: float32
+    markerSizes* {.importc: "MarkerSizes".}: ptr float32
+    markerLineColor* {.importc: "MarkerLineColor".}: ImVec4
+    markerLineColors* {.importc: "MarkerLineColors".}: ptr uint32
+    markerFillColor* {.importc: "MarkerFillColor".}: ImVec4
+    markerFillColors* {.importc: "MarkerFillColors".}: ptr uint32
+    size* {.importc: "Size".}: float32
+    offset* {.importc: "Offset".}: cint
+    stride* {.importc: "Stride".}: cint
+    flags* {.importc: "Flags".}: ImPlotItemFlags
+""")
+
+  for name in ["ImPlotPoint", "ImPlotRange", "ImPlotRect", "ImPlotTime", "ImPlotDateTimeSpec"]:
+    if not data["structs"].hasKey(name):
+      continue
+    output.add("  {name}_c* {{.importc: \"{name}_c\", implot_header.}} = object\n".fmt)
+    for member in data["structs"][name]:
+      let originalName = member["name"].getStr()
+      var fieldName = originalName
+      if fieldName == "Ptr":
+        fieldName = "`ptr`"
+      if fieldName == "Type":
+        fieldName = "`type`"
+      var pragma = "{{.importc: \"{originalName}\".}}".fmt
+      if fieldName.startsWith("_"):
+        fieldName = fieldName[1 ..< fieldName.len]
+      if fieldName.isUpper():
+        fieldName = fieldName.normalize()
+      fieldName = fieldName.uncapitalize()
+      if pragma.contains('['):
+        pragma = pragma[0 ..< pragma.find('[')] & "\".}"
+      output.add("    {fieldName}* {pragma}: {cWrapperType(member[\"type\"].getStr().translateType())}\n".fmt)
+
 proc genProcs(output: var string) =
   let file = readFile("src/implot/private/cimplot/generator/output/definitions.json")
   let data = file.parseJson()
+  var wrapperOutput = ""
 
   output.add("\n{preProcs}\n".fmt)
 
@@ -278,6 +475,21 @@ proc genProcs(output: var string) =
         nonUDTNumber.inc
         isNonUDT = true
       if blackListProc.contains(variation["cimguiname"].getStr()):
+        continue
+      if nextStyleProcs.contains(variation["cimguiname"].getStr()):
+        continue
+      if variation["cimguiname"].getStr() == "ImPlot_BeginItem":
+        output.add("proc ipBeginItemRaw*(label_id: cstring, spec: ImPlotSpec, item_col: ImVec4_c, item_mkr: ImPlotMarker): bool {.importc: \"ImPlot_BeginItem\".}\n")
+        wrapperOutput.add("""
+proc ipBeginItem*(label_id: cstring, flags: ImPlotItemFlags = 0.ImPlotItemFlags,
+                  recolor_from: ImPlotCol = cast[ImPlotCol](-1)): bool {.discardable.} =
+  var spec = initImPlotSpec()
+  spec.flags = flags
+  var itemCol = ImVec4_c(x: 0, y: 0, z: 0, w: -1)
+  if recolor_from != cast[ImPlotCol](-1):
+    itemCol = ipGetStyleColorVec4NonUDTRaw(recolor_from)
+  result = ipBeginItemRaw(label_id, spec, itemCol, cast[ImPlotMarker](-1))
+""")
         continue
 
       # Name
@@ -311,16 +523,35 @@ proc genProcs(output: var string) =
       if reservedWordsDictionary.contains(funcname):
         funcname = "`{funcname}`".fmt
 
-      output.add("proc {funcname}*".fmt)
-
       var isGeneric = false
       var isVarArgs = variation.contains("isvararg") and variation["isvararg"].getBool()
+      let isSpecProc = specPlotProcs.contains(variation["cimguiname"].getStr())
 
       var argsOutput = ""
+      var cArgsOutput = ""
+      var plainCallArgs = ""
+      var specArgsOutput = ""
+      var specNimArgsOutput = ""
+      var specCallArgs = ""
+      var specCallNimArgs = ""
+      var specFlagsName = ""
+      var specOffsetName = ""
+      var specStrideName = ""
+      let isOutParamWrapper = variation.contains("nonUDT") and
+                              variation["argsT"].len > 0 and
+                              variation["argsT"][0]["name"].getStr() == "pOut"
+      var rawArgsOutput = ""
+      var rawCallArgs = ""
+      var rawReturnType = ""
+      var outParamType = ""
+      var hasCWrapperTypes = false
       # Args
       for arg in variation["argsT"]:
         var argName = arg["name"].getStr()
         var argType = arg["type"].getStr().translateType()
+        if variation["cimguiname"].getStr() == "ImPlot_PlotImage" and
+           argName == "user_texture_id":
+          argType = "ImTextureRef"
         if arg.contains("custom_type"):
           let ctype = arg["custom_type"].getStr().split('_') # custom_type = "ImPlotPoint_getter"
           argType = ctype[0] & ctype[1][0].toUpperAscii() & ctype[1][1 ..< ctype[1].len]
@@ -366,6 +597,8 @@ proc genProcs(output: var string) =
         if argName.isUpper():
           argName = argName.normalize()
         argName = argName.uncapitalize()
+        if argName == "range":
+          argName = "Range"
 
         if reservedWordsDictionary.contains(argName):
           argName = "`{argName}`".fmt
@@ -383,12 +616,79 @@ proc genProcs(output: var string) =
         if argType == "T" or argType == "ptr T":
           isGeneric = true
 
+        let originalArgName = arg["name"].getStr()
+        var wrapperProcName = variation["cimguiname"].getStr()
+        if variation.contains("ov_cimguiname"):
+          wrapperProcName = variation["ov_cimguiname"].getStr()
+        let cArgType = cWrapperArgType(wrapperProcName, originalArgName, argType)
+        var cArgDefault = argDefault
+        if cArgType != argType and cArgType.endsWith("_c"):
+          cArgDefault = cArgDefault.replace(argType & "(", cArgType & "(")
+          cArgDefault = cArgDefault.replace("." & argType, "")
+          if cArgType in ["ImPlotPoint_c", "ImPlotRange_c"] and
+             cArgDefault.startsWith(cArgType & "("):
+            let valuesStart = cArgType.len + 1
+            let valuesEnd = cArgDefault.find(')', valuesStart)
+            if valuesEnd >= 0:
+              let values = cArgDefault[valuesStart ..< valuesEnd].split(',')
+              if values.len == 2:
+                let fields = if cArgType == "ImPlotPoint_c": ["x", "y"] else: ["min", "max"]
+                cArgDefault = "{cArgType}({fields[0]}: {values[0].strip()}, {fields[1]}: {values[1].strip()})".fmt
+        if cArgType != argType:
+          hasCWrapperTypes = true
+        if argDefault == "":
+          cArgsOutput.add("{argName}: {cArgType}, ".fmt)
+        else:
+          cArgsOutput.add("{argName}: {cArgType} = {cArgDefault}, ".fmt)
+        if plainCallArgs.len > 0:
+          plainCallArgs.add(", ")
+        plainCallArgs.add(cWrapperCast(argType, cArgType, argName))
         if argDefault == "":
           argsOutput.add("{argName}: {argType}, ".fmt)
         else:
           argsOutput.add("{argName}: {argType} = {argDefault}, ".fmt)
+        if isOutParamWrapper:
+          if originalArgName == "pOut":
+            outParamType = argType.replace("ptr ", "")
+            rawReturnType = cWrapperType(outParamType)
+          else:
+            if rawCallArgs.len > 0:
+              rawCallArgs.add(", ")
+            rawCallArgs.add(cWrapperCast(argType, cArgType, argName))
+            if argDefault == "":
+              rawArgsOutput.add("{argName}: {cArgType}, ".fmt)
+            else:
+              rawArgsOutput.add("{argName}: {cArgType} = {cArgDefault}, ".fmt)
+        if isSpecProc:
+          let specArgType = cArgType
+          if originalArgName == "flags":
+            specFlagsName = argName
+          elif originalArgName == "offset":
+            specOffsetName = argName
+          elif originalArgName == "stride":
+            specStrideName = argName
+          else:
+            if specCallArgs.len > 0:
+              specCallArgs.add(", ")
+            specCallArgs.add(cWrapperCast(argType, specArgType, argName))
+            if specCallNimArgs.len > 0:
+              specCallNimArgs.add(", ")
+            specCallNimArgs.add(argName)
+            if argDefault == "":
+              specArgsOutput.add("{argName}: {specArgType}, ".fmt)
+              specNimArgsOutput.add("{argName}: {argType}, ".fmt)
+            else:
+              specArgsOutput.add("{argName}: {specArgType} = {cArgDefault}, ".fmt)
+              specNimArgsOutput.add("{argName}: {argType} = {argDefault}, ".fmt)
       if variation["argsT"].len > 0:
         argsOutput = argsOutput[0 ..< argsOutput.len - 2]
+        cArgsOutput = cArgsOutput[0 ..< cArgsOutput.len - 2]
+      if specArgsOutput.len > 0:
+        specArgsOutput = specArgsOutput[0 ..< specArgsOutput.len - 2]
+      if specNimArgsOutput.len > 0:
+        specNimArgsOutput = specNimArgsOutput[0 ..< specNimArgsOutput.len - 2]
+      if rawArgsOutput.len > 0:
+        rawArgsOutput = rawArgsOutput[0 ..< rawArgsOutput.len - 2]
 
       # Ret
       var argRet = "void"
@@ -398,29 +698,131 @@ proc genProcs(output: var string) =
         isGeneric = true
       if argRet == "explicit":
         argRet = "ptr ImVec2ih" # Ugly solution for a temporal problem
+      let cArgRet = cWrapperType(argRet)
+      if cArgRet != argRet:
+        hasCWrapperTypes = true
 
-      output.add(if isGeneric: "[T](" else: "(")
-      output.add(argsOutput)
-      output.add("): ")
-      output.add(argRet)
-
-      # Pragmas
       var pragmaName = variation["cimguiname"].getStr()
       if variation.contains("ov_cimguiname"):
         pragmaName = variation["ov_cimguiname"].getStr()
-      output.add(" {" & ".importc: \"{pragmaName}\"".fmt)
-      if isVarArgs:
-        output.add(", varargs")
-      output.add(".}")
+      for arg in variation["argsT"]:
+        if arg.contains("custom_type") and
+           arg["custom_type"].getStr() == "ImPlotPoint_getter":
+          pragmaName.add("_LJ")
+          break
+      if pragmaName == "ImPlot_PlotToPixels_PlotPoInt":
+        pragmaName = "ImPlot_PlotToPixels_PlotPoint"
+      var specFuncname = funcname
+      if specFuncname.startsWith("imPlot_"):
+        specFuncname = "ip" & specFuncname["imPlot_".len ..< specFuncname.len]
+      if isOutParamWrapper:
+        let rawFuncname = specFuncname & "Raw"
+        output.add("proc {rawFuncname}*".fmt)
+        output.add(if isGeneric: "[T](" else: "(")
+        output.add(rawArgsOutput)
+        output.add("): {rawReturnType}".fmt)
+        output.add(" {" & ".importc: \"{pragmaName}\"".fmt)
+        output.add(".}\n")
+        wrapperOutput.add("proc {funcname}*".fmt)
+        wrapperOutput.add("(")
+        wrapperOutput.add(argsOutput)
+        wrapperOutput.add("): void {.discardable.} =\n")
+        wrapperOutput.add("  let cResult = {rawFuncname}({rawCallArgs})\n".fmt)
+        wrapperOutput.add("  pOut[] = {cWrapperCast(rawReturnType, outParamType, \"cResult\")}\n".fmt)
+      elif isSpecProc:
+        let hasCSpecArgs = specArgsOutput != specNimArgsOutput
+        let rawSpecFuncname = if hasCSpecArgs or cArgRet == argRet:
+          specFuncname & "_spec"
+        else:
+          specFuncname & "_specRaw"
+        output.add("proc {rawSpecFuncname}*".fmt)
+        output.add(if isGeneric: "[T](" else: "(")
+        output.add(specArgsOutput)
+        if specArgsOutput.len > 0:
+          output.add(", ")
+        output.add("spec: ImPlotSpec): {cArgRet}".fmt)
+        output.add(" {" & ".importc: \"{pragmaName}\"".fmt)
+        if isVarArgs:
+          output.add(", varargs")
+        output.add(".}\n")
+        if hasCSpecArgs or cArgRet != argRet:
+          wrapperOutput.add("proc {funcname}_spec*".fmt)
+          wrapperOutput.add(if isGeneric: "[T](" else: "(")
+          wrapperOutput.add(specNimArgsOutput)
+          if specNimArgsOutput.len > 0:
+            wrapperOutput.add(", ")
+          wrapperOutput.add("spec: ImPlotSpec): {argRet} {{.discardable.}} =\n".fmt)
+          if argRet != "void":
+            if cArgRet != argRet:
+              wrapperOutput.add("  let cResult = {rawSpecFuncname}({specCallArgs}, spec)\n".fmt)
+              wrapperOutput.add("  result = {cWrapperCast(cArgRet, argRet, \"cResult\")}\n".fmt)
+            else:
+              wrapperOutput.add("  result = {rawSpecFuncname}({specCallArgs}, spec)\n".fmt)
+          else:
+            wrapperOutput.add("  {rawSpecFuncname}({specCallArgs}, spec)\n".fmt)
 
-      output.add("\n")
+      if isSpecProc:
+        wrapperOutput.add("proc {funcname}*".fmt)
+        wrapperOutput.add(if isGeneric: "[T](" else: "(")
+        wrapperOutput.add(argsOutput)
+        wrapperOutput.add("): {argRet} {{.discardable.}} =\n".fmt)
+        wrapperOutput.add("  var spec = initImPlotSpec()\n")
+        wrapperOutput.add("  applyNextStyle(spec)\n")
+        if specFlagsName.len > 0:
+          wrapperOutput.add("  spec.flags = cast[ImPlotItemFlags]({specFlagsName})\n".fmt)
+        if specOffsetName.len > 0:
+          wrapperOutput.add("  spec.offset = {specOffsetName}.cint\n".fmt)
+        if specStrideName.len > 0:
+          wrapperOutput.add("  spec.stride = {specStrideName}.cint\n".fmt)
+        if argRet != "void":
+          if cArgRet != argRet:
+            wrapperOutput.add("  let cResult = ")
+          else:
+            wrapperOutput.add("  result = ")
+        else:
+          wrapperOutput.add("  ")
+        wrapperOutput.add("{specFuncname}_spec({specCallNimArgs}, spec)".fmt)
+        if argRet != "void" and cArgRet != argRet:
+          wrapperOutput.add("\n  result = {cWrapperCast(cArgRet, argRet, \"cResult\")}".fmt)
+        wrapperOutput.add("\n")
+      elif not isOutParamWrapper:
+        if hasCWrapperTypes and not isVarArgs:
+          let rawFuncname = specFuncname & "Raw"
+          output.add("proc {rawFuncname}*".fmt)
+          output.add(if isGeneric: "[T](" else: "(")
+          output.add(cArgsOutput)
+          output.add("): {cArgRet}".fmt)
+          output.add(" {" & ".importc: \"{pragmaName}\"".fmt)
+          output.add(".}\n")
+          wrapperOutput.add("proc {funcname}*".fmt)
+          wrapperOutput.add(if isGeneric: "[T](" else: "(")
+          wrapperOutput.add(argsOutput)
+          wrapperOutput.add("): {argRet} {{.discardable.}} =\n".fmt)
+          if argRet != "void":
+            if cArgRet != argRet:
+              wrapperOutput.add("  let cResult = {rawFuncname}({plainCallArgs})\n".fmt)
+              wrapperOutput.add("  result = {cWrapperCast(cArgRet, argRet, \"cResult\")}\n".fmt)
+            else:
+              wrapperOutput.add("  result = {rawFuncname}({plainCallArgs})\n".fmt)
+          else:
+            wrapperOutput.add("  {rawFuncname}({plainCallArgs})\n".fmt)
+        else:
+          output.add("proc {funcname}*".fmt)
+          output.add(if isGeneric: "[T](" else: "(")
+          output.add(argsOutput)
+          output.add("): ")
+          output.add(argRet)
+          output.add(" {" & ".importc: \"{pragmaName}\"".fmt)
+          if isVarArgs:
+            output.add(", varargs")
+          output.add(".}\n")
 
-      # Checking if it doesn't exist already
-      let outSplit = output.rsplit("\n", 3)
-      if outSplit[1] == outSplit[2] or outSplit[1].split('{')[0] == outSplit[2].split('{')[0]:
-        output = "{outSplit[0]}\n{outSplit[1]}\n".fmt
+          let outSplit = output.rsplit("\n", 3)
+          if outSplit[1] == outSplit[2] or outSplit[1].split('{')[0] == outSplit[2].split('{')[0]:
+            output = "{outSplit[0]}\n{outSplit[1]}\n".fmt
 
   output.add("\n{postProcs}\n".fmt)
+  output.add(wrapperOutput)
 
 proc fixAfter(fname:string) =
   var s:seq[string]
@@ -456,7 +858,7 @@ proc fixAfter(fname:string) =
 
     s.add st
 
-  writeFile(fname,s.join("\n"))
+  writeFile(fname, s.join("\n").strip(leading = false, trailing = true) & "\n")
 
 proc igGenerate*() =
   var output = srcHeader
@@ -465,7 +867,92 @@ proc igGenerate*() =
   output.genTypeDefs()
   output.genTypes()
   output.genProcs()
-  #output.add("\n" & cherryTheme)
+  output.add("""
+proc ipFormatDateNonUDT*(t: ImPlotTime, buffer: cstring, size: int,
+                         fmt: ImPlotDateFmt, use_iso_8601: bool): int {.discardable.} =
+  ipFormatDate(t, buffer, size, fmt, use_iso_8601)
+
+proc ipIsLastItemHidden*(): bool {.importc: "ImPlot_IsLastItemHidden".}
+proc ipPlotBubbles_spec*(label_id: cstring, xs: ptr float32, ys: ptr float32,
+                         sizes: ptr float32, count: int,
+                         spec: ImPlotSpec): void {.cdecl, importc: "ImPlot_PlotBubbles_FloatPtrFloatPtrFloatPtr", nodecl.}
+
+var
+  gNextLineCol = implotAutoCol
+  gNextLineWeight = -1'f32
+  gNextLineSet = false
+  gNextFillCol = implotAutoCol
+  gNextFillAlpha = -1'f32
+  gNextFillSet = false
+  gNextMarker = cast[ImPlotMarker](-1)
+  gNextMarkerSize = -1'f32
+  gNextMarkerFill = implotAutoCol
+  gNextMarkerWeight = -1'f32
+  gNextMarkerOutline = implotAutoCol
+  gNextMarkerSet = false
+  gNextErrCol = implotAutoCol
+  gNextErrSize = -1'f32
+  gNextErrWeight = -1'f32
+  gNextErrSet = false
+  gNextFillAlphaOnly = -1'f32
+  gNextFillAlphaOnlySet = false
+
+proc applyNextStyle(spec: var ImPlotSpec) =
+  if gNextLineSet:
+    spec.lineColor = gNextLineCol
+    if gNextLineWeight != -1: spec.lineWeight = gNextLineWeight
+  if gNextFillSet:
+    spec.fillColor = gNextFillCol
+    if gNextFillAlpha != -1: spec.fillAlpha = gNextFillAlpha
+  if gNextFillAlphaOnlySet:
+    spec.fillAlpha = gNextFillAlphaOnly
+  if gNextMarkerSet:
+    if gNextMarker != -1.ImPlotMarker: spec.marker = gNextMarker
+    if gNextMarkerSize != -1: spec.markerSize = gNextMarkerSize
+    if gNextMarkerFill.w != -1: spec.markerFillColor = gNextMarkerFill
+    if gNextMarkerWeight != -1: spec.lineWeight = gNextMarkerWeight
+    if gNextMarkerOutline.w != -1: spec.markerLineColor = gNextMarkerOutline
+  if gNextErrSet:
+    if gNextErrCol.w != -1: spec.lineColor = gNextErrCol
+    if gNextErrSize != -1: spec.size = gNextErrSize
+    if gNextErrWeight != -1: spec.lineWeight = gNextErrWeight
+  gNextLineSet = false
+  gNextFillSet = false
+  gNextFillAlphaOnlySet = false
+  gNextMarkerSet = false
+  gNextErrSet = false
+
+proc ipSetNextErrorBarStyle*(col: ImVec4 = implotAutoCol, size: float32 = -1,
+                             weight: float32 = -1): void =
+  gNextErrCol = col
+  gNextErrSize = size
+  gNextErrWeight = weight
+  gNextErrSet = true
+
+proc ipSetNextFillStyle*(col: ImVec4 = implotAutoCol, alpha_mod: float32 = -1): void =
+  gNextFillCol = col
+  gNextFillAlpha = alpha_mod
+  gNextFillSet = true
+
+proc ipSetNextFillAlpha*(alpha: float32): void =
+  gNextFillAlphaOnly = alpha
+  gNextFillAlphaOnlySet = true
+
+proc ipSetNextLineStyle*(col: ImVec4 = implotAutoCol, weight: float32 = -1): void =
+  gNextLineCol = col
+  gNextLineWeight = weight
+  gNextLineSet = true
+
+proc ipSetNextMarkerStyle*(marker: ImPlotMarker = cast[ImPlotMarker](-1),
+                           size: float32 = -1, fill: ImVec4 = implotAutoCol,
+                           weight: float32 = -1, outline: ImVec4 = implotAutoCol): void =
+  gNextMarker = marker
+  gNextMarkerSize = size
+  gNextMarkerFill = fill
+  gNextMarkerWeight = weight
+  gNextMarkerOutline = outline
+  gNextMarkerSet = true
+""")
 
   writeFile("src/implot.nim", output)
   fixAfter("src/implot.nim")

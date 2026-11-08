@@ -13,21 +13,17 @@ proc demo_PieCharts*() =
 
   igSetNextItemWidth(250)
   igDragFloat4("Values".cstring, data1, 0.01'f32, 0, 1)
-  if data1[0] + data1[1] + data1[2] + data1[3] < 1:
-    igSameLine()
-    CHECKBOX_FLAG(flags, ImPlotPieChartFlags.Normalize)
+  CHECKBOX_FLAG(flags, ImPlotPieChartFlags.Normalize)
+  CHECKBOX_FLAG(flags, ImPlotPieChartFlags.IgnoreHidden)
+  CHECKBOX_FLAG(flags, ImPlotPieChartFlags.Exploding)
+  CHECKBOX_FLAG(flags, ImPlotPieChartFlags.NoSliceBorder)
 
   if ipBeginPlot("##Pie1", ImVec2(x: 250, y: 250) , ImPlotFlags.Equal or ImPlotFlags.NoMouseText):
     ipSetupAxes(nullptr, nullptr, ImPlotAxisFlags.NoDecorations, ImPlotAxisFlags.NoDecorations)
     ipSetupAxesLimits(0, 1, 0, 1)
-    ipPlotPieChart(labels1.ptz
-      , data1.ptz  # float32
-      , 4              # int
-      , 0.5, 0.5       # x,y:cdouble
-      , 0.4            # radius: cdouble
-      , "%.2f".cstring # cstring
-      , 90             # angle: cdouble
-      , flags)         # ImPlotPieChartFlags
+    var spec = initImPlotSpec()
+    spec.flags = cast[ImPlotItemFlags](flags)
+    ipPlotPieChart_spec(labels1.ptz, data1.ptz, 4, 0.5, 0.5, 0.4, "%.2f".cstring, 90, spec)
     ipEndPlot()
   igSameLine()
 
@@ -38,6 +34,8 @@ proc demo_PieCharts*() =
   if ipBeginPlot("##Pie2", ImVec2(x: 250, y: 250) , ImPlotFlags.Equal or ImPlotFlags.NoMouseText):
     ipSetupAxes(nullptr, nullptr, ImPlotAxisFlags.NoDecorations, ImPlotAxisFlags.NoDecorations)
     ipSetupAxesLimits(0, 1, 0, 1)
-    ipPlotPieChart(labels2.ptz, data2.ptz, 5, 0.5, 0.5, 0.4, "%.0f", 180, flags)
+    var spec = initImPlotSpec()
+    spec.flags = cast[ImPlotItemFlags](flags)
+    ipPlotPieChart_spec(labels2.ptz, data2.ptz, 5, 0.5, 0.5, 0.4, "%.0f".cstring, 180, spec)
     ipEndPlot()
   ipPopColormap()

@@ -11,7 +11,7 @@ proc demo_LinePlots*() =
     ys1{.global.}: array[1001, float]
   for i in 0..<1001:
     xs1[i] = i.float * 0.001f
-    ys1[i] = 0.5f + 0.5f * sin(50 * (xs1[i] + igGetTime().float / 10))
+    ys1[i] = 0.5f + 0.5f * sin(50 * (xs1[i] + igGetTime().float32 / 10))
   var
     xs2{.global.}: array[20, float64]
     ys2{.global.}: array[20, float64]
@@ -22,5 +22,7 @@ proc demo_LinePlots*() =
     defer: ipEndPlot()
     ipSetupAxes("x", "y")
     ipPlotLine("f(x)",  xs1.ptz,  ys1.ptz, 1001)
-    ipSetNextMarkerStyle(Circle)
-    ipPlotLine("g(x)",  xs2.ptz,  ys2.ptz, 20, Segments)
+    var spec = initImPlotSpec()
+    spec.marker = ImPlotMarker.Circle
+    spec.flags = cast[ImPlotItemFlags](ImPlotLineFlags.Segments)
+    ipPlotLine_spec("g(x)", xs2.ptz, ys2.ptz, 20, spec)
